@@ -156,9 +156,9 @@ class SideWinder extends Component {
                 right: -1 * width,
                 top: scrollOffset,
               },
-              onTouchMove: (e) => {
-                e.preventDefault();
-              },
+              // onTouchMove: (e) => {
+              //   e.preventDefault();
+              // },
             }, [
               this.props.children,
               button({
