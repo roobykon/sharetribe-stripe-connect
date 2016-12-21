@@ -188,7 +188,6 @@ FactoryGirl.define do
     ident
     slogan "Test slogan"
     description "Test description"
-    currency "EUR"
 
     has_many(:community_customizations) do |community|
       FactoryGirl.build(:community_customization, community: community)

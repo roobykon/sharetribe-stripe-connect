@@ -15,9 +15,20 @@
 #
 
 class Booking < ActiveRecord::Base
+
   belongs_to :tx, class_name: "Transaction", foreign_key: "transaction_id"
 
-  def self.columns
-    super.reject { |c| c.name == "end_on_exclusive" }
+  attr_accessible :transaction_id, :end_on, :start_on
+
+  validates :start_on, :end_on, presence: true
+  validates_with DateValidator,
+                 attribute: :end_on,
+                 compare_to: :start_on,
+                 restriction: :on_or_after
+
+  ## TODO REMOVE THIS
+  def duration
+    (end_on - start_on).to_i + 1
   end
+
 end

@@ -33,10 +33,6 @@ config.module.loaders.push(
     ),
   },
   {
-    test: /\.scss$/,
-    loaders: ['style-loader', 'css-loader', 'sass-loader'],
-  },
-  {
     test: require.resolve('react'),
     loader: 'imports',
   },

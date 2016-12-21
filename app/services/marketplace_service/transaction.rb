@@ -77,6 +77,8 @@ module MarketplaceService
         case payment_type
         when :paypal
           APP_CONFIG.paypal_expiration_period.to_i
+        when :stripe
+          APP_CONFIG.stripe_expiration_period.to_i
         else
           raise ArgumentError.new("Unknown payment_type: '#{payment_type}'")
         end
@@ -112,6 +114,7 @@ module MarketplaceService
           listing_author_uuid: transaction_model.listing_author_uuid_object,
           __model: transaction_model
         })]
+        
       end
 
       def transaction_with_conversation(transaction_model, community_id)
@@ -359,6 +362,8 @@ module MarketplaceService
                                # which should be quite accurate. We can get
                                # the exact time from Paypal through IPN notification. In this case,
                                # we take the 3 days estimate and add 10 minute buffer
+                               expiration_period.days.from_now - 10.minutes
+                             when :stripe
                                expiration_period.days.from_now - 10.minutes
                              else
                                raise ArgumentError.new("Unknown payment_type: '#{payment_type}'")

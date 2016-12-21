@@ -1,0 +1,33 @@
+.row
+  .col-12
+    = image_tag 'visa.png', title: "Visa"
+    = image_tag 'mastercard.png', title: "Mastercard"
+    = image_tag 'amex.png', title: "American Express"
+
+.row
+  .col-12
+    %span.payment-errors
+.row
+  .col-12
+    %label
+      %span
+        = t("stripe_payments.card_number")
+      %input#cardNumber{:autocomplete => "cc-number", "data-stripe" => "number", :pattern => "\\d*", :placeholder => "0000 0000 0000 0000", :size => "20", :type => "text"}
+.row
+  .col-12
+    .row
+      .col-5
+        %label
+          %span
+            = t("stripe_payments.exp_month")                
+          %input#cardExpirationMonth{:autocomplete => "cc-exp-month", "data-stripe" => "exp_month", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text"}
+      .col-5
+        %label
+          %span
+            = t("stripe_payments.exp_year")
+          %input#cardExpirationYear{:autocomplete => "cc-exp-year", "data-stripe" => "exp_year", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text"}
+      .col-2
+        %label
+          %span
+            = t("stripe_payments.cvc")
+          %input#cardValidationCode{:autocomplete => "off", "data-stripe" => "cvc", :pattern => "\\d*", :placeholder => "000", :size => "3", :type => "text"}

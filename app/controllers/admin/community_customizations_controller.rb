@@ -1,4 +1,5 @@
-class Admin::CommunityCustomizationsController < Admin::AdminBaseController
+class Admin::CommunityCustomizationsController < ApplicationController
+  before_filter :ensure_is_admin
 
   def edit_details
     @selected_left_navi_link = "tribe_details"

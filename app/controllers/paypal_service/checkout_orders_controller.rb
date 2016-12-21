@@ -27,12 +27,19 @@ class PaypalService::CheckoutOrdersController < ApplicationController
       return redirect_to search_path
     end
 
-    render "paypal_service/success", layout: false, locals: {
-             op_status_url: paypal_op_status_path(proc_status[:data][:process_token]),
-             redirect_url: success_processed_paypal_service_checkout_orders_path(
-               process_token: proc_status[:data][:process_token],
-               listing_id: transaction[:listing_id])
-           }
+    if proc_status[:data][:process_token].present?
+      # Operation was performed asynchronously
+
+      render "paypal_service/success", layout: false, locals: {
+        op_status_url: paypal_op_status_path(proc_status[:data][:process_token]),
+        redirect_url: success_processed_paypal_service_checkout_orders_path(
+          process_token: proc_status[:data][:process_token],
+          listing_id: transaction[:listing_id])
+      }
+    else
+      handle_proc_result(proc_status, transaction[:listing_id])
+    end
+
   end
 
   def success_processed
@@ -75,11 +82,7 @@ class PaypalService::CheckoutOrdersController < ApplicationController
                                                                       class: "flash-error-link"))
                         .html_safe
         redirect_to person_listing_path(person_id: @current_user.id, id: listing_id)
-      elsif response_data[:paypal_error_code] == "10417"
-        # https://www.paypal.com/us/selfhelp/article/What-is-API-error-code-10417-FAQ3308
 
-        flash[:error] = t("error_messages.paypal.transaction_cannot_complete")
-        redirect_to person_listing_path(person_id: @current_user.id, id: listing_id)
       elsif response_data[:paypal_error_code] == "10425"
         flash[:error] = t("error_messages.paypal.seller_express_checkout_disabled")
         redirect_to person_listing_path(person_id: @current_user.id, id: listing_id)

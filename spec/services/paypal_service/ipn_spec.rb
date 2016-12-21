@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+require_relative 'test_events'
+
 describe PaypalService::IPN do
 
   let(:account_store) { PaypalService::Store::PaypalAccount }

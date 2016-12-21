@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.32, for osx10.10 (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.43, for debian-linux-gnu (x86_64)
 --
--- Host: 127.0.0.1    Database: sharetribe_development
+-- Host: localhost    Database: close_raid_development
 -- ------------------------------------------------------
--- Server version	5.7.15-log
+-- Server version	5.5.43-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -247,7 +247,7 @@ CREATE TABLE `communities` (
   `stylesheet_url` varchar(255) DEFAULT NULL,
   `stylesheet_needs_recompile` tinyint(1) DEFAULT '0',
   `service_logo_style` varchar(255) DEFAULT 'full-logo',
-  `currency` varchar(3) NOT NULL,
+  `available_currencies` text,
   `facebook_connect_enabled` tinyint(1) DEFAULT '1',
   `minimum_price_cents` int(11) DEFAULT NULL,
   `hide_expiration_date` tinyint(1) DEFAULT '0',
@@ -286,6 +286,7 @@ CREATE TABLE `communities` (
   `small_cover_photo_processing` tinyint(1) DEFAULT NULL,
   `favicon_processing` tinyint(1) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT NULL,
+  `commission_from_seller` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -1144,9 +1145,7 @@ CREATE TABLE `payment_settings` (
   `payment_process` varchar(64) DEFAULT NULL,
   `commission_from_seller` int(11) DEFAULT NULL,
   `minimum_price_cents` int(11) DEFAULT NULL,
-  `minimum_price_currency` varchar(3) DEFAULT NULL,
   `minimum_transaction_fee_cents` int(11) DEFAULT NULL,
-  `minimum_transaction_fee_currency` varchar(3) DEFAULT NULL,
   `confirmation_after_days` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -1444,8 +1443,74 @@ CREATE TABLE `shipping_addresses` (
   `updated_at` datetime NOT NULL,
   `country_code` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `index_shipping_addresses_on_transaction_id` (`transaction_id`) USING BTREE
+  KEY `index_shipping_addresses_on_transaction_id` (`transaction_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `stripe_accounts`
+--
+
+DROP TABLE IF EXISTS `stripe_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stripe_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `publishable_key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `secret_key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `stripe_user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `currency` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `stripe_account_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `stripe_account_status` text COLLATE utf8_unicode_ci,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `stripe_payment_gateways`
+--
+
+DROP TABLE IF EXISTS `stripe_payment_gateways`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stripe_payment_gateways` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `community_id` int(11) DEFAULT NULL,
+  `stripe_publishable_key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `stripe_secret_key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `stripe_client_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `commission_from_seller` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `stripe_payments`
+--
+
+DROP TABLE IF EXISTS `stripe_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stripe_payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `payer_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `recipient_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `organization_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `transaction_id` int(11) DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `community_id` int(11) DEFAULT NULL,
+  `sum_cents` int(11) DEFAULT NULL,
+  `currency` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `stripe_transaction_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1599,7 +1664,7 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-08 14:13:02
+-- Dump completed on 2016-11-01 22:47:37
 INSERT INTO schema_migrations (version) VALUES ('20080806070738');
 
 INSERT INTO schema_migrations (version) VALUES ('20080807071903');
@@ -3172,6 +3237,14 @@ INSERT INTO schema_migrations (version) VALUES ('20161004141208');
 
 INSERT INTO schema_migrations (version) VALUES ('20161006074506');
 
+INSERT INTO schema_migrations (version) VALUES ('20161011120755');
+
+INSERT INTO schema_migrations (version) VALUES ('20161011121151');
+
+INSERT INTO schema_migrations (version) VALUES ('20161011121406');
+
+INSERT INTO schema_migrations (version) VALUES ('20161011133639');
+
 INSERT INTO schema_migrations (version) VALUES ('20161012132850');
 
 INSERT INTO schema_migrations (version) VALUES ('20161018090313');
@@ -3193,30 +3266,4 @@ INSERT INTO schema_migrations (version) VALUES ('20161019125057');
 INSERT INTO schema_migrations (version) VALUES ('20161023074355');
 
 INSERT INTO schema_migrations (version) VALUES ('20161101104218');
-
-INSERT INTO schema_migrations (version) VALUES ('20161101124317');
-
-INSERT INTO schema_migrations (version) VALUES ('20161101124829');
-
-INSERT INTO schema_migrations (version) VALUES ('20161102101418');
-
-INSERT INTO schema_migrations (version) VALUES ('20161102101419');
-
-INSERT INTO schema_migrations (version) VALUES ('20161102193340');
-
-INSERT INTO schema_migrations (version) VALUES ('20161103063652');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107092030');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107105050');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107112025');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107131859');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107132513');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107141257');
-
-INSERT INTO schema_migrations (version) VALUES ('20161109094513');
 

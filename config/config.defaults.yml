@@ -112,20 +112,12 @@ default: &default_settings
   paypal_endpoint: sandbox
   # after authorization there is 3 day period before expiration
   paypal_expiration_period: 3
+  stripe_expiration_period: 7
   # The domain that we want Paypal to send IPN notifications to
   # Note! You must also add the hook url for your production deployment
   # manually to your production paypal account profile.
   paypal_ipn_domain:
   paypal_ipn_protocol: https
-
-  # PayPal implementation, either "real" or "fake"
-  paypal_implementation: real
-
-  # If "fake" implementation is used, specify the file where PayPal information
-  # is saved
-  # Examples: 'tmp/dev_fakepal.store'
-  #           'tmp/test_fakepal.store'
-  fakepal_store:
 
   # If you want to force all use to be SSL secured (https://) you can set this to true
   # Note that you can set this value separately to each enironment below (e.g. if your developing)
@@ -187,10 +179,6 @@ default: &default_settings
   # KISS metrics can be used to track many events on the site
   use_kissmetrics: false
   kissmetrics_url: '//doug1izaerwt3.cloudfront.net/INSERT_YOUR_API_KEY_HERE.1.js'
-
-  # API key for sending events to Amplitude analytics. If api key is
-  # not set amplitude is not used.
-  amplitude_api_key:
 
   # Funneld can be used to track social media activity on the site.
   use_funneld: false
@@ -298,7 +286,6 @@ default: &default_settings
   external_search_offset_min: 0
 
   # Harmony service API connection
-  harmony_api_in_use: false
   harmony_api_url:
   harmony_api_disable_authentication: false
   harmony_api_token_secret: secret_key1
@@ -444,9 +431,6 @@ development:
 
   use_js_routes_middleware: true
 
-  paypal_implementation: real
-  fakepal_store: 'tmp/dev_fakepal.store'
-
 test:
   <<: *default_settings
   # The locale should be "en" for test environment
@@ -492,6 +476,3 @@ test:
   secret_key_base: "8fb582997a5e3ba2efb57c020dd01aa81647674dbb1aee6efcf30d75ec442e3a48832379e1ebaae2801782075efbf02ebed797a1df3f2b3ad87ec3faf37ccc64"
 
   log_level: DEBUG
-
-  paypal_implementation: fake
-  fakepal_store: 'tmp/test_fakepal.store'

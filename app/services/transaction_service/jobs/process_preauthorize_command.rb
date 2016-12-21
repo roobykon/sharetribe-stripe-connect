@@ -1,7 +1,6 @@
 module TransactionService::Jobs
   class ProcessPreauthorizeCommand < Struct.new(:process_token)
 
-    include SessionContextSerializer
     include DelayedAirbrakeNotification
 
     def perform

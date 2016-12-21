@@ -10,17 +10,17 @@ module ServiceClient
       end
 
       def enter(ctx)
-        try_log { @logger.info("Enter stage logging", :enter, enter_log(ctx)) }
+        @logger.info("Enter", :enter, enter_log(ctx))
         ctx
       end
 
       def leave(ctx)
-        try_log { @logger.info("Leave stage logging", :leave, leave_log(ctx)) }
+        @logger.info("Leave", :leave, leave_log(ctx))
         ctx
       end
 
       def error(ctx)
-        try_log { @logger.error("Error stage logging", :error, error_log(ctx)) }
+        @logger.info("Error", :error, error_log(ctx))
         ctx
       end
 
@@ -28,29 +28,23 @@ module ServiceClient
 
       def enter_log(ctx)
         {
-          req: ctx.fetch(:req).except(:body)
+          req: ctx.fetch(:req)
         }
       end
 
       def leave_log(ctx)
         {
-          req: ctx.fetch(:req).except(:body),
+          req: ctx.fetch(:req),
           res: ctx.fetch(:res).except(:body),
         }.merge(timing(ctx))
       end
 
       def error_log(ctx)
         {
-          req: ctx.fetch(:req).except(:body),
+          req: ctx[:req],
           res: ctx[:res].except(:body),
           error_class: ctx[:error].class.to_s,
         }.merge(timing(ctx))
-      end
-
-      def try_log(&block)
-        block.call()
-      rescue StandardError => e
-        @logger.error("Middleware logging failed with exception: #{e.class}", :error)
       end
 
       # Picks started_at and duration values from the context

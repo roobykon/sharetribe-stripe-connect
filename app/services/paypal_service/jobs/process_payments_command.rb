@@ -1,7 +1,6 @@
 module PaypalService::Jobs
   class ProcessPaymentsCommand < Struct.new(:process_token)
 
-    include SessionContextSerializer
     include DelayedAirbrakeNotification
 
     def perform

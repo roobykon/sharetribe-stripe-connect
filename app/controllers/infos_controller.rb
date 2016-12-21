@@ -1,8 +1,5 @@
 class InfosController < ApplicationController
 
-  #Allow infos to be viewed before email confirmation
-  skip_filter :cannot_access_without_confirmation
-
   def about
     @selected_tribe_navi_tab = "about"
     @selected_left_navi_link = "about"

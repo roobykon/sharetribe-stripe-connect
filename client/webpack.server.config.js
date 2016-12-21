@@ -44,10 +44,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
         test: /\.(jpe?g|png|gif|ico)$/,
         loader: `customfile-loader?limit=10000&name=[name]-[hash].[ext]${assetHost}`,
       },

@@ -9,9 +9,9 @@ export default function RoundButton({ diameter, content, className }) {
   return div({ className: classNames(className, css.roundButton), style: { height: diameter, width: diameter } }, content);
 }
 
-export const ArrowButton = ({ className, direction, isDisabled }) =>
+export const ArrowButton = ({ className, direction }) =>
   div({
-    className: classNames(className, css.arrowButton, css.roundButton, { [css.disabled]: isDisabled }),
+    className: classNames(className, css.arrowButton, css.roundButton),
     dangerouslySetInnerHTML: {
       __html: direction === 'left' ? arrowLeft : arrowRight,
     },

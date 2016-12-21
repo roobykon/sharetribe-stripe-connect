@@ -60,10 +60,6 @@ Kassi::Application.routes.draw do
     post "/prospect_emails" => "marketplaces#create_prospect_email"
   end
 
-  # Harmony Proxy
-  # This endpoint proxies the requests to Harmony and does authorization
-  match '/harmony_proxy/*harmony_path' => 'harmony_proxy#proxy', via: :all
-
   # UI API, i.e. internal endpoints for dynamic UI that doesn't belong to under any specific controller
   get "/ui_api/topbar_props" => "topbar_api#props"
 
@@ -111,7 +107,9 @@ Kassi::Application.routes.draw do
 
 
   devise_for :people, only: :omniauth_callbacks, controllers: { omniauth_callbacks: "sessions" }
-
+  get '/connect/oauth' => 'stripe_accounts#oauth', as: 'stripe_oauth'
+  get '/connect/confirm' => 'stripe#confirm', as: 'stripe_confirm'
+  get '/connect/deauthorize' => 'stripe#deauthorize', as: 'stripe_deauthorize'
   # Adds locale to every url right after the root path
   scope "(/:locale)", :constraints => { :locale => locale_matcher } do
 
@@ -126,7 +124,9 @@ Kassi::Application.routes.draw do
     get "/transactions/new" => "transactions#new", as: :new_transaction
 
     # preauthorize flow
-
+    get "/listings/:listing_id/stripe_preauthorize" => "preauthorize_transactions#stripe_preauthorize", :as => :stripe_preauthorize_payment
+    post "/listings/:listing_id/stripe_preauthorized" => "preauthorize_transactions#stripe_preauthorized", :as => :stripe_preauthorized_payment
+    
     # Deprecated route (26-08-2016)
     get "/listings/:listing_id/book", :to => redirect { |params, request|
       "/#{params[:locale]}/listings/#{params[:listing_id]}/initiate?#{request.query_string}"
@@ -147,6 +147,7 @@ Kassi::Application.routes.draw do
     get "/listing_bubble/:id" => "listings#listing_bubble", :as => :listing_bubble
     get "/listing_bubble_multiple/:ids" => "listings#listing_bubble_multiple", :as => :listing_bubble_multiple
     get '/:person_id/settings/payments/paypal_account' => 'paypal_accounts#index', :as => :paypal_account_settings_payment
+    get '/:person_id/settings/payments/stripe_account' => 'stripe_accounts#index', :as => :stripe_account_settings_payment
 
     # community membership related actions
 
@@ -211,6 +212,9 @@ Kassi::Application.routes.draw do
           post :resend_verification_email
           get :edit_text_instructions
           get :test_welcome_email
+          get :payment_gateways
+          put :payment_gateways, to: 'communities#update_payment_gateway'
+          post :payment_gateways, to: 'communities#create_payment_gateway'
           get :social_media
           get :analytics
           put :social_media, to: 'communities#update_social_media'
@@ -438,11 +442,13 @@ Kassi::Application.routes.draw do
             get :billing_agreement_cancel
           end
         end
+        resource :stripe_account, only: [:index]
         resources :transactions, only: [:show, :new, :create]
         resource :settings do
           member do
             get :account
             get :notifications
+            get :payments
             get :unsubscribe
           end
         end

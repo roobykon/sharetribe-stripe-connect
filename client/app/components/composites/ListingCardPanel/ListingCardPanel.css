@@ -1,114 +1,82 @@
-.container {
+.panel {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: calc(var(--ListingCardPanel_gutterSpacing) / 2);
 
-  /* This padding is set up for mobile layout to match paddings in Topbar */
-  padding: 18px;
-
-  & .panel {
-    display: flex;
-    flex-wrap: wrap;
-
-    &::after {
-      content: '';
-      flex: auto;
-    }
+  &::after {
+    content: '';
+    flex: auto;
   }
 
   & .card {
+    margin: calc(var(--ListingCardPanel_gutterSpacing) / 2);
     min-width: 264px;
-    max-width: 575px;
-    flex-basis: calc(100%);
-    margin: 0 0 18px 0;
+    max-width: 550px;
+    flex-basis: calc(100% - 24px);
   }
 
   /* Counting columns (minimum card width 264px) + gutter (12px) + panel padding (12px)
-     18 + 12 + 264 + 24 + 264 + 12 + 18 = 612. Plus 17px for IE scrollbar */
-  @media screen and (min-width: 629px) {
-    padding: 18px;
+     12 + 264 + 12 + 264 + 12 = 564 */
+  @media screen and (min-width: 564px) {
+    padding: 6px;
 
     & .card {
       max-width: 408px;
-      flex-basis: calc(50% - 24px);
-      margin: 12px;
-    }
-
-    & .responsivePadding {
-      padding: 12px;
+      flex-basis: calc(50% - 12px);
+      margin: 6px 6px;
     }
   }
 
-  /* 18 + 12 + 264 + 24 + 264 + 24 + 264 + 12 + 18 = 900 */
-  @media screen and (min-width: 917px) {
-    padding: 18px;
+  /* 12 + 264 + 12 + 264 + 12 + 264 + 12 = 840 */
+  @media screen and (min-width: 840px) {
+    padding: 6px 6px;
 
     & .card {
-      flex-basis: calc(33.33% - 24px);
-      margin: 12px;
-    }
-
-    & .responsivePadding {
-      padding: 12px;
+      flex-basis: calc(33.33% - 12px);
+      margin: 6px 6px;
     }
   }
 
-  /* Width: 20 + 8 + 264 + 16 + 264 + 16 + 264 + 16 + 264 + 8 + 20 = 1160
-     = 4*(16 + 264) + 16 + 2*(28-16) + 17px (IE scrollbar)
-     where 28 is space between panel edge and card and 16 is (natural) gutter */
-  @media screen and (min-width: 1177px) {
-    padding: 14px 20px;
+  /* Width: 10 + 8 + 264 + 16 + 264 + 16 + 264 + 16 + 264 + 8 + 10 = 1140
+     = 4*(16 + 264) + 16 + 2*(18-16)
+     where 18 is space between panel edge and card and 16 is (natural) gutter */
+  @media screen and (min-width: 1140px) {
+    padding: 9px 10px;
 
     & .card {
       flex-basis: calc(25% - 16px);
-      margin: 14px 8px;
-    }
-
-    & .responsivePadding {
-      padding: 8px;
+      margin: 9px 8px;
     }
   }
 
   /* 5*(20 + 264) + 20 + 2*(24-20) = 1448px */
-  @media screen and (min-width: 1465px) {
+  @media screen and (min-width: 1448px) {
     padding: 12px 14px;
 
     & .card {
       flex-basis: calc(20% - 20px);
       margin: 12px 10px;
     }
-
-    & .responsivePadding {
-      padding: 10px;
-    }
   }
 
   /* 6*(24 + 264) + 24 + 2*(30-24) = 1764px */
-  @media screen and (min-width: 1781px) {
+  @media screen and (min-width: 1764px) {
     padding: 15px 18px;
 
     & .card {
-      /* Gutter is really just 24px but IE can't handle this calc, so added 1px */
-      flex-basis: calc(100% / 6 - 25px);
+      flex-basis: calc(100% / 6 - 24px);
       margin: 15px 12px;
-    }
-
-    & .responsivePadding {
-      padding: 12px;
     }
   }
 
   /* 7*(24 + 264) + 24 + 2*(36-24) = 2064px */
-  @media screen and (min-width: 2153px) {
+  @media screen and (min-width: 2136px) {
     padding: 18px 24px;
 
     & .card {
-      /* Gutter is really just 24px but IE can't handle this calc, so added 1px */
-      flex-basis: calc(100% / 7 - 25px);
+      flex-basis: calc(100% / 7 - 24px);
       margin: 18px 12px;
-    }
-
-    & .responsivePadding {
-      padding: 12px;
     }
   }
 }

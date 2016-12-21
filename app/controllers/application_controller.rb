@@ -27,9 +27,11 @@ class ApplicationController < ActionController::Base
     :redirect_removed_locale,
     :set_locale,
     :redirect_locale_param,
+    :set_default_url_for_mailer,
     :fetch_community_admin_status,
     :warn_about_missing_payment_info,
     :set_homepage_path,
+    :report_queue_size,
     :maintenance_warning,
     :cannot_access_if_banned,
     :cannot_access_without_confirmation,
@@ -205,7 +207,7 @@ class ApplicationController < ActionController::Base
   def ensure_user_belongs_to_community
     return unless @current_user
 
-    if !@current_user.has_admin_rights? && @current_user.accepted_community != @current_community
+    if !@current_user.is_admin? && @current_user.accepted_community != @current_community
 
       logger.info(
         "Automatically logged out user that doesn't belong to community",
@@ -223,23 +225,11 @@ class ApplicationController < ActionController::Base
   end
 
   # A before filter for views that only users that are logged in can access
-  #
-  # Takes one parameter: A warning message that will be displayed in flash notification
-  #
-  # Sets the `return_to` variable to session, so that we can redirect user back to this
-  # location after the user signed up.
-  #
-  # Returns true if user is logged in, false otherwise
   def ensure_logged_in(warning_message)
-    if logged_in?
-      true
-    else
-      session[:return_to] = request.fullpath
-      flash[:warning] = warning_message
-      redirect_to login_path
-
-      false
-    end
+    return if logged_in?
+    session[:return_to] = request.fullpath
+    flash[:warning] = warning_message
+    redirect_to login_path and return
   end
 
   def logged_in?
@@ -341,6 +331,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_default_url_for_mailer
+    url = @current_community ? "#{@current_community.full_domain}" : "www.#{APP_CONFIG.domain}"
+    ActionMailer::Base.default_url_options = {:host => url}
+    if APP_CONFIG.always_use_ssl
+      ActionMailer::Base.default_url_options[:protocol] = "https"
+    end
+  end
+
   def fetch_community_admin_status
     @is_current_community_admin = @current_user && @current_user.has_admin_rights?
   end
@@ -351,33 +349,22 @@ class ApplicationController < ActionController::Base
 
   # Before filter for PayPal, shows notification if user is not ready for payments
   def warn_about_missing_payment_info
-    if @current_user && PaypalHelper.open_listings_with_missing_payment_info?(@current_user.id, @current_community.id)
-      settings_link = view_context.link_to(t("paypal_accounts.from_your_payment_settings_link_text"),
-        paypal_account_settings_payment_path(@current_user), target: "_blank")
-      warning = t("paypal_accounts.missing", settings_link: settings_link)
+    if @current_user && StripeHelper.open_listings_with_missing_payment_info?(@current_user.id, @current_community.id)
+      settings_link = view_context.link_to(t("stripe_accounts.from_your_payment_settings_link_text"),
+        payment_settings_path(:stripe, @current_user), target: "_blank")
+      warning = t("stripe_accounts.missing", settings_link: settings_link)
       flash.now[:warning] = warning.html_safe
     end
+  end
+
+  def report_queue_size
+    MonitoringService::Monitoring.report_queue_size
   end
 
   def maintenance_warning
     now = Time.now
     @show_maintenance_warning = NextMaintenance.show_warning?(15.minutes, now)
     @minutes_to_maintenance = NextMaintenance.minutes_to(now)
-  end
-
-  # This hook will be called by Devise after successful Facebook
-  # login.
-  #
-  # Return path where you want the user to be redirected to.
-  #
-  def after_sign_in_path_for(resourse)
-    if session[:return_to]
-      return_to_path = session[:return_to]
-      session[:return_to] = nil
-      return_to_path
-    else
-      search_path
-    end
   end
 
   private

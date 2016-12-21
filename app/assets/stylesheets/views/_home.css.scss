@@ -315,17 +315,15 @@ $home-list-avatar-padding: lines(0.25);
 }
 
 .home-list-price-value-mobile,
-.browsing-list-item-price-value-mobile,
-.home-list-shape-value-mobile,
-.browsing-list-item-shape-value-mobile {
-  font-size: em(24);
+.browsing-list-item-price-value-mobile {
+  font-size: 24px;
   & > .smaller {
-    font-size: em(18);
+    font-size: 18px;
   }
   @include media(large-mobile) {
-    font-size: em(36);
+    font-size: 36px;
     & > .smaller {
-      font-size: em(24);
+      font-size: 24px;
     }
   }
 }
@@ -348,7 +346,12 @@ $home-list-avatar-padding: lines(0.25);
 }
 
 .home-list-item-price-value,
-.browsing-list-item-price-value,
+.browsing-list-item-price-value {
+  font-size: em(44);
+  line-height: 1;
+  font-weight: 400;
+}
+
 .home-list-listing-shape-value,
 .browsing-list-item-listing-shape-value {
   font-size: em(32);

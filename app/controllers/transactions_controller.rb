@@ -4,19 +4,6 @@ class TransactionsController < ApplicationController
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_view_your_inbox")
   end
 
-  before_filter only: [:new] do |controller|
-    fetch_data(params[:listing_id]).on_success do |listing_id, listing_model, _, process|
-      Analytics.record_event(
-        flash,
-        "BuyButtonClicked",
-        { listing_id: listing_id,
-          listing_uuid: listing_model.uuid_object.to_s,
-          payment_process: process[:process],
-          user_logged_in: @current_user.present?
-        })
-    end
-  end
-
   before_filter do |controller|
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_do_a_transaction")
   end
@@ -40,13 +27,19 @@ class TransactionsController < ApplicationController
         ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
       }
     ).on_success { |((listing_id, listing_model, author_model, process, gateway))|
-      transaction_params = HashUtils.symbolize_keys({listing_id: listing_model.id}.merge(params.slice(:start_on, :end_on, :quantity, :delivery)))
+      # booking = listing_model.unit_type == :day
 
+      transaction_params = HashUtils.symbolize_keys({listing_id: listing_model.id}.merge(params.slice(:start_on, :end_on, :quantity, :delivery)))
+      
       case [process[:process], gateway]
       when matches([:none])
         render_free(listing_model: listing_model, author_model: author_model, community: @current_community, params: transaction_params)
-      when matches([:preauthorize, :paypal])
+      # when matches([:preauthorize, __, true])
+      #   redirect_to book_path(transaction_params)
+      when matches([:preauthorize, :stripe])
         redirect_to initiate_order_path(transaction_params)
+      # when matches([:preauthorize, :stripe])
+      #   redirect_to stripe_preauthorize_payment_path(transaction_params)
       else
         opts = "listing_id: #{listing_id}, payment_gateway: #{gateway}, payment_process: #{process}, booking: #{booking}"
         raise ArgumentError.new("Cannot find new transaction path to #{opts}")
@@ -282,15 +275,6 @@ class TransactionsController < ApplicationController
 
     if response[:success]
       tx = response_data[:transaction]
-
-      Analytics.record_event(
-        flash,
-        "TransactionCreated",
-        { listing_id: tx[:listing_id],
-          listing_uuid: tx[:listing_uuid].to_s,
-          transaction_id: tx[:id],
-          payment_process: tx[:payment_process] })
-
       redirect_to person_transaction_path(person_id: @current_user.id, id: tx[:id])
     else
       listing_id = response_data[:listing_id]
@@ -418,7 +402,7 @@ class TransactionsController < ApplicationController
       quantity = tx[:listing_quantity]
       show_subtotal = !!tx[:booking] || quantity.present? && quantity > 1 || tx[:shipping_price].present?
       total_label = (tx[:payment_process] != :preauthorize) ? t("transactions.price") : t("transactions.total")
-
+      
       TransactionViewUtils.price_break_down_locals({
         listing_price: tx[:listing_price],
         localized_unit_type: localized_unit_type,
@@ -501,8 +485,10 @@ class TransactionsController < ApplicationController
   end
 
   def calculate_quantity(tx_params:, is_booking:, unit:)
-    if is_booking
-      DateUtils.duration(tx_params[:start_on], tx_params[:end_on])
+    if is_booking && unit == :day
+      DateUtils.duration_days(tx_params[:start_on], tx_params[:end_on])
+    elsif is_booking && unit == :night
+      DateUtils.duration_nights(tx_params[:start_on], tx_params[:end_on])
     else
       tx_params[:quantity] || 1
     end

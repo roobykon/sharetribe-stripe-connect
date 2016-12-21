@@ -1,17 +1,5 @@
 import _ from 'lodash';
 
-const paramsToQueryString = (paramsMap) => {
-  if (_.isEmpty(paramsMap)) {
-    return '';
-  } else {
-    const keyValues = _.map(paramsMap, (val, key) => [
-      window.encodeURIComponent(key),
-      window.encodeURIComponent(val),
-    ].join('=')).join('&');
-    return `?${keyValues}`;
-  }
-};
-
 /**
  * Parse a URL search query string.
  *
@@ -101,5 +89,4 @@ export {
   parseSearchQueryParams,
   currySearchParams,
   upsertSearchQueryParam,
-  paramsToQueryString,
 };

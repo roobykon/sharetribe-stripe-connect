@@ -1,7 +1,8 @@
 require 'csv'
 
-class Admin::CommunityTransactionsController < Admin::AdminBaseController
+class Admin::CommunityTransactionsController < ApplicationController
   TransactionQuery = MarketplaceService::Transaction::Query
+  before_filter :ensure_is_admin
 
   def index
     @selected_left_navi_link = "transactions"

@@ -7,7 +7,6 @@ if APP_CONFIG.use_airbrake
                             #"ActionController::InvalidAuthenticityToken",
                             "ActionController::UnknownAction",
                             "PeopleController::PersonDeleted",
-                            "PeopleController::PersonBanned",
                             "ListingsController::ListingDeleted"
                             #"CGI::Session::CookieStore::TamperedWithCookie"
                             ]

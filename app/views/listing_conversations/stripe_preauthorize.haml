@@ -1,0 +1,108 @@
+- content_for :extra_javascript do
+  = javascript_include_tag 'https://js.stripe.com/v2/'
+  :javascript
+    Stripe.setPublishableKey(#{@current_community.payment_gateway.stripe_publishable_key.to_json});
+    $(function() {
+      var $form = $('#transaction-form');
+      $form.submit(function(event) {
+        // Disable the submit button to prevent repeated clicks:
+        $form.find('.submit').prop('disabled', true);
+
+        // Request a token from Stripe:
+        Stripe.card.createToken($form, stripeResponseHandler);
+
+        // Prevent the form from being submitted:
+        return false;
+      });
+    });
+
+    function stripeResponseHandler(status, response) {
+      // Grab the form:
+      var $form = $('#transaction-form');
+
+      if (response.error) { 
+        // Problem!
+        // Show the errors on the form:
+        $form.find('.payment-errors').text(response.error.message);
+        $form.find('.submit').prop('disabled', false); // Re-enable submission
+
+      } else { 
+        // Token was created!
+        // Get the token ID:
+        var token = response.id;
+
+        // Insert the token ID into the form so it gets submitted to the server:
+        $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+        // Submit the form:
+        $form.get(0).submit();
+      }
+    };
+
+    $(document).ready(function() {
+      var stripePaymentForm = $("#transaction-form");
+      initialize_stripe_preauthorize_form("#{I18n.locale}", function beforeSubmit(next) {
+      });
+
+      stripePaymentForm.show();
+    });
+
+- content_for :javascript do
+  initialize_send_message_form('#{I18n.locale}');
+
+- content_for :title_header do
+  %h1
+    = action_button_label
+    = link_to(listing[:title], listing_path(listing[:id]))
+
+#new_message_form.centered-section
+  - author_link = link_to(author[:display_name], person_path(author[:username]))
+
+  .preauthorize-section
+    %h2.preauthorize-details-title
+      = t("listing_conversations.preauthorize.details")
+
+    %ul.no-bullets
+      %li
+        %div
+          = t("listing_conversations.preauthorize.by", listing: link_to("#{listing[:title]}", listing_path(listing[:id])), author: author_link).html_safe
+
+      %li
+        = render partial: "transactions/price_break_down", locals: price_break_down_locals
+
+  = form_tag form_action, method: :post, id: "transaction-form" do
+    = hidden_field_tag(:start_on, start_on&.iso8601 )
+    = hidden_field_tag(:end_on, end_on&.iso8601 )
+    .preauthorize-section
+      %h2
+        = t("listing_conversations.preauthorize.payment")
+
+      = render partial: "payments/stripe/credit_card_info"
+
+    .preauthorize-section
+      %h2
+        = t("conversations.new.optional_message_to", author_name: link_to(author[:display_name], person_path(author[:username]))).html_safe
+
+      .row
+        .col-12
+          = text_area_tag :message, nil, :class => "text_area"
+
+      - if @current_community.transaction_agreement_in_use
+        = render :partial => "listing_conversations/transaction_agreement_checkbox"
+
+      - if quantity
+        = hidden_field_tag :quantity, quantity
+
+      - if delivery_method
+        = hidden_field_tag :delivery, delivery_method
+
+      .row
+        .col-12
+          = button_tag t("stripe_payments.confirm_payment"), :class => "send_button"
+      .row
+        .col-12
+          %p
+            = t("listing_conversations.preauthorize.you_will_be_charged", author: author_link, expiration_period: expiration_period ).html_safe
+
+  %noscript
+    = "For security reasons JavaScript has to be enabled"

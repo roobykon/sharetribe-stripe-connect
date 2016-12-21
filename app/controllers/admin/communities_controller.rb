@@ -1,6 +1,7 @@
-class Admin::CommunitiesController < Admin::AdminBaseController
+class Admin::CommunitiesController < ApplicationController
   include CommunitiesHelper
 
+  before_filter :ensure_is_admin
   before_filter :ensure_white_label_plan, only: [:create_sender_address]
 
   def edit_look_and_feel
@@ -123,18 +124,12 @@ class Admin::CommunitiesController < Admin::AdminBaseController
   def new_layout
     @selected_left_navi_link = "new_layout"
 
-    features = NewLayoutViewUtils.features(@current_community.id,
-                                           @current_user.id,
-                                           @current_community.private,
-                                           CustomLandingPage::LandingPageStore.enabled?(@current_community.id))
-
-    render :new_layout, locals: { community: @current_community,
-                                  feature_rels: NewLayoutViewUtils::FEATURE_RELS,
-                                  features: features }
+    render :new_layout, locals: { community: @current_community, features: NewLayoutViewUtils.features(@current_community.id, @current_user.id) }
   end
 
   def update_new_layout
     @community = @current_community
+
     enabled_for_user = Maybe(params[:enabled_for_user]).map { |f| NewLayoutViewUtils.enabled_features(f) }.or_else([])
     disabled_for_user = NewLayoutViewUtils.resolve_disabled(enabled_for_user)
 
@@ -374,7 +369,52 @@ class Admin::CommunitiesController < Admin::AdminBaseController
 
   end
 
+  def payment_gateways
+    # Redirect if payment gateway in use but it's not stripe
+    return redirect_to edit_details_admin_community_path(@current_community) if @current_community.payment_gateway && !@current_community.stripe_in_use?
+
+    @selected_left_navi_link = "payment_gateways"
+    @community = @current_community
+    @payment_gateway = Maybe(@current_community).payment_gateway.or_else { StripePaymentGateway.new }
+
+    render :stripe_payment_gateway and return
+  end
+
+  def update_payment_gateway
+    # Redirect if payment gateway in use but it's not stripe
+    return redirect_to edit_details_admin_community_path(@current_community) if @current_community.payment_gateway && !@current_community.stripe_in_use?
+
+    stripe_params = payment_gateway_params
+    community_params = params.require(:community).permit(:commission_from_seller)
+
+    unless @current_community.update_attributes(community_params)
+      flash.now[:error] = t("layouts.notifications.community_update_failed")
+      return render :payment_gateways
+    end
+
+    update(@current_community.payment_gateway,
+      stripe_params,
+      payment_gateways_admin_community_path(@current_community),
+      :payment_gateways)
+    TransactionProcess.update_all(process: params[:process]) if params[:process].present?
+    payment_setting = PaymentSettings.where(community_id: @current_community.id).last
+    if payment_setting.present?
+      payment_setting.update_attributes!(commission_from_seller: params[:community][:commission_from_seller].to_i)
+    else
+      payment_setting = PaymentSettings.create(active: true, community_id: @current_community.id, payment_gateway: :stripe, payment_process: :preauthorize, commission_from_seller: params[:community][:commission_from_seller].to_i, minimum_transaction_fee_cents: 100, minimum_price_cents: 100, confirmation_after_days: 7)
+    end
+  end
+
+  def create_payment_gateway
+    @current_community.payment_gateway = StripePaymentGateway.create(payment_gateway_params.merge(community_id: @current_community.id))
+    update_payment_gateway
+  end
+
   private
+
+  def payment_gateway_params
+    params.require(:payment_gateway).permit!
+  end
 
   def enqueue_status_sync!(address)
     Maybe(address)

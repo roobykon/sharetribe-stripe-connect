@@ -5,26 +5,22 @@ module TransactionService::Store::PaymentSettings
   PaymentSettingsUpdate = EntityUtils.define_builder(
     [:active, :to_bool, default: false],
     [:community_id, :mandatory, :fixnum],
-    [:payment_gateway, :to_symbol, one_of: [:paypal, :braintree, :checkout, :none], default: :none],
+    [:payment_gateway, :to_symbol, one_of: [:paypal, :braintree, :stripe, :checkout, :none], default: :none],
     [:payment_process, :to_symbol, one_of: [:preauthorize, :postpay, :free], default: :free],
     [:commission_from_seller, :fixnum],
     [:minimum_price_cents, :fixnum],
-    [:minimum_price_currency, :string],
     [:minimum_transaction_fee_cents, :fixnum],
-    [:minimum_transaction_fee_currency, :string],
     [:confirmation_after_days, :fixnum, default: 14]
   )
 
   PaymentSettings = EntityUtils.define_builder(
     [:active, :to_bool, default: false],
     [:community_id, :mandatory, :fixnum],
-    [:payment_gateway, :to_symbol, one_of: [:paypal, :braintree, :checkout, :none], default: :none],
+    [:payment_gateway, :to_symbol, one_of: [:paypal, :braintree, :stripe, :checkout, :none], default: :none],
     [:payment_process, :to_symbol, one_of: [:preauthorize, :postpay, :free], default: :free],
     [:commission_from_seller, :fixnum],
     [:minimum_price_cents, :fixnum],
-    [:minimum_price_currency, :string],
     [:minimum_transaction_fee_cents, :fixnum],
-    [:minimum_transaction_fee_currency, :string],
     [:confirmation_after_days, :fixnum, default: 14],
     [:commission_type, :mandatory, one_of: [:relative, :fixed, :both, :none]]
   )

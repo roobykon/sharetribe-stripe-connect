@@ -389,8 +389,7 @@ module TransactionHelper
     status_links([
       {
         link_href: new_person_message_feedback_path(@current_user, :message_id => conversation.id),
-        link_classes: "accept",
-        link_icon_tag: icon_tag("testimonial", ["icon-with-text"]),
+        link_icon_with_tag: icon_tag("testimonial", ["icon-with-text"]),
         link_text_with_icon: t("conversations.status.give_feedback")
       },
       {

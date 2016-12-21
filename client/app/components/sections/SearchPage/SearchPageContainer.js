@@ -34,7 +34,6 @@ const mapStateToProps = function mapStateToProps(state) {
     marketplace: state.marketplace,
     routes: state.routes,
     topbar: state.topbar,
-    user: state.user,
   };
 };
 

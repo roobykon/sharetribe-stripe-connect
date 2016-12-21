@@ -14,9 +14,9 @@ const defaultRailsContext = {
   loggedInUsername: 'foo',
 };
 
-const withProps = function withProps(component, props, children) {
+const withProps = function withProps(component, props) {
   return div([
-    r(component, props, children),
+    r(component, props),
     r.strong({ style: { marginTop: '2em', display: 'block' } }, 'Props:'),
     r.pre({
       style: {

@@ -48,7 +48,7 @@
 #  stylesheet_url                             :string(255)
 #  stylesheet_needs_recompile                 :boolean          default(FALSE)
 #  service_logo_style                         :string(255)      default("full-logo")
-#  currency                                   :string(3)        not null
+#  available_currencies                       :text(65535)
 #  facebook_connect_enabled                   :boolean          default(TRUE)
 #  minimum_price_cents                        :integer
 #  hide_expiration_date                       :boolean          default(FALSE)
@@ -87,6 +87,7 @@
 #  small_cover_photo_processing               :boolean
 #  favicon_processing                         :boolean
 #  deleted                                    :boolean
+#  commission_from_seller                     :integer
 #
 # Indexes
 #
@@ -121,7 +122,7 @@ class Community < ActiveRecord::Base
   has_many :transactions
 
   has_many :listings
-
+  has_one :payment_gateway, class_name: "StripePaymentGateway", :dependent => :destroy
   has_one :paypal_account # Admin paypal account
 
   has_many :custom_fields, :dependent => :destroy
@@ -130,7 +131,7 @@ class Community < ActiveRecord::Base
 
   after_create :initialize_settings
 
-  monetize :minimum_price_cents, :allow_nil => true, :with_model_currency => :currency
+  monetize :minimum_price_cents, :allow_nil => true, :with_model_currency => :default_currency
 
   validates_length_of :ident, :in => 2..50
   validates_format_of :ident, :with => /\A[A-Z0-9_\-\.]*\z/i
@@ -557,14 +558,34 @@ class Community < ActiveRecord::Base
 
   # is it possible to pay for this listing via the payment system
   def payment_possible_for?(listing)
-    listing.price && listing.price > 0 && payments_in_use?
+    listing.price && listing.price > 0 && stripe_in_use?
   end
 
   # Deprecated
   #
   # There is a method `payment_type` is community service. Use that instead.
   def payments_in_use?
-    MarketplaceService::Community::Query.payment_type(id) == :paypal
+    payment_gateway.present? && payment_gateway.configured?
+  end
+
+  def stripe_in_use?
+    payment_gateway.present?
+  end
+
+  def stripe_configured?
+    stripe_in_use? && payment_gateway.configured?
+  end
+  
+  def stripe_transfers_enabled?
+    stripe_configured? && payment_gateway.tranfers_enabled?
+  end
+
+  def default_currency
+    if available_currencies
+      available_currencies.gsub(" ","").split(",").first
+    else
+      MoneyRails.default_currency
+    end
   end
 
   def self.all_with_custom_fb_login

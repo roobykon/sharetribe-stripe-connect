@@ -1,4 +1,6 @@
-class Admin::GettingStartedGuideController < Admin::AdminBaseController
+class Admin::GettingStartedGuideController < ApplicationController
+
+  before_filter :ensure_is_admin
 
   rescue_from ReactOnRails::PrerenderError do |err|
     Rails.logger.error(err.message)

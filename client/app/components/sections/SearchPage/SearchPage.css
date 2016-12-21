@@ -11,6 +11,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding-bottom: 20px;
   background-color: var(--SearchPage_backgroundColor);
 }
 

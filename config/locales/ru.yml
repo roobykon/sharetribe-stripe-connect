@@ -21,8 +21,8 @@ ru:
         category_transaction_types:
           transaction_types: "Тип транзакции"
           transaction_types_description: "Типы транзакций определяют какие типы транзакций допустимы для публикаций данной категории. Для примера, это продажа, аренда или в дар где есть бесплатная возможность."
-          select_all: "Выбрать все"
-          clear_all: "Очистить все"
+          select_all: ~
+          clear_all: ~
         buttons:
           save: Сохранить
           cancel: Отменить
@@ -67,7 +67,7 @@ ru:
         enabled_languages: "Включенные языки"
         enabled_languages_description: "Набор доступных языков для пользователей. Первый в списке используется по умолчанию."
         default_language: "Язык по умолчанию"
-        language_selection_disabled: "Выбор языка недоступен для площадки, поскольку вы используете неофициальный язык %{languages}. Если вы хотите изменить языковые настройки, свяжитесь со службой поддержки Sharetribe."
+        language_selection_disabled: ~
         community_name: "Название проекта"
         edit_community_name_description: "Название вашего проекта. Оно будет показано в emails и других местах."
         community_slogan: Девиз
@@ -86,8 +86,8 @@ ru:
         see_how_it_looks_like: "Посмотреть как это выглядит"
         verification_to_post_listings_info_content: "Информационный текст для неподтвержденных участников"
         verification_to_post_listings_info_content_description: "Сейчас вашим пользователям требуется быть подтвержденным вручную вами, чтобы они смогли размещать публикации. Здесь вы можете установить базовый текст который показывается для не-подтвержденных пользователей когда они пробуют создать новое размещение публикации."
-        verification_to_post_listings_info_content_default: "%{service_name} требует, чтобы пользователи были подтверждены вручную администрацией до того, как они смогут создавать объявления. Вы еще не были подтверждены. Пожалуйста, %{contact_admin_link} для подтверждения."
-        contact_admin_link_text: "свяжитесь с администратором"
+        verification_to_post_listings_info_content_default: "%{service_name} требует чтобы пользователи были подтверждены вручную администрацией до того как они смогут создавать публикации. Вы еще не были авторизованы. Пожалуйста обратитесь к администрации %{contact_admin_link} для подтверждения."
+        contact_admin_link_text: "связаться с администратором"
         save: "Сохранить настройки"
         transaction_agreement: "Транзакционное соглашение"
         transaction_agreement_checkbox: "Требуется чтобы участники приняли соглашение перед транзакцией"
@@ -145,52 +145,52 @@ ru:
         need_to_change: ~
         contact_support_link_text: ~
         set_sender_address: ~
-        sender_name_label: Имя
-        sender_name_placeholder: "Имя отправителя"
-        sender_email_label: "Адрес электронной почты"
-        sender_email_placeholder: sender-email@example.com
-        this_is_how_it_will_look: "Образец:"
-        send_verification_button: "Отправить письмо с подтверждением"
-        successfully_saved: "Адрес отправителя успешно сохранен. Письмо с подтверждением будет скоро отправлено."
-        status: "Состояние: %{status}"
-        status_verified: "Подтверждено - используется"
+        sender_name_label: ~
+        sender_name_placeholder: ~
+        sender_email_label: ~
+        sender_email_placeholder: ~
+        this_is_how_it_will_look: ~
+        send_verification_button: ~
+        successfully_saved: ~
+        status: ~
+        status_verified: ~
         status_error: ~
-        status_requested: "Неподтверждено - письмо с подтверждением отправлено на %{email} %{time_ago}. %{resend_link}"
-        status_expired: "Срок подтверждения %{email} истек. %{resend_link}"
-        status_resent: "Письмо с подтверждением повторно отправлено на %{email}. %{resend_link}"
-        resend_link: "Отправить повторно"
-        invalid_email_error: "Некорректный формат %{email}"
-        invalid_email_domain: "В адресе электронной почты %{email} используется неподдерживаемый провайдер услуг электронной почты: %{domain}. %{invalid_email_domain_read_more_link}"
+        status_requested: ~
+        status_expired: ~
+        status_resent: ~
+        resend_link: ~
+        invalid_email_error: ~
+        invalid_email_domain: ~
         invalid_email_domain_read_more_link: ~
-        unknown_error: "Что-то пошло не так"
+        unknown_error: ~
         white_label_offer: ~
         upgrade_plan_link: ~
-        verification_sent_from: "Письмо с подтверждением было отправлено от %{verification_sender_name}."
-        follow_the_instructions: "Следуйте инструкциям в письме для подтверждения адреса."
+        verification_sent_from: ~
+        follow_the_instructions: ~
       getting_started:
         getting_started: "Гид для начала работы"
       available_languages:
         en: Английский
-        en-AU: "Английский (Австралия)"
-        en-GB: "Английский (Великобритания)"
+        en-AU: ~
+        en-GB: ~
         fr: Французский
         fr-CA: "Французский (Канадский)"
-        es: "Испанский (Чили)"
+        es: ~
         es-ES: Испанский
-        pt-PT: Португальский
+        pt-PT: ~
         pt-BR: ~
-        nb: "Норвежский букмол"
-        sv: Шведский
-        da-DK: Датский
-        fi: Финский
+        nb: ~
+        sv: ~
+        da-DK: ~
+        fi: ~
         ru: Русский
-        de: Немецкий
-        el: Греческий
-        nl: Датский
-        tr-TR: Турецкий
-        zh: Китайский
-        ja: Японский
-        it: Итальянский
+        de: ~
+        el: ~
+        nl: ~
+        tr-TR: ~
+        zh: ~
+        ja: ~
+        it: ~
       settings:
         settings: Настройки
         general: Основные
@@ -205,8 +205,8 @@ ru:
         keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
-        km: км
-        miles: мили
+        km: ~
+        miles: ~
         show_only_nearby: ~
         listing_preferences: "Настройки предложений"
         transaction_preferences: "Настройки транзакции"
@@ -243,7 +243,7 @@ ru:
         ban_user: "Заблокировать участника"
         saving_user_status: Сохранение...
         save_user_status_successful: Сохранено
-        export_all_as_csv: "Экспортировать все как CSV"
+        export_all_as_csv: ~
         save_user_status_error: "Во время сохранения поля произошла ошибка Обновите страницу и попробуйте еще раз."
         ban_user_confirmation: "Это удалит участника из проекта и доступ из этого аккаунта будет не возможен. Вы уверены что хотите продолжить?"
         ban_me_error: "Вы не можете заблокировать сами себя"
@@ -254,7 +254,6 @@ ru:
         enabled_for_you: ~
         enabled_for_all: ~
         new_topbar: ~
-        searchpage: ~
       social_media:
         social_media: "Социальные медиа"
         twitter_handle: "Twitter аккаунт"
@@ -298,7 +297,7 @@ ru:
         new_listing_button_label: ~
         invalid_post_listing_button_label: ~
       transactions:
-        export_all_as_csv: "Экспортировать все как CSV"
+        export_all_as_csv: ~
         transactions: "Посмотреть транзакции"
         headers:
           conversation: Обсуждение
@@ -353,8 +352,8 @@ ru:
         field_title: "Наименование поля"
         field_type: "Тип поля"
         categories: "Категории публикаций где данное поле используется"
-        select_all: "Выбрать все"
-        clear_all: "Очистить все"
+        select_all: ~
+        clear_all: ~
         options: Варианты
         add_option: "+ Добавить опцию"
         saving_order: "Сохранение порядка полей"
@@ -395,10 +394,7 @@ ru:
       preview: ~
     listing_shapes:
       availability_title: ~
-      read_more: ~
-      read_more_availability_management: ~
       allow_availability_management: ~
-      allow_providers_to_manage_availability: ~
       per_day_availability: ~
       per_night_availability: ~
       pricing_units_disabled_info: ~
@@ -410,7 +406,7 @@ ru:
         select_template: "Выберите шаблон..."
         all_categories: "Все рубрики"
         no_categories: "Рубрик нет"
-        category_count: "Категорий: %{category_count}"
+        category_count: ~
         header:
           listing_shape_name: "Имя типа заказа"
           listing_shape_categories: ~
@@ -439,27 +435,12 @@ ru:
         update_success: "Смена типа заказа '%{shape}' сохранено"
         update_failure: "Не удалось сохранить изменения. Ошибка: %{error_msg}"
         delete: "Удалить тип заказа"
-        confirm_delete_order_type:
-          one: "Имеется %{count} объявление с этим типом заказов. Если вы удалите тип заказа, это объявление будет закрыто. Удалить тип заказа?"
-          few: "Имеется %{count} объявления с этим типом заказов. Если вы удалите тип заказа, эти объявления будут закрыты. Удалить тип заказа?"
-          many: "Имеется %{count} объявлений с этим типом заказов. Если вы удалите тип заказа, эти объявления будут закрыты. Удалить тип заказа?"
-          other: "Имеется %{count} объявлений с этим типом заказов. Если вы удалите тип заказа, эти объявления будут закрыты. Удалить тип заказа?"
         can_not_delete_last: "Вы не можете удалить этот тип заказа, потому что это единственный тип в вашем маркетплейсе."
-        can_not_delete_only_one_in_categories: "Вы не можете удалить этот тип заказа, потому что в следующих категориях этот тип заказа единственный: %{categories}"
+        can_not_delete_only_one_in_categories: ~
       listing_shape_name: Имя
       listing_shape_name_placeholder: Продать
       action_button_label: "Ярлык кнопки выполнения заказа"
       action_button_placeholder: Купить
-      close_listings_action:
-        one: "Закрыть %{count} объявление"
-        few: "Закрыть %{count} объявления"
-        many: "Закрыть %{count} объявлений"
-        other: "Закрыть %{count} объявлений"
-      confirm_close_listings_action:
-        one: "Хотите закрыть %{count} объявление?"
-        few: "Хотите закрыть %{count} объявления?"
-        many: "Хотите закрыть %{count} объявлений?"
-        other: "Хотите закрыть %{count} объявлений?"
       successfully_closed: "Публикации успешно закрыты"
       successfully_deleted: "Успешно удален тип '%{order_type}' закаа"
       pricing_and_checkout_title: "Цена & расчет"
@@ -481,7 +462,7 @@ ru:
       custom_unit_form:
         title: "Новая ценовая единица"
         label_heading: Ярлык
-        selector_label_heading: "Метка селектора"
+        selector_label_heading: ~
         label_placeholder: "например: \"Кг\", \"30 минут\", \"человек\", \"класс\""
         selector_placeholder: "например: \"Количество людей\", \"Сумма в кг\""
         per: За
@@ -492,16 +473,14 @@ ru:
     paypal_accounts:
       marketplace_paypal_integration: "Настройки платежей"
       preferences_updated: "Настройки платежей обновлены."
+      marketplace_currency_used: ~
       contact_support_link_text: "обратитесь в службу поддержки Sharetribe"
       integration_info_text: "Система платежей Sharetribe функционирует на основе PayPal. Если вы желаете разрешить вашим пользователям осуществлять платежи в вашем проекте, вы обязаны подключить ваш аккаунт PayPal и определить минимальный размер транзакции и комиссию которую вы желаете установить от каждой транзакции."
       link_paypal_personal_account_label: "Вы предоставляете товары или услуги сами?"
       link_paypal_personal_account: "Если так, то вам необходимо подключить учетную запись PayPal к %{personal_payment_preferences_link}"
       personal_payment_preferences_link_text: "ваш личный маркетплейс аккаунт"
       read_more_about_paypal: "Узнать больше о системе платежей Sharetribe"
-      edit_payment_settings: ~
-      supported_currencies_information_text: ~
-      currency_change_warning_text: ~
-      marketplace_currency_label: ~
+      set_minimum_price_and_fee: "Установите минимальную цену и комиссию за платеж"
       minimum_listing_price_label: "Минимальный размер транзакции:"
       transaction_fee_label: "Комиссия за транзакцию:"
       minimum_transaction_fee_label: "Минимальная комиссия за платеж:"
@@ -731,7 +710,7 @@ ru:
     feedback_subject: ~
     feedback_body: ~
     unlogged_user: ~
-    anonymous_user: "Анонимный пользователь"
+    anonymous_user: ~
   community_memberships:
     access_denied:
       access_denied: "Доступ закрыт"
@@ -865,7 +844,7 @@ ru:
       service_fee: "Комиссия сервиса"
       money_will_be_transferred: "Деньги будут переведены к %{recipient_name} когда а) вы отметите этот запрос завершенным или б) %{automatic_confirmation_days} дней пройдет после вашей оплаты."
     new_testimonial:
-      has_given_you_feedback_in_kassi: "%{name} оставил отзыв о вас в %{service_name}"
+      has_given_you_feedback_in_kassi: "%{name} оставил отзыв о вас в Kassi"
       you_can_give_feedback_to: "Вы еще не создали отзыв о %{name}"
       view_feedback: "Просмотреть отзывы"
     new_update_to_listing:
@@ -938,7 +917,6 @@ ru:
     transaction_agreement:
       required_error: "Вам необходимо принять соглашение."
     paypal:
-      transaction_cannot_complete: ~
       buyer_cannot_pay_error: "PayPal отклонил платеж. Пожалуйста, свяжитесь с их отделом обслуживания клиентов для получения дополнительной информации: %{customer_service_link}"
       pending_review_error: "Платеж был представлен, но был помечен PayPal как «требующий рассмотрения». Когда PayPal завершит проверку, платеж будет автоматически авторизован."
       seller_express_checkout_disabled: ~
@@ -969,7 +947,7 @@ ru:
       javascript_is_disabled_in_your_browser: "В вашем браузере отключён Javascript"
       kassi_does_not_currently_work_without_javascript: "К сожалению, %{service_name} не сможет работать при отключенном javascript. Попробуйте включить поддержку javascript в своём браузере и перезагрузить страницу."
       contact_us: "свяжитесь с нами"
-      send_feedback: "Отправить сообщение"
+      send_feedback: ~
       your_feedback_to_admins: "Ваше сообщение команде %{service_name}"
     send: Отправить
     your_email_address: "Ваш адрес электронной почты"
@@ -1108,7 +1086,7 @@ ru:
     list_item:
       review: Проверка
       reviews: Отзывы
-      distance_away: "Расстояние %{distance} %{distance_unit}"
+      distance_away: ~
     news_item:
       show_less: Меньше
       show_more: Больше
@@ -1132,7 +1110,7 @@ ru:
       all_listing_types: "Все типы публикаций"
       all_categories: "Все категории"
     errors:
-      search_engine_not_responding: "Поиск временно недоступен. Попробуйте повторить операцию позже."
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: "Что такое Sharetribe?"
@@ -1143,7 +1121,7 @@ ru:
       default_content: "Здесь вы можете информацию о %{marketplace_name}."
   landing_page:
     hero:
-      search: Поиск
+      search: ~
       signup: Регистрация
       search_placeholder: ~
       search_location_placeholder: Местоположение
@@ -1155,7 +1133,7 @@ ru:
     branding:
       powered_by: ~
       create_own: ~
-      learn_more: "Узнать больше"
+      learn_more: ~
     no_tribe:
       inbox: Входящие
       settings: Настройки
@@ -1169,7 +1147,7 @@ ru:
       feedback_handle: "Написать отзыв"
       give_feedback: "Напиши нам"
       or_check_our: "...или зайдите на наш"
-      send_feedback_to_admin: "Отправить сообщение"
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "чтобы увидеть, что предлагают другие пользователи и проголосовать за новые идеи для проекта."
       your_email_address: "Ваш адрес email (для связи с Вами)"
       connect: Регистрация
@@ -1218,8 +1196,8 @@ ru:
       settings: Настройки
       sign_up: Регистрация
     notifications:
-      listing_could_not_be_saved: "Объявление не сохранено. Попробуйте еще раз. Если проблема повторится, пожалуйста %{contact_admin_link}."
-      contact_admin_link_text: "свяжитесь с администратором"
+      listing_could_not_be_saved: "Публикация не сохранена. Попробуйте еще раз. Если проблема повториться, пожалуйста свяжитесь с нами %{contact_admin_link}."
+      contact_admin_link_text: "Связаться с администратором"
       test_welcome_email_delivered_to: "Тестовое сообщение было отправлено %{email}"
       something_went_wrong: "Что-то пошло не так"
       community_updated: "Информация обновлена."
@@ -1239,7 +1217,7 @@ ru:
       error_with_session: "Ошибка сессии."
       feedback_considered_spam: "Отзыв не сохранён из-за неверного формата. Попробуйте снова, либо воспользуйтесь форумом."
       feedback_not_saved: "Отзыв не может быть отправлен."
-      feedback_saved: "Благодарим за ваше сообщение! Мы свяжемся с вами при первой возможности."
+      feedback_saved: ~
       feedback_sent_to: "Отзыв отправлен %{target_person}"
       feedback_skipped: "Отзыв отменён"
       invitation_cannot_be_sent: "Приглашение не может быть отправлено"
@@ -1264,10 +1242,6 @@ ru:
       offer_rejected: "Предложение отклонено"
       offer_canceled: "Предложение отменено"
       listing_updated_successfully: "Публикация обновлена успешно"
-      listing_updated_availability_enabled: ~
-      listing_updated_availability_disabled: ~
-      listing_updated_availability_management_enabled: ~
-      listing_updated_availability_management_disabled: ~
       only_kassi_administrators_can_access_this_area: "Только администраторы %{service_name} имеют доступ к этому разделу"
       only_listing_author_can_close_a_listing: "Листинг может закрыть только автор"
       only_listing_author_can_edit_a_listing: "Листинг может редактировать только автор"
@@ -1303,7 +1277,7 @@ ru:
       you_are_not_allowed_to_give_feedback_on_this_transaction: "Для того, чтобы оставить отзыв об этом событии, требуется авторизация"
       you_are_not_authorized_to_do_this: "У вас не хватает прав для этого действия"
       you_are_not_authorized_to_view_this_content: "У вас не хватает прав для просмотра этой информации"
-      listing_closed: "Объявление закрыто"
+      listing_closed: ~
       send_instructions: "В течение нескольких минут вы получите письмо с инструкциями по восстановлению вашего пароля."
       you_cannot_reply_to_a_closed_offer: "Вы не можете ответить на закрытое предложение"
       you_cannot_send_message_to_yourself: "Вы не можете отправить сообщение самому себе"
@@ -1348,8 +1322,8 @@ ru:
     comment:
       wrote: написал
       send_private_message: "Отправить личное сообщение для %{person}"
-      delete: удалить
-      are_you_sure: "Удалить комментарий?"
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: "Оставьте комментарий или запросите более подробную информацию. Ваш комментарий смогут увидеть все остальные пользователи."
       log_in: войти
@@ -1417,15 +1391,15 @@ ru:
         removing: Удаление...
         processing: Обработка...
         loading_image: Загрузка...
-        image_uploading_in_progress: "Загрузка изображения..."
-        processing_takes_a_while: "Все изображения загружены! Обработка может занять некоторое время. Вы можете сохранить объявление и продолжить работу."
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: "(возможно нужно подождать)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Ошибка загрузки изображения"
         image_processing_failed: ~
         file_too_large: "Файл слишком большой"
         accepted_formats: "Файлы изображений должны быть в формате GIF, JPG или PNG."
-        images_not_uploaded_confirm: "Изображения не были загружены. Хотите продолжить?"
+        images_not_uploaded_confirm: ~
       location:
         location: Местоположение
       price:
@@ -1500,6 +1474,7 @@ ru:
       request_type: "Тип запроса"
       requests: Запросы
       rideshare: Поездки
+      search_verb: Поиск
       you_have_something_others_do_not: "Можете предложить другим что-нибудь?"
       feed_title: "%{listing_type} в %{service_name} %{optional_category}"
     left_panel_link:
@@ -1533,8 +1508,8 @@ ru:
       select_subcategory: "Выберите подкатегорию"
       select_transaction_type: "Выберите тип публикации"
       you_need_to_fill_payout_details_before_accepting: "Вам нужно заполнить детали оплаты до того как вы создадите публикацию. Перейдите в %{payment_settings_link} чтобы заполнить детали."
-      contact_admin_link_text: "свяжитесь с администратором"
-      community_not_configured_for_payments: "Сайт %{service_name} не был настроен для платежей, поэтому вы пока не можете размещать новые объявления. Пожалуйста, %{contact_admin_link} для уточнения деталей."
+      contact_admin_link_text: "Пожалуйста свяжитесь с администратором"
+      community_not_configured_for_payments: "%{service_name} не был настроен для принятия платежей, поэтому вы не можете размещать новые публикации сейчас. Свяжитесь с %{contact_admin_link} для уточнения деталей."
       payment_settings_link: "настройки оплаты"
       community_not_configured_for_payments_admin: "%{service_name} не был настроен для принятия платежей, поэтому вы не можете размещать новые публикации сейчас. Перейдите на %{payment_settings_link} чтобы настроить платежные реквизиты."
     quantity:
@@ -1631,6 +1606,7 @@ ru:
       request_type: "Тип запроса"
       requests: Запросы
       rideshare: "Совместная поездка"
+      search_verb: Поиск
       you_have_something_others_do_not: "Можете предложить что-нибудь?"
     please_comment: Комментарий
   mercury:
@@ -1651,15 +1627,15 @@ ru:
     paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: "Если вы увидите сообщение об ошибке, при попытке подключения к %{service_name}, обновите ваш PayPal с помощью %{upgrade_paypal_account_link}. Это бесплатно и легко. Если вы являетесь частным лицом, PayPal рекомендует использовать свое имя в качестве имени бизнеса."
     upgrade_paypal_account_link_text: "входа в счет и нажатия ссылки обновления"
-    admin_account_not_connected: "Использование платежной системы сайта %{service_name} для того, чтобы получать платежи, невозможно, поскольку платежная система не была настроена. Пожалуйста, %{contact_admin_link} для уточнения деталей."
-    contact_admin_link_text: "свяжитесь с администратором"
+    admin_account_not_connected: "Использование %{service_name} платежной системы для того, чтобы получать платежи, не представляется возможным, поскольку платежная система не была авторизована. Пожалуйста %{contact_admin_link} для деталей."
+    contact_admin_link_text: "обратитесь к администратору этого маркетплейс"
     you_are_ready_to_accept_payments: "Теперь вы готовы принимать платежи!"
     commission: "%{commission} %"
     new:
       payout_info_you_need_to_connect: "Чтобы принимать платежи вам нужно подключить ваш PayPal аккаунт через %{service_name}."
       payout_info_text: "Пожалуйста завершите следующие действия чтобы подключить ваш аккаунт."
-      contact_admin_link_text: "свяжитесь с администратором"
-      admin_account_not_connected: "Подключение вашего PayPal аккаунта невозможно, так как сайт %{service_name} не был настроен для платежей. Пожалуйста, %{contact_admin_link} для уточнения деталей."
+      contact_admin_link_text: "Пожалуйста свяжитесь с администратором"
+      admin_account_not_connected: "%{service_name} не был настроен для платежей, поэтому пока вы не можете подключить ваш PayPal аккаунт. Пожалуйста обратитесь для детализации вопроса %{contact_admin_link}."
       paypal_account_email: "Подключить ваш PayPal аккаунт"
       paypal_account_email_placeholder: "Ваш PayPal email адрес"
       paypal_account_email_info_text: "Если у вас нет PayPal аккаунта, вы можете создать его здесь %{create_paypal_account}. Если вы получили сообщение об ошибке при подключении PayPal, вам необходимо обновить его до уровня бизнес. Обновление быстрое, бесплатное и простое. Если вы физическое лицо, вам необходимо указать ваше имя и фамилию в поле \"Название компании\", когда PayPal запросит это. Нажмите здесь чтобы обновить %{upgrade_paypal_account}."
@@ -1744,7 +1720,7 @@ ru:
       sign_up: "Зарегистрироваться в %{service_name}"
       terms: "условиями использования"
       username_is_in_use: "Это имя пользователя занято."
-      username_is_invalid: "Можно использовать только латинские буквы, цифры и знак подчёркивания."
+      username_is_invalid: "Имя пользователя некорректно. Можно использовать только буквы, цифры и знак подчёркивания."
       visible_only_to_you: "видимо только вам"
       visible_to_everybody: "видимо для всех"
       create_account_with_facebook: "Создать учётную запись с помощью Facebook"
@@ -1800,6 +1776,16 @@ ru:
       following: Подписаны
       follow: Подписаться
       unfollow: Отписаться
+  search:
+    show:
+      all_results: "Все результаты"
+      loading_more_search_results: "Загрузка результатов поиска"
+      offers: Предложения
+      requests: Запросы
+      search: Поиск
+      search_results: "Результаты поиска"
+      search_returned_no_results: "Поиск не дал результатов."
+      search_verb: Поиск
   sessions:
     new:
       create_new_account: "Создать новую учётную запись"
@@ -1830,11 +1816,8 @@ ru:
       confirm_your_email: "Подтвердите Ваш email"
       account_confirmation_instructions: "Вскоре вы получите электронное письмо с ссылкой, которую нужно нажать для подтверждения электронной почты. После подтверждения вашей электронной почты вы сможете начать использовать %{service_name} ."
       account_confirmation_instructions_title_admin: "Добро пожаловать в ваш маркетплейс!"
-      before_full_access_you_need_to_confirm_email: ~
-      before_confirmation_only_access_admin_dashboard: ~
-      admin_dashboard_link_text: ~
+      your_marketplace_has_now_been_created: "Ваш маркетплейс сайт был сейчас создан. Это легко, не правда-ли? Теперь только один шаг до доступа к вашему сайту: вам нужно подтвердить ваш email адрес."
       account_confirmation_instructions_admin: "Вскоре вы получите электронное письмо с ссылкой, которую нужно нажать для подтверждения электронной почты. После подтверждения вашей электронной почты вы сможете начать использовать ваш маркетплейс."
-      contact_support_link_text: ~
   settings:
     account:
       change: Изменить
@@ -2068,10 +2051,6 @@ ru:
     days: дней
   web:
     listings:
-      errors:
-        availability:
-          something_went_wrong: "Невозможно отобразить информацию о доступности. Попробуйте обновить страницу."
-          saving_failed: ~
       pricing_units:
         piece: ~
         hour: ~
@@ -2079,24 +2058,15 @@ ru:
         night: ~
         week: ~
         month: ~
-      edit_availability_header: ~
-      save_and_close_availability_editing: ~
-      confirm_discarding_unsaved_availability_changes_explanation: ~
-      confirm_discarding_unsaved_availability_changes_question: ~
-      edit_listing_availability: ~
     no_listings:
       sorry: ~
       try_other_search_terms: ~
     listing_card:
-      add_picture: ~
       no_picture: ~
-    search:
-      page: ~
-      page_of_pages: ~
     topbar:
       menu: Меню
       more: Еще
-      search_placeholder: Поиск...
+      search_placeholder: ~
       search_location_placeholder: Местоположение
       user: Пользователь
       inbox: Входящие

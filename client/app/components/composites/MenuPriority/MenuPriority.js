@@ -77,7 +77,7 @@ class MenuPriority extends Component {
   updateWidths(links) {
     const linksFromRenderedDiv = Array.prototype.slice.call(this.priorityLinksMounted.childNodes);
     const withWidths = linksFromRenderedDiv.map((l) => {
-      const linkData = _.find(links, (link) => l.dataset && l.dataset.pid === `${link.content} ${link.priority}`);
+      const linkData = _.find(links, (link) => link.content === l.textContent);
       const breakPoint = l.offsetLeft + l.offsetWidth + LINK_SPACING;
       return Object.assign({}, linkData, { breakPoint });
     });
@@ -154,7 +154,6 @@ class MenuPriority extends Component {
         },
       }, this.state.priorityLinks.map((l) => (
         a({
-          'data-pid': `${l.content} ${l.priority}`,
           className: css.priorityLink,
           href: l.href,
           target: l.external ? '_blank' : null,

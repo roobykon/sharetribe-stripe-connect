@@ -22,7 +22,7 @@ module TransactionService::Store::Transaction
     [:shipping_price, :money],
     [:delivery_method, :to_symbol, one_of: [:none, :shipping, :pickup], default: :none],
     [:payment_process, one_of: [:none, :postpay, :preauthorize]],
-    [:payment_gateway, one_of: [:paypal, :checkout, :braintree, :none]],
+    [:payment_gateway, one_of: [:paypal, :checkout, :braintree, :stripe, :none]],
     [:commission_from_seller, :fixnum, :mandatory],
     [:automatic_confirmation_after_days, :fixnum, :mandatory],
     [:minimum_commission, :money, :mandatory],
@@ -44,13 +44,14 @@ module TransactionService::Store::Transaction
     [:listing_author_uuid, :uuid, :mandatory, transform_with: UUIDUtils::PARSE_RAW],
     [:unit_type, :to_symbol, one_of: [:hour, :day, :night, :week, :month, :custom, nil]],
     [:unit_price, :money, default: Money.new(0)],
+    [:unit_price_currency, :string, :mandatory],
     [:unit_tr_key, :string],
     [:unit_selector_tr_key, :string],
     [:availability, :to_symbol, one_of: [:none, :booking]],
     [:shipping_price, :money],
     [:delivery_method, :to_symbol, :mandatory, one_of: [:none, :shipping, :pickup]],
     [:payment_process, :to_symbol, one_of: [:none, :postpay, :preauthorize]],
-    [:payment_gateway, :to_symbol, one_of: [:paypal, :checkout, :braintree, :none]],
+    [:payment_gateway, :to_symbol, one_of: [:paypal, :checkout, :braintree, :stripe, :none]],
     [:commission_from_seller, :fixnum],
     [:automatic_confirmation_after_days, :fixnum, :mandatory],
     [:minimum_commission, :money],
@@ -192,7 +193,8 @@ module TransactionService::Store::Transaction
   def add_opt_booking(hash, m)
     if m.booking
       booking_data = EntityUtils.model_to_hash(m.booking)
-      hash.merge(booking: Booking.call(booking_data.merge(duration: m.listing_quantity)))
+      hash.merge(booking: Booking.call(
+                  booking_data.merge(duration: m.listing_quantity)))
     else
       hash
     end
@@ -225,11 +227,9 @@ module TransactionService::Store::Transaction
 
   def build_booking(tx_model, tx_data)
     if is_booking?(tx_data)
-      start_on, end_on = tx_data[:booking_fields].values_at(:start_on, :end_on)
-
-      tx_model.build_booking(
-        start_on: start_on,
-        end_on: end_on)
+      start_on = tx_data[:booking_fields][:start_on]
+      end_on = tx_data[:booking_fields][:end_on]
+      tx_model.build_booking({start_on: start_on, end_on: end_on})
     end
   end
 

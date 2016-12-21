@@ -67,6 +67,4 @@ module MarketplaceService::AvailableCurrencies
       "VA" => "EUR"
   }
 
-  CURRENCIES = SortedSet.new(["USD"].concat(COUNTRY_CURRENCIES.values))
-
 end

@@ -110,6 +110,7 @@ class Person < ActiveRecord::Base
   has_many :followers, :through => :follower_relationships, :foreign_key => "person_id"
   has_many :inverse_follower_relationships, :class_name => "FollowerRelationship", :foreign_key => "follower_id"
   has_many :followed_people, :through => :inverse_follower_relationships, :source => "person"
+  has_one :stripe_account, :dependent => :destroy
 
   has_and_belongs_to_many :followed_listings, :class_name => "Listing", :join_table => "listing_followers"
 
@@ -599,6 +600,18 @@ class Person < ActiveRecord::Base
     self.legacy_encrypted_password = nil
     self.password_salt = nil
     super
+  end
+
+  def stripe_account_connected?
+    stripe_account.present? && !stripe_account.stripe_user_id.nil?
+  end
+
+  def stripe_connected_and_tranfers_enabled?
+    if stripe_account_connected?
+      stripe_account.tranfers_enabled?
+    else
+      false
+    end
   end
 
   private

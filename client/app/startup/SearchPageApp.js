@@ -14,14 +14,14 @@ import SearchPageContainer from '../components/sections/SearchPage/SearchPageCon
 import { SearchPageModel } from '../components/sections/SearchPage/SearchPage';
 import { parse as parseListingModel } from '../models/ListingModel';
 import { parse as parseProfile } from '../models/ProfileModel';
-import { Image, parse as parseImage } from '../models/ImageModel';
-import { createReader } from '../utils/transitImmutableConverter';
+import { Image } from '../models/ImageModel';
+import TransitImmutableConverter from '../utils/transitImmutableConverter';
 
-const profilesToMap = (includes, getProfilePath) =>
+const profilesToMap = (includes) =>
   includes.reduce((acc, val) => {
     const type = val.get(':type');
     if (type === ':profile') {
-      const profile = parseProfile(val, getProfilePath);
+      const profile = parseProfile(val);
       const id = val.get(':id');
       return acc.set(id, profile);
     } else {
@@ -29,9 +29,9 @@ const profilesToMap = (includes, getProfilePath) =>
     }
   }, new Immutable.Map());
 
-const listingsToMap = (listings, getListingPath, getEditListingPath) =>
+const listingsToMap = (listings, getListingPath) =>
   listings.reduce((acc, val) => {
-    const listing = parseListingModel(val, getListingPath, getEditListingPath);
+    const listing = parseListingModel(val, getListingPath);
     return acc.set(listing.id, listing);
   }, new Immutable.Map());
 
@@ -71,7 +71,6 @@ export default (props) => {
     'listing',
     'person',
     'new_listing',
-    'edit_listing',
     'person_inbox',
     'person_settings',
     'logout',
@@ -80,16 +79,13 @@ export default (props) => {
     'sign_up',
   ], { locale });
 
-  const reader = createReader({
-    im: parseImage,
-  });
+  const bootstrappedData = TransitImmutableConverter.fromJSON(props.searchPage.data);
 
-  const bootstrappedData = reader.read(_.get(props, 'searchPage.data', null)) || Immutable.Map();
+  const rawListings = bootstrappedData
+    .get(':data');
 
-  const rawListings = bootstrappedData.get(':data', []);
-
-  const listings = listingsToMap(rawListings, routes.listing_path, routes.edit_listing_path);
-  const profiles = profilesToMap(bootstrappedData.get(':included', []), routes.person_path);
+  const listings = listingsToMap(rawListings, routes.listing_path);
+  const profiles = profilesToMap(bootstrappedData.get(':included'));
   const metaData = Immutable.Map({
     page: props.searchPage.page,
     pageSize: props.searchPage.per_page,
@@ -111,7 +107,6 @@ export default (props) => {
     routes,
     searchPage,
     topbar: { ...getTopbarProps(props.topbar, routes) },
-    user: props.topbar.user,
   };
 
   const combinedReducer = combineReducers(reducers);

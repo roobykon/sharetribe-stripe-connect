@@ -27,6 +27,8 @@ module MarketplaceService
           .map { |community|
             if paypal_active?(community.id)
               :paypal
+            elsif stripe_active?(community_id)
+              :stripe
             else
               nil
             end
@@ -44,6 +46,11 @@ module MarketplaceService
                           .or_else(nil)
 
         return active_settings && active_settings[:payment_gateway] == :paypal
+      end
+
+      def stripe_active?(community_id)
+        community = CommunityModel.find_by_id(community_id)
+        community.payments_in_use?
       end
 
     end

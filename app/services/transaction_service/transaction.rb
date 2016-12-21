@@ -13,12 +13,14 @@ module TransactionService::Transaction
 
   SETTINGS_ADAPTERS = {
     paypal: TransactionService::Gateway::PaypalSettingsAdapter.new,
+    stripe: TransactionService::Gateway::StripeSettingsAdapter.new,
     none: TransactionService::Gateway::FreeSettingsAdapter.new
   }
 
   GATEWAY_ADAPTERS = {
     paypal: TransactionService::Gateway::PaypalAdapter.new,
-    none: TransactionService::Gateway::FreeAdapter.new,
+    stripe: TransactionService::Gateway::StripeAdapter.new,
+    none: TransactionService::Gateway::FreeAdapter.new
   }
 
   TX_PROCESSES = {
@@ -91,6 +93,7 @@ module TransactionService::Transaction
 
     tx_process = tx_process(tx[:payment_process])
     gateway_adapter = gateway_adapter(tx[:payment_gateway])
+    
     res = tx_process.create(tx: tx,
                             gateway_fields: opts[:gateway_fields],
                             gateway_adapter: gateway_adapter,

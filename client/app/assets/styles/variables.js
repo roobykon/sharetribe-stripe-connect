@@ -14,8 +14,6 @@ const fontSizeMobile = '17px';
 const fontWeightMedium = '500';
 const fontWeightSemibold = '600';
 
-const proximaNovaFontFamily = "'Proxima Nova Soft', Helvetica, sans";
-
 const lineHeight = 22;
 
 const textColor = 'rgb(82, 89, 97)';
@@ -109,9 +107,6 @@ module.exports = {
   '--colorButtonHover': '#4d998b',
   '--colorButtonGhost': '#26806F',
 
-  '--colorReservedAvailability': '#2AB865',
-  '--colorReservedAvailabilityDark': '#249E57',
-
   '--customColorFallback': customColorFallback,
   '--customColor2Fallback': customColor2Fallback,
 
@@ -146,7 +141,7 @@ module.exports = {
   '--Topbar_logoMaxHeight': '40px',
   '--Topbar_logoMaxHeightTablet': '36px',
   '--Topbar_logoMaxHeightMobile': '32px',
-  '--Topbar_fontFamily': proximaNovaFontFamily,
+  '--Topbar_fontFamily': "'Proxima Nova Soft', Helvetica, sans",
   '--Topbar_borderColor': 'rgba(0, 0, 50, 0.1)',
 
    // Must be at least 16px to avoid iOS from zooming in when focusing
@@ -306,7 +301,6 @@ module.exports = {
   '--ListingCard_lineHeight': '26px',
   '--ListingCard_lineHeightTitle': `${lineHeight}px`,
   '--ListingCard_colorTitle': textColorDark,
-  '--ListingCard_colorTitleHover': textColorFocus,
   '--ListingCard_colorDistance': textColorGrey,
   '--ListingCard_colorBackground': backgroundLightColor,
   '--ListingCard_spacingHorizontal': '20px',
@@ -322,18 +316,6 @@ module.exports = {
   '--ListingCardPanel_gutterSpacing': bodyPadding,
 
   '--RoundButton_shadow': searchPageShadow,
-  '--RoundButton_textColorDisabled': '#dedede',
-
-  '--PageSelection_fontSize': fontSize,
-  '--PageSelection_fontSizeSelect': fontSizeBig,
-  '--PageSelection_textColor': textColor,
-  '--PageSelection_textColorDark': textColorDark,
-  '--PageSelection_lineHeight': `${lineHeight}px`,
-  '--PageSelection_marginInline': '14px',
-  '--PageSelection_bgColorSelect': backgroundLightColor,
-  '--PageSelection_arrowSelect': '20px',
-  '--PageSelection_shadow': '0 2px 3px rgba(0, 0, 0, 0.1)',
-  '--PageSelection_shadowHover': '0 8px 12px rgba(0, 0, 0, 0.1)',
 
   '--NoResults_textColor': textColorDark,
   '--NoResults_fontSize': fontSizeBig,
@@ -344,13 +326,11 @@ module.exports = {
   '--Branding_borderColor': borderColor,
 
   '--Avatar_textColor': textColorLight,
-  '--Avatar_backgroundColor': 'hsl(210, 16%, 78%)',
+  '--Avatar_backgroundColor': 'hsl(210, 40%, 70%)',
 
-  // FlashNotifications should be always on top of everything else.
-  // If you are creating zIndex greater than this one, remember to increase this
-  '--FlashNotification_zIndex': zIndexMinimum + 30,
   '--FlashNotification_spacingOutside': '12px',
   '--FlashNotification_spacingInside': '14px',
+  '--FlashNotification_zIndex': zIndexMinimum + 10,
   '--FlashNotification_border': borderColorNotification,
   '--FlashNotification_boxShadow': '0 3px 20px 0 rgba(0,0,0,0.2)',
   '--FlashNotification_errorColor': 'rgb(237, 79, 46)',
@@ -365,20 +345,4 @@ module.exports = {
   '--FlashNotification_closeIconSize': `${minimumButtonSize}px`,
   '--FlashNotification_closeIconExtraSpace': '20px',
 
-  '--SideWinder_overlayZIndex': zIndexMinimum + 20,
-  '--SideWinder_animationDuration': '0.5s',
-  '--SideWinder_animationDurationMs': 500,
-
-  // Calendar width without margin/padding is also used for other
-  // content items.
-  '--ManageAvailability_contentWidth': '274px',
-  '--ManageAvailability_maxWidth': 342,
-  '--ManageAvailability_minWidth': 320,
-  '--ManageAvailability_fontFamily': proximaNovaFontFamily,
-  '--ManageAvailability_padding': '34px',
-  '--ManageAvailability_saveButtonHeight': '60px',
-  '--ManageAvailabilityHeader_height': 254,
-  '--ManageAvailabilityCalendar_fontFamily': proximaNovaFontFamily,
-  '--ManageAvailabilityCalendar_fontSize': fontSize,
-  '--ManageAvailabilityCalendar_width': '318px',
 };

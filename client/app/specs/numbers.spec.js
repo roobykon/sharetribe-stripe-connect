@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { formatDistance, formatMoney, toFixedNumber } from '../utils/numbers';
-import { Distance, Money } from '../types/types';
+import { Distance, Money } from '../models/ListingModel';
 
 describe('Number utils', () => {
   describe('Formatting distance', () => {

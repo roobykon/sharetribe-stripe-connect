@@ -1,5 +1,7 @@
 # encoding: utf-8
-class Admin::EmailsController < Admin::AdminBaseController
+class Admin::EmailsController < ApplicationController
+
+  before_filter :ensure_is_admin
 
   def new
     @selected_tribe_navi_tab = "admin"

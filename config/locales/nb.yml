@@ -244,7 +244,6 @@ nb:
         enabled_for_you: "Tilgjengelig for deg"
         enabled_for_all: "Tilgjengelig for alle"
         new_topbar: "Ny toppmeny (synlig på alle sider)"
-        searchpage: "Ny søkeside (krever toppmeny)"
       social_media:
         social_media: "Sosiale medier"
         twitter_handle: Twitternavn
@@ -385,10 +384,7 @@ nb:
       preview: "Forhåndsvis mitt nettsted"
     listing_shapes:
       availability_title: Tilgjengelighet
-      read_more: "Les mer om automatisert tilgjengelighets-administrasjon."
-      read_more_availability_management: "Les mer om tilgjengelighets-håndtering."
       allow_availability_management: "Tillat tilbydere å administrere sine bestillinger fra en kalender"
-      allow_providers_to_manage_availability: "Tillat tilbyderne å endre tilgjengeligheten fra en kalender."
       per_day_availability: "\"Per dag\"-tilgjengelighet"
       per_night_availability: "\"Per natt\"-tilgjengelighet"
       pricing_units_disabled_info: "Pris-enheter kan ikke brukes når tilgjengelighetskalenderen er aktivert."
@@ -479,16 +475,14 @@ nb:
     paypal_accounts:
       marketplace_paypal_integration: Betalingsinnstillinger
       preferences_updated: "Betalingsinnstillinger oppdatert"
+      marketplace_currency_used: "Denne markedsplassen bruker %{currency} som valuta. For å endre valuta, %{contact_support_link}."
       contact_support_link_text: "kontakt Sharetribes support"
       integration_info_text: "Betalingssystemet i Sharetribe er laget av PayPal. Hvis du vil gjøre det mulig for brukere å ta betalt i din markedsplass må du koble til din PayPal-konto og velge minimumsstørrelse på transaksjonene samt din tjenestekostnad for hver transaksjon."
       link_paypal_personal_account_label: "Selger du selv produkter eller tjenester?"
       link_paypal_personal_account: "I så tilfelle må du koble din PayPal-konto til %{personal_payment_preferences_link}."
       personal_payment_preferences_link_text: "din personlige markedsplass-konto"
       read_more_about_paypal: "Les mer om Sharetribe`s betalingssystem"
-      edit_payment_settings: "Endre betalingsopplysninger"
-      supported_currencies_information_text: "Sharetribes betalingsløsning støtter 24 valutaer. Hvis din valuta ikke er på listen, vennligst %{contact_support_link}. Hvis du endrer valutaen på markedsplassen, vil eksisterende annonser beholde opprinnelig valuta. Du må endre disse annonsene individuelt for å konvertere dem til den nye valutaen."
-      currency_change_warning_text: "Et tips: Hvis du foretar denne valuta-endringen, husk å be selgerne på markedsplassen din om å oppdatere annonsene sine for å aktivere den nye valutaen."
-      marketplace_currency_label: "Valuta på markedsplassen:"
+      set_minimum_price_and_fee: "Sett minimums pris & transaksjonsgebyr"
       minimum_listing_price_label: "Minimum transaksjonsstørrelse:"
       transaction_fee_label: "Transaksjonskostnad:"
       minimum_transaction_fee_label: "Minimum transaksjonskostnad:"
@@ -929,7 +923,6 @@ nb:
     transaction_agreement:
       required_error: "Du må godta avtalevilkår"
     paypal:
-      transaction_cannot_complete: "Betalingen kunne ikke gjennomføres. Dette skyldes sannsynligvis at betalingskortet ikke kunne bekreftes av banken. Vennligst prøv å gjennomføre kjøpet med en alternativ betalingsmetode."
       buyer_cannot_pay_error: "Betalingen ble avslått av PayPal. Vennligst kontakt PayPal Kundeservice for mer informasjon: %{customer_service_link}"
       pending_review_error: "Betalingen ble sendt men ble flagget av PayPal som \"må sjekkes\". Når PayPal får sjekket betalingen vil den automatisk bli godkjent."
       seller_express_checkout_disabled: "PayPal Express Checkout har blitt deaktivert for annonseeierens PayPal-konto. Vennligst kontakt annonseeieren og gi beskjed om at det er et problem med PayPal-kontoen deres. Råd dem til å kontakte PayPals kundeservice."
@@ -1255,10 +1248,6 @@ nb:
       offer_rejected: "Tilbud avvist"
       offer_canceled: "Tilbud avslått"
       listing_updated_successfully: "Annonse oppdatert"
-      listing_updated_availability_enabled: "Annonsen er oppdatert. Automatisert tilgjengelighets-administrasjon er aktivert."
-      listing_updated_availability_disabled: "Annonsen er oppdatert. Automatisert tilgjengelighets-administrasjon er deaktivert."
-      listing_updated_availability_management_enabled: "Annonse oppdatert. Tilgjengelighets-håndtering er aktivert."
-      listing_updated_availability_management_disabled: "Annonse oppdatert. Tilgjengelighets-håndtering er deaktivert."
       only_kassi_administrators_can_access_this_area: "Kun %{service_name} administratorer kan besøke dette området"
       only_listing_author_can_close_a_listing: "Kun annonsør kan stoppe en annonse"
       only_listing_author_can_edit_a_listing: "Kun annonsør kan endre en annonse"
@@ -1495,6 +1484,7 @@ nb:
       request_type: "Type forespørsel"
       requests: Forespørsler
       rideshare: Samkjøre
+      search_verb: Søk
       you_have_something_others_do_not: "Har du noe å tilby?"
       feed_title: "%{listing_type} på %{service_name} %{optional_category}"
     left_panel_link:
@@ -1626,6 +1616,7 @@ nb:
       request_type: "Type forespørsel"
       requests: Forespørsler
       rideshare: Samkjøre
+      search_verb: Søk
       you_have_something_others_do_not: "Har du noe å tilby?"
     please_comment: Kommenter
   mercury:
@@ -1793,6 +1784,16 @@ nb:
       following: Følger
       follow: Følg
       unfollow: "Ikke følg"
+  search:
+    show:
+      all_results: "Alle resultater"
+      loading_more_search_results: "Henter flere søkeresultater"
+      offers: Tilbud
+      requests: Forespørsler
+      search: Søk
+      search_results: Søkeresultater
+      search_returned_no_results: "Ditt søk gav ingen treff."
+      search_verb: Søk
   sessions:
     new:
       create_new_account: "Opprett ny brukerkonto"
@@ -1823,11 +1824,8 @@ nb:
       confirm_your_email: "Vennligst bekreft din e-post"
       account_confirmation_instructions: "Du vil snart motta en e-post med en lenke for å bekrefte din e-post. Når du har bekreftet din e-post, kan du begynne å bruke %{service_name}."
       account_confirmation_instructions_title_admin: "Velkommen til din markedsplass!"
-      before_full_access_you_need_to_confirm_email: "Før vi kan gi deg full tilgang til markedsplassen din, er det kun én ting til du må gjøre: Bekrefte e-postadressen din."
-      before_confirmation_only_access_admin_dashboard: "Før du har bekreftet e-postadressen din, har du bare tilgang til %{admin_dashboard_link}."
-      admin_dashboard_link_text: Administrasjonspanel
+      your_marketplace_has_now_been_created: "Din markedsplass er nå blitt laget. Det var enkelt, var det ikke? Kun noen få steg gjenstår før du kan bruke din side: du må bekrefte din epost-adresse."
       account_confirmation_instructions_admin: "Du vil snart motta en e-post med en link du må klikke på for å bekrefte din e-post. Når e-post er bekreftet kan du begynne å tilpasse markedsplassen din."
-      contact_support_link_text: "kontakt Sharetribe support"
   settings:
     account:
       change: Endre
@@ -2057,10 +2055,6 @@ nb:
     days: dager
   web:
     listings:
-      errors:
-        availability:
-          something_went_wrong: "Vi klarer ikke vise tilgjengeligheten. Prøv å laste inn siden på nytt."
-          saving_failed: "Vi klarer ikke lagre endringene for tilgjengelighet. Prøv å laste inn siden på nytt."
       pricing_units:
         piece: stykk
         hour: time
@@ -2068,20 +2062,11 @@ nb:
         night: natt
         week: uke
         month: måned
-      edit_availability_header: ~
-      save_and_close_availability_editing: "Lagre og lukk"
-      confirm_discarding_unsaved_availability_changes_explanation: "Du har ulagrede endringer i tilgjengelighets-informasjonen. Hvis du fortsetter, vil disse endringene gå tapt."
-      confirm_discarding_unsaved_availability_changes_question: "Er du sikker på at du vil forkaste endringene dine?"
-      edit_listing_availability: "Endre annonse-tilgjengelighet"
     no_listings:
       sorry: "Beklager, vi finner ingen resultater som matcher dine søkekriterier."
       try_other_search_terms: "Kanskje du kan prøve noen andre søkeord?"
     listing_card:
-      add_picture: "Legg til bilde"
       no_picture: "Ingen bilde"
-    search:
-      page: Side
-      page_of_pages: "av %{total_number_of_pages}"
     topbar:
       menu: Meny
       more: Mer

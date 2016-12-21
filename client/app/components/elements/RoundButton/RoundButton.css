@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: box-shadow 100ms ease;
 
   &:active {
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
@@ -21,27 +20,10 @@
   height: 36px;
   width: 36px;
   font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  line-height: 20px;
+  padding-bottom: 1px;
 
   &:hover > svg {
     transform: scale(1.33);
-  }
-}
-
-.disabled {
-  cursor: default;
-
-  & polyline {
-    stroke: var(--RoundButton_textColorDisabled);
-  }
-
-  &:hover {
-    box-shadow: var(--RoundButton_shadow);
-  }
-
-  &:hover > svg {
-    transform: scale(1);
   }
 }

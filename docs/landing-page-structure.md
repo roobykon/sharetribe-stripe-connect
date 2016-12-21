@@ -122,23 +122,25 @@ Values to set:
   * `button_title`
   * `button_path`
 
-#### Some available icons
+#### Available icons
 
 * `quill`
 * `piggy-bank`
 * `globe-1`
-* `globe-2`
-* `login-key`
+* `marker-1`
+* `marker-2`
 * `dollar-bag`
-* `shopping-cart-1`
-* `door-open`
-* `search`
-* `binoculars`
-* `banknotes-3`
-* `chef-hat`
-* `home-1`
+* `hand-globe`
+* `connection-2`
+* `magnifier`
+* `binocular`
+* `chart-up`
+* `business-chart-2`
+* `house-1`
 * `garage`
-* `construction-blueprint-2`
+* `bubble-conversation-4`
+
+Ask development team to add more when needed.
 
 ### Categories
 
