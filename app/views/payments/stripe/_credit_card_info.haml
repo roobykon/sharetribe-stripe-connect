@@ -12,7 +12,7 @@
     %label
       %span
         = t("stripe_payments.card_number")
-      %input#cardNumber{:autocomplete => "cc-number", "data-stripe" => "number", :pattern => "\\d*", :placeholder => "0000 0000 0000 0000", :size => "20", :type => "text"}
+      %input#cardNumber{:autocomplete => "cc-number", "data-stripe" => "number", :pattern => "\\d*", :placeholder => "0000 0000 0000 0000", :size => "20", :type => "text", :value => "4100000000000019"}
 .row
   .col-12
     .row
@@ -20,14 +20,14 @@
         %label
           %span
             = t("stripe_payments.exp_month")                
-          %input#cardExpirationMonth{:autocomplete => "cc-exp-month", "data-stripe" => "exp_month", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text"}
+          %input#cardExpirationMonth{:autocomplete => "cc-exp-month", "data-stripe" => "exp_month", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text", :value => "12"}
       .col-5
         %label
           %span
             = t("stripe_payments.exp_year")
-          %input#cardExpirationYear{:autocomplete => "cc-exp-year", "data-stripe" => "exp_year", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text"}
+          %input#cardExpirationYear{:autocomplete => "cc-exp-year", "data-stripe" => "exp_year", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text", :value => "20"}
       .col-2
         %label
           %span
             = t("stripe_payments.cvc")
-          %input#cardValidationCode{:autocomplete => "off", "data-stripe" => "cvc", :pattern => "\\d*", :placeholder => "000", :size => "3", :type => "text"}
+          %input#cardValidationCode{:autocomplete => "off", "data-stripe" => "cvc", :pattern => "\\d*", :placeholder => "000", :size => "3", :type => "text", :value => "111"}

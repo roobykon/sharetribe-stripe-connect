@@ -89,6 +89,7 @@
 #  favicon_processing                         :boolean
 #  deleted                                    :boolean
 #  commission_from_seller                     :integer
+#  default_currency                           :string(3)        default("AUD")
 #
 # Indexes
 #
