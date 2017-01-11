@@ -542,7 +542,18 @@ class ListingsController < ApplicationController
 
   private
 
-  def create_bookable(community_uuid, listing_uuid, author_uuid, auth_context)
+  def update_flash(old_availability:, new_availability:)
+    case [new_availability.to_sym == :booking, old_availability.to_sym == :booking]
+    when [true, false]
+      t("layouts.notifications.listing_updated_availability_management_enabled")
+    when [false, true]
+      t("layouts.notifications.listing_updated_availability_management_disabled")
+    else
+      t("layouts.notifications.listing_updated_successfully")
+    end
+  end
+
+  def create_bookable(community_uuid, listing_uuid, author_uuid)
     res = HarmonyClient.post(
       :create_bookable,
       body: {

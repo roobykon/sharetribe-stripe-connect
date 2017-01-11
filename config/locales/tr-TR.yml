@@ -103,7 +103,7 @@ tr-TR:
         new_listing_button_instructions_text: ~
         default_browse_view: "Default tarayıcı görünümü"
         default_browse_view_instructions_text: "Default tarayıcı görünümü ana sayfada listelemelerin default olarak nasıl görüntülendiğini görmek için kullanılır."
-        grid: Grid
+        grid: "Kare Ağ"
         list: Liste
         map: Harita
         name_display_type: "Ad görünümü türü"
@@ -188,7 +188,7 @@ tr-TR:
         default_search_type: ~
         keyword_search: ~
         keyword_and_location_search: "Anahtar kelime ve lokasyon araması"
-        location_search: ~
+        location_search: Şehir/Konum
         select_distance_unit: ~
         km: ~
         miles: ~
@@ -379,6 +379,9 @@ tr-TR:
       preview: ~
     listing_shapes:
       availability_title: ~
+      read_more: "Otomatik kullanılabilirlik yönetimi hakkında daha fazla bilgi edinin"
+      read_more_availability_management: "Kullanılabilirlik yönetimi hakkında daha fazla bilgi edinin"
+      allow_providers_to_manage_availability: ~
       per_day_availability: ~
       per_night_availability: ~
       pricing_units_disabled_info: ~
@@ -937,8 +940,8 @@ tr-TR:
       javascript_is_disabled_in_your_browser: "Javascript tarayıcınızda engellenmiş"
       kassi_does_not_currently_work_without_javascript: "%{service_name} javascript olmadan olması gerektiği gibi çalışmaz. Tarayıcınızın seçenekler bölümünden javascript'in çalışmasına izin veriniz ve sonra bu sayfayı tekrar yükleyiniz."
       contact_us: "bize ulaşın"
-      send_feedback: ~
-      your_feedback_to_admins: ~
+      send_feedback: "Mesajı gönder"
+      your_feedback_to_admins: "%{service_name}'a mesajınız"
     send: Gönder
     your_email_address: "E-posta adresiniz"
   errors:
@@ -1095,7 +1098,7 @@ tr-TR:
       map: "Haritayı göster"
       list: "Listeyi göster"
       map_button: Harita
-      grid_button: Grid
+      grid_button: "Kare Ağ"
       list_button: Liste
       all_listing_types: "Tüm ilan türleri"
       all_categories: "Tüm kategoriler"
@@ -1111,12 +1114,12 @@ tr-TR:
       default_content: "%{marketplace_name}'in nasıl çalıştığı hakkında bilgileri burada bulabilirsiniz."
   landing_page:
     hero:
-      search: ~
-      signup: ~
-      search_placeholder: ~
-      search_location_placeholder: ~
+      search: Ara
+      signup: "Kayıt ol"
+      search_placeholder: "Ne arıyorsunuz"
+      search_location_placeholder: Şehir/Konum
     listings:
-      no_listing_image: ~
+      no_listing_image: "Resim yok"
   layouts:
     admin:
       admin: "%{service_name} yönetici paneli"
@@ -1127,17 +1130,17 @@ tr-TR:
     no_tribe:
       inbox: "Gelen Kutusu"
       settings: Ayarlar
-      feedback: ~
+      feedback: "İletişim%{service_name}"
     application:
       join_this_community: "Pazara katılın"
       read_more: "Devamını oku"
-      feedback: ~
+      feedback: "%{service_name}'na mesaj gönder"
       dont_use_to_contact_support: ~
       feedback_forum: "geribildirim forumu"
       feedback_handle: Geribildirim
       give_feedback: "Bize Ulaşın"
       or_check_our: "...ya da bizimkine göz atın."
-      send_feedback_to_admin: ~
+      send_feedback_to_admin: "Mesaj gönder"
       to_see_what_others_have_suggested: "Başka kullanıcıların önerilerini görmek ve farklı fikirler üzerinde oylama yapmak için."
       your_email_address: "E-posta adresiniz (size ulaşabilmemiz için)"
       connect: "Kayıt ol"
@@ -1155,9 +1158,9 @@ tr-TR:
     global-header:
       select_language: "Dil seç"
     infos:
-      about: Hakkında
+      about: Hakkımızda
       how_to_use: "Nasıl çalışır"
-      info_about_kassi: "%{service_name} Hakkında"
+      info_about_kassi: "%{service_name} Hakkımızda"
       news: Yenilikler
       register_details: Gizlilik
       terms: "Kullanım koşulları"
@@ -1165,8 +1168,8 @@ tr-TR:
       admin: Yönetici
       go_to_your_profile_page: Profil
       hi: Merhaba
-      login: "Oturum aç"
-      logout: "Oturumu kapat"
+      login: "Giriş yap"
+      logout: "Çıkış yap"
       notifications: Bildirimler
       requests: "Arkadaşlık teklifleri"
       settings: Ayarlar
@@ -1179,8 +1182,8 @@ tr-TR:
       admin: Yönetici
       go_to_your_profile_page: Profil
       hi: Merhaba
-      login: "Oturum aç"
-      logout: "Oturumu kapat"
+      login: "Giriş yap"
+      logout: "Çıkış yap"
       notifications: Bildirimler
       requests: "Arkadaşlık teklifleri"
       settings: Ayarlar
@@ -1207,7 +1210,7 @@ tr-TR:
       error_with_session: "Oturum hatası."
       feedback_considered_spam: "Format hatası nedeniyle, geri bildiriminiz kaydedilemedi. Tekrar deneyin ya da geri bildirim forumumuza göz atın."
       feedback_not_saved: "Geri bildirim gönderilemedi."
-      feedback_saved: ~
+      feedback_saved: "Mesajınız için teşekkür ederiz! Mümkün olan en kısa sürede dönüş yapılacaktır."
       feedback_sent_to: "Geri bildirim %{target_person} kişisine gönderildi."
       feedback_skipped: "Geri bildirim atlandı."
       invitation_cannot_be_sent: "Davetiye gönderilemedi"
@@ -1219,7 +1222,7 @@ tr-TR:
       account_creation_successful: "%{person_name}, %{service_name}'e hoş geldin!"
       account_deleted: "Hesabınız silindi."
       login_successful: "Hoş geldin, %{person_name}!"
-      logout_successful: "%{service_name} 'tan başarıyla çıkış yaptın. Yeniden bekleriz!"
+      logout_successful: "%{service_name} 'dan başarıyla çıkış yaptınız. Yeniden bekleriz!"
       news_item_created: "Metin oluşturuldu"
       news_item_creation_failed: "Metin oluşturma başarısız oldu"
       news_item_update_failed: "Metin güncellemesi başarısız oldu"
@@ -1232,6 +1235,8 @@ tr-TR:
       offer_rejected: "Teklif reddedildi"
       offer_canceled: "Teklif iptal edildi"
       listing_updated_successfully: "İlan başarıyla güncellendi"
+      listing_updated_availability_management_enabled: ~
+      listing_updated_availability_management_disabled: ~
       only_kassi_administrators_can_access_this_area: "Bu alana sadece %{service_name} yöneticileri erişebilir"
       only_listing_author_can_close_a_listing: "Listelemeyi sadece ilan sahibi kapatabilir."
       only_listing_author_can_edit_a_listing: "Listelemeyi yalnızca ilan sahibi düzenleyebilir."
@@ -2028,17 +2033,17 @@ tr-TR:
       no_picture: ~
     topbar:
       menu: ~
-      more: ~
+      more: Menü
       search_placeholder: ~
-      search_location_placeholder: ~
+      search_location_placeholder: Lokasyon
       user: ~
       inbox: ~
       profile: ~
       manage_listings: ~
       settings: ~
       logout: ~
-      login: ~
-      signup: ~
+      login: "Giriş yap"
+      signup: "Kayıt ol"
       admin_dashboard: ~
       language: ~
     utils:
@@ -2047,7 +2052,7 @@ tr-TR:
     branding:
       powered_by: ~
       create_own: ~
-      learn_more: ~
+      learn_more: "Daha fazla öğrenin"
   will_paginate:
     models:
       person:

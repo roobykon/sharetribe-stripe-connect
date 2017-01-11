@@ -152,7 +152,7 @@ module.exports = {
 
   '--Topbar_avatarSize': topbarItemHeight,
   '--Topbar_avatarMediumSize': topbarMediumItemHeight,
-  '--Topbar_avatarPadding': '18px 0',
+  '--Topbar_avatarPadding': '17.5px 0',
   '--Topbar_avatarTabletPadding': '12px 0',
   '--Topbar_avatarMobilePadding': '8px 0',
 
@@ -345,4 +345,20 @@ module.exports = {
   '--FlashNotification_closeIconSize': `${minimumButtonSize}px`,
   '--FlashNotification_closeIconExtraSpace': '20px',
 
+  '--SideWinder_overlayZIndex': zIndexMinimum + 20,
+  '--SideWinder_animationDuration': '0.5s',
+  '--SideWinder_animationDurationMs': 500,
+
+  // Calendar width without margin/padding is also used for other
+  // content items.
+  '--ManageAvailability_contentWidth': '274px',
+  '--ManageAvailability_maxWidth': 342,
+  '--ManageAvailability_minWidth': 320,
+  '--ManageAvailability_fontFamily': proximaNovaFontFamily,
+  '--ManageAvailability_padding': '34px',
+  '--ManageAvailability_saveButtonHeight': '60px',
+  '--ManageAvailabilityHeader_height': '254px',
+  '--ManageAvailabilityCalendar_fontFamily': proximaNovaFontFamily,
+  '--ManageAvailabilityCalendar_fontSize': fontSize,
+  '--ManageAvailabilityCalendar_width': '318px',
 };
