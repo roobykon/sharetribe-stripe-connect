@@ -971,7 +971,7 @@ en:
       buyer_cannot_pay_error: "The payment has been declined by PayPal. Please contact their Customer Service for more information: %{customer_service_link}"
       pending_review_error: "The payment was submitted but was flagged by PayPal as 'requiring a review'. When PayPal completes the review, the payment will be automatically authorized."
       seller_express_checkout_disabled: "PayPal Express Checkout has been disabled for the listing author's PayPal account. Please contact the author and let them know that there's an issue with their PayPal account, and advise them to contact PayPal Customer Service."
-      generic_error: "An error occurred during the payment process. Could not finalize your PayPal payment."
+      generic_error: "An error occurred during the payment process and your card was not charged. Please try your payment again."
       cancel_error: "An error occurred during cancellation. Could not finalize cancel."
       accept_authorization_error: "An error occurred while trying to accept preauthorized Paypal payment. Please, try again."
       reject_authorization_error: "An error occurred while trying to reject preauthorized Paypal payment. Please, try again."
@@ -1639,7 +1639,7 @@ en:
       days: days
       night: night
       nights: nights
-      invalid_parameters: "Invalid values for new transaction"
+      invalid_parameters: "Payment could not be processed - Stripe returned a card error. Please try your transaction again."
     stripe_preauthorize:
       details: Details
       by: "%{listing} by %{author}"
