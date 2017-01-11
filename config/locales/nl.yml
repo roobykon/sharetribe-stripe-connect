@@ -384,7 +384,6 @@ nl:
       preview: ~
     listing_shapes:
       availability_title: ~
-      allow_availability_management: ~
       per_day_availability: ~
       per_night_availability: ~
       pricing_units_disabled_info: ~
