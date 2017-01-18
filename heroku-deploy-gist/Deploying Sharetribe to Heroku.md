@@ -203,8 +203,8 @@
   11. Run the sphinx index + start daemon
 
     ```sh
-    heroku run bundle exec flying-sphinx index
-    heroku run bundle exec flying-sphinx start
+    heroku run bundle exec rake fs:index
+    heroku run bundle exec rake fs:start
     ```
         
   12. You can now put in the scheduler addon to run background jobs.
@@ -217,9 +217,11 @@
 
       And add the following jobs:
 
-        - bundle exec flying-sphinx index
-          - frequency: 15 mins
+        - bundle exec rake fs:index
+          - frequency: 10 mins
         - rails runner "CommunityMailer.deliver_community_updates"
+          - frequency: daily
+        - bundle exec rake sharetribe:delete_expired_auth_tokens
           - frequency: daily
 
   13. Updates
