@@ -23,3 +23,7 @@ Ensure for your local development environment or while testing on a hosted site 
 With Stripe connected via your marketplace's account, sellers in your marketplace can now go into their account and choose 'payment settings', where they can click to connect their Stripe Account (or, more likely, setup a new Stripe Account and connect it).  
 
 At this point, if the user has listings posted, the warnings about needing to setup Stripe should disappear, and they will be able to take payments.
+
+## Deploying to Heroku
+
+See [instructions here](https://github.com/jarvisjohnson/sharetribe-stripe-connect/blob/master/heroku-deploy-gist/Deploying%20Sharetribe%20to%20Heroku.md)

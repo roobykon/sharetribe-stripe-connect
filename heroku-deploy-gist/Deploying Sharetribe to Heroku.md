@@ -97,7 +97,7 @@
       ```sh  
       heroku addons:create memcachier:dev
       ```
-    - SSL ($20/mth) *not necessary if staging environment*
+    - SSL ($20/mth) *only necessary [if you need to support < 1% of browsers](https://devcenter.heroku.com/articles/ssl#minimum-supported-browser-versions) that don't support SNI. Instead, just [upload your SSL cert](https://devcenter.heroku.com/articles/ssl) after deploy*
 
       ```sh
       heroku addons:create ssl:endpoint
