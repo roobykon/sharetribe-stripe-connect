@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.16, for osx10.11 (x86_64)
 --
--- Host: localhost    Database: sharetribe_stripe_development
+-- Host: localhost    Database: sharetribe_striper_development
 -- ------------------------------------------------------
 -- Server version	5.7.16
 
@@ -247,7 +247,7 @@ CREATE TABLE `communities` (
   `stylesheet_url` varchar(255) DEFAULT NULL,
   `stylesheet_needs_recompile` tinyint(1) DEFAULT '0',
   `service_logo_style` varchar(255) DEFAULT 'full-logo',
-  `available_currencies` text,
+  `currency` varchar(3) NOT NULL,
   `facebook_connect_enabled` tinyint(1) DEFAULT '1',
   `minimum_price_cents` int(11) DEFAULT NULL,
   `hide_expiration_date` tinyint(1) DEFAULT '0',
@@ -287,7 +287,6 @@ CREATE TABLE `communities` (
   `favicon_processing` tinyint(1) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT NULL,
   `commission_from_seller` int(11) DEFAULT NULL,
-  `default_currency` varchar(3) DEFAULT 'AUD',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -1146,7 +1145,9 @@ CREATE TABLE `payment_settings` (
   `payment_process` varchar(64) DEFAULT NULL,
   `commission_from_seller` int(11) DEFAULT NULL,
   `minimum_price_cents` int(11) DEFAULT NULL,
+  `minimum_price_currency` varchar(3) DEFAULT NULL,
   `minimum_transaction_fee_cents` int(11) DEFAULT NULL,
+  `minimum_transaction_fee_currency` varchar(3) DEFAULT NULL,
   `confirmation_after_days` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -1360,6 +1361,7 @@ CREATE TABLE `people` (
   `min_days_between_community_updates` int(11) DEFAULT '1',
   `deleted` tinyint(1) DEFAULT '0',
   `cloned_from` varchar(22) DEFAULT NULL,
+  `stripe_customer_id` varchar(255) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -1665,7 +1667,7 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-23 16:24:03
+-- Dump completed on 2017-01-26 16:18:48
 INSERT INTO schema_migrations (version) VALUES ('20080806070738');
 
 INSERT INTO schema_migrations (version) VALUES ('20080807071903');
@@ -3267,4 +3269,32 @@ INSERT INTO schema_migrations (version) VALUES ('20161019125057');
 INSERT INTO schema_migrations (version) VALUES ('20161023074355');
 
 INSERT INTO schema_migrations (version) VALUES ('20161101104218');
+
+INSERT INTO schema_migrations (version) VALUES ('20161101124317');
+
+INSERT INTO schema_migrations (version) VALUES ('20161101124829');
+
+INSERT INTO schema_migrations (version) VALUES ('20161102101418');
+
+INSERT INTO schema_migrations (version) VALUES ('20161102101419');
+
+INSERT INTO schema_migrations (version) VALUES ('20161102193340');
+
+INSERT INTO schema_migrations (version) VALUES ('20161103063652');
+
+INSERT INTO schema_migrations (version) VALUES ('20161105081757');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107092030');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107105050');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107112025');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107131859');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107132513');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107141257');
+
+INSERT INTO schema_migrations (version) VALUES ('20161109094513');
 

@@ -16,7 +16,7 @@ class StripeAccountsController < ApplicationController
                                 new_user_feedback_path)).html_safe
     end
 
-    community_currency = @current_community.default_currency
+    community_currency = @current_community.currency
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
 
     Stripe.api_key = @current_community.payment_gateway.stripe_secret_key

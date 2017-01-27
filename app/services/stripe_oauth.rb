@@ -64,7 +64,7 @@ class StripeOauth < Struct.new( :user, :current_community )
     gateway.stripe_account_type = 'oauth'
     gateway.publishable_key     = data.params['stripe_publishable_key']
     gateway.secret_key          = data.token
-    gateway.currency            = default_currency
+    gateway.currency            = currency
 
     gateway.save!
   end
@@ -95,7 +95,7 @@ class StripeOauth < Struct.new( :user, :current_community )
 
   # Get the default currency of the connected user.
   # All transactions will use this currency.
-  def default_currency
+  def currency
     Stripe::Account.retrieve( user.stripe_account.stripe_user_id, user.stripe_account.secret_key ).default_currency
   end
 

@@ -12,22 +12,34 @@
     %label
       %span
         = t("stripe_payments.card_number")
-      %input#cardNumber{:autocomplete => "cc-number", "data-stripe" => "number", :pattern => "\\d*", :placeholder => "0000 0000 0000 0000", :size => "20", :type => "text", :value => "4100000000000019"}
+    - if Rails.env.development? || Rails.env.test?
+      %input#cardNumber{:autocomplete => "cc-number", "data-stripe" => "number", :pattern => "\\d*", :placeholder => "0000 0000 0000 0000", :type => "text", :class => "card-number stripe", :value => "4242424242424242"}
+    - else
+      %input#cardNumber{:autocomplete => "cc-number", "data-stripe" => "number", :pattern => "\\d*", :placeholder => "0000 0000 0000 0000", :type => "text", :class => "card-number stripe"}
 .row
   .col-12
     .row
       .col-5
         %label
           %span
-            = t("stripe_payments.exp_month")                
+            = t("stripe_payments.exp_month")  
+        - if Rails.env.development? || Rails.env.test?                          
           %input#cardExpirationMonth{:autocomplete => "cc-exp-month", "data-stripe" => "exp_month", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text", :value => "12"}
+        - else                        
+          %input#cardExpirationMonth{:autocomplete => "cc-exp-month", "data-stripe" => "exp_month", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text"}          
       .col-5
         %label
           %span
             = t("stripe_payments.exp_year")
+        - if Rails.env.development? || Rails.env.test?              
           %input#cardExpirationYear{:autocomplete => "cc-exp-year", "data-stripe" => "exp_year", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text", :value => "20"}
+        - else             
+          %input#cardExpirationYear{:autocomplete => "cc-exp-year", "data-stripe" => "exp_year", :pattern => "\\d*", :placeholder => "00", :size => "2", :type => "text"}                  
       .col-2
         %label
           %span
             = t("stripe_payments.cvc")
+        - if Rails.env.development? || Rails.env.test?              
           %input#cardValidationCode{:autocomplete => "off", "data-stripe" => "cvc", :pattern => "\\d*", :placeholder => "000", :size => "3", :type => "text", :value => "111"}
+        - else             
+          %input#cardValidationCode{:autocomplete => "off", "data-stripe" => "cvc", :pattern => "\\d*", :placeholder => "000", :size => "3", :type => "text"}                  

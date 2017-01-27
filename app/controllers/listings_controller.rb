@@ -299,7 +299,8 @@ class ListingsController < ApplicationController
   end
 
   def create_listing(shape, listing_uuid)
-    listing_params = ListingFormViewUtils.filter(params[:listing], shape)
+    with_currency = params[:listing].merge({currency: @current_community.currency})
+    listing_params = ListingFormViewUtils.filter(with_currency, shape)
     listing_unit = Maybe(params)[:listing][:unit].map { |u| ListingViewUtils::Unit.deserialize(u) }.or_else(nil)
     listing_params = ListingFormViewUtils.filter_additional_shipping(listing_params, listing_unit)
     validation_result = ListingFormViewUtils.validate(listing_params, shape, listing_unit)
@@ -438,7 +439,8 @@ class ListingsController < ApplicationController
       end
     end
 
-    listing_params = ListingFormViewUtils.filter(params[:listing], shape)
+    with_currency = params[:listing].merge({currency: @current_community.currency})
+    listing_params = ListingFormViewUtils.filter(with_currency, shape)
     listing_unit = Maybe(params)[:listing][:unit].map { |u| ListingViewUtils::Unit.deserialize(u) }.or_else(nil)
     listing_params = ListingFormViewUtils.filter_additional_shipping(listing_params, listing_unit)
     validation_result = ListingFormViewUtils.validate(listing_params, shape, listing_unit)
@@ -718,7 +720,7 @@ class ListingsController < ApplicationController
   def commission(community, process)
     payment_type = MarketplaceService::Community::Query.payment_type(community.id)
     payment_settings = TransactionService::API::Api.settings.get_active(community_id: community.id).maybe
-    currency = community.default_currency
+    currency = community.currency
     
     case [payment_type, process]
     when matches([__, :none])

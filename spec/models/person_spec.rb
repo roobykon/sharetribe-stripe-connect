@@ -41,6 +41,7 @@
 #  min_days_between_community_updates :integer          default(1)
 #  deleted                            :boolean          default(FALSE)
 #  cloned_from                        :string(22)
+#  stripe_customer_id                 :string(255)
 #
 # Indexes
 #

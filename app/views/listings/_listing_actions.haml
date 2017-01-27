@@ -1,6 +1,7 @@
 - is_author = current_user?(@listing.author)
 - is_marketplace_admin = Maybe(@current_user).has_admin_rights?.or_else(false)
 - is_authorized = is_author || is_marketplace_admin
+- show_manage_availability = is_authorized && FeatureFlagHelper.feature_enabled?(:availability)
 
 - if @listing.closed?
   .listing-view-admin-links
