@@ -11,6 +11,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'compass-rails', '~> 2.0'
 
 gem 'puma'
+
 # Requiring 'compass' gem directly is not normally needed,
 # 'compass-rails' already does that.
 #
@@ -151,6 +152,7 @@ group :development do
   gem 'better_errors', "~> 2.1.1"
   gem 'web-console', '~> 2.0'
   gem 'awesome_print', '~> 1.6.1'
+  gem 'rails_semantic_logger'
 end
 
 group :test do

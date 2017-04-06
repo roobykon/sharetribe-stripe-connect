@@ -16,7 +16,6 @@
 #  about_page_content                         :text(16777215)
 #  terms_page_content                         :text(16777215)
 #  privacy_page_content                       :text(16777215)
-#  storefront_label                           :string(255)
 #  signup_info_content                        :text(65535)
 #  private_community_homepage_content         :text(16777215)
 #  verification_to_post_listings_info_content :text(16777215)

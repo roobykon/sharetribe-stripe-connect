@@ -37,14 +37,18 @@ Kassi::Application.configure do
       request_uuid: event.payload[:request_uuid] }
   }
 
-  config.lograge.formatter = Lograge::Formatters::Json.new
+  # config.lograge.formatter = Lograge::Formatters::Json.new
 
-  config.after_initialize do
-    ActiveRecord::Base.logger = Rails.logger.clone
-    ActiveRecord::Base.logger.level = Logger::DEBUG
-    ActionMailer::Base.logger = Rails.logger.clone
-    ActionMailer::Base.logger.level = Logger::INFO
-  end
+  config.rails_semantic_logger.started    = true
+  config.rails_semantic_logger.processing = true
+  config.rails_semantic_logger.rendered   = true
+
+  # config.after_initialize do
+    # ActiveRecord::Base.logger = Rails.logger.clone
+    # ActiveRecord::Base.logger.level = Logger::DEBUG
+    # ActionMailer::Base.logger = Rails.logger.clone
+    # ActionMailer::Base.logger.level = Logger::INFO
+  # end
 
 
 
@@ -79,5 +83,5 @@ Kassi::Application.configure do
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
 
-  config.cache_store = :memory_store, { :namespace => "sharetribe-dev"}
+  # config.cache_store = :memory_store, { :namespace => "sharetribe-dev"}
 end
