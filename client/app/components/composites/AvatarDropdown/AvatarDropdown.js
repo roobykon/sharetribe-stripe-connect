@@ -14,7 +14,6 @@ const HOVER_TIMEOUT = 250;
 class AvatarDropdown extends Component {
   constructor(props, context) {
     super(props, context);
-
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -73,13 +72,14 @@ class AvatarDropdown extends Component {
     const notificationBadgeInArray = this.props.notificationCount > 0 ?
       [r(NotificationBadge, { className: css.notificationBadge }, this.props.notificationCount)] :
       [];
+
     return div({
       onMouseOver: this.handleMouseOver,
       onMouseLeave: this.handleMouseLeave,
       onClick: this.handleClick,
       onBlur: this.handleBlur,
       tabIndex: 0,
-      className: classNames('AvatarDropdown', this.props.className,  openClass, css.avatarDropdown, notificationsClass),
+      className: classNames('AvatarDropdown', this.props.className, openClass, css.avatarDropdown, notificationsClass),
     }, [
       div({ className: css.avatarWithNotifications }, [
         r(Avatar, this.props.avatar),

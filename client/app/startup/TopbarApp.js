@@ -23,7 +23,7 @@ export default (props) => {
     'sign_up',
   ], { locale });
 
-  const avatarImage = _.get(props, 'avatarDropdown.avatar.image.url');
+  const avatarImage = _.get(props, 'avatarDropdown.avatar.image.url', '');
   const avatarImageRecord = avatarImage ? new Image({
     type: ':thumb',
     url: avatarImage,

@@ -32,8 +32,9 @@
             %a.home-share-type-link{:href => search_path(:transaction_type => shape_name_map[listing.listing_shape_id], :view => :list)}
               = icon_tag(listing.icon_name, ["icon-fix"])
               = shape_name(listing)
-        %p
-          = truncate(listing.description, length: 120, separator: ' ')
+        - if listing.description.present?
+          %p
+            = truncate(listing.description, length: 120, separator: ' ')
       .home-list-price-mobile{:class => (listing.listing_images.size > 0 ? "home-list-price-mobile-with-listing-image" : "home-list-price-mobile-without-listing-image")}
         - if listing.price
           .home-list-price-value-mobile

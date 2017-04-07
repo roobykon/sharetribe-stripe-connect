@@ -305,6 +305,7 @@ CREATE TABLE `community_customizations` (
   `search_placeholder` varchar(255) DEFAULT NULL,
   `transaction_agreement_label` varchar(255) DEFAULT NULL,
   `transaction_agreement_content` mediumtext,
+  `storefront_label` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_community_customizations_on_community_id` (`community_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1650,7 +1651,7 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-06 19:43:14
+-- Dump completed on 2017-04-07 14:18:57
 INSERT INTO schema_migrations (version) VALUES ('20080806070738');
 
 INSERT INTO schema_migrations (version) VALUES ('20080807071903');
@@ -3290,4 +3291,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170309104456');
 INSERT INTO schema_migrations (version) VALUES ('20170313201104');
 
 INSERT INTO schema_migrations (version) VALUES ('20170314075755');
+
+INSERT INTO schema_migrations (version) VALUES ('20170407111750');
 

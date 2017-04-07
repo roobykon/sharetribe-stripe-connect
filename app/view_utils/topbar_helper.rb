@@ -47,7 +47,7 @@ module TopbarHelper
       locales: landing_page ? nil : locale_props(community, I18n.locale, path_after_locale_change),
       avatarDropdown: {
         avatar: {
-          image: user&.image.present? ? { url: user.image.url(:thumb) } : nil,
+          image: {url: user.image.url(:thumb)},
           givenName: given_name,
           familyName: family_name,
         },

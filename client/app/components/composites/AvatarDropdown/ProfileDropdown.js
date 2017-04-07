@@ -83,9 +83,10 @@ ProfileDropdown.propTypes = {
   }),
   customColor: PropTypes.string.isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  classNames: PropTypes.arrayOf(className).isRequired,
+  classNames: PropTypes.arrayOf(className),
   notificationCount: PropTypes.number,
   profileDropdownRef: PropTypes.func.isRequired,
 };
 
 export default ProfileDropdown;
+

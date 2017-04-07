@@ -22,6 +22,7 @@
 #  search_placeholder                         :string(255)
 #  transaction_agreement_label                :string(255)
 #  transaction_agreement_content              :text(16777215)
+#  storefront_label                           :string(255)
 #
 # Indexes
 #
