@@ -41,8 +41,8 @@ module MarketplaceService
         QueryHelper.query_inbox_data_count(person_id, community_id)
       end
 
-      def inbox_data(person_id, community_id, limit, offset)
-        QueryHelper.query_inbox_data(person_id, community_id, limit, offset)
+      def inbox_data(person_id, community_id, limit, offset, listing_id = nil)
+        QueryHelper.query_inbox_data(person_id, community_id, limit, offset, listing_id)
       end
 
       def notification_count(person_id, community_id)
@@ -117,8 +117,10 @@ module MarketplaceService
         connection.select_value(sql)
       end
 
-      def query_inbox_data(person_id, community_id, limit, offset)
-        conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
+      def query_inbox_data(person_id, community_id, limit, offset, listing_id = nil)
+        conversation = Participation.where(person_id: person_id)
+        conversation = conversation.joins(:conversation).where(conversations: {listing_id: listing_id}) if listing_id.present?
+        conversation_ids = conversation.pluck(:conversation_id)
         return [] if conversation_ids.empty?
 
         connection = ActiveRecord::Base.connection

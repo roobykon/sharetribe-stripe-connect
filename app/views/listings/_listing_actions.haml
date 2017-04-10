@@ -150,20 +150,20 @@
 
       = hidden_field_tag(:listing_id, @listing.id)
 
-      - blocked_dates_result.on_success do
-        %button.enabled-book-button
-          .content
-            = action_button_label(@listing)
+      -#- blocked_dates_result.on_success do
+      -#  %button.enabled-book-button
+      -#    .content
+      -#      = action_button_label(@listing)
 
       - blocked_dates_result.on_error do
         %button.disabled-book-button{disabled: true}
           .content
             = action_button_label(@listing)
 
-    - if payment_gateway == :paypal && process != :none
-      .row
-        .col-12
-          = render :partial => "listing_conversations/paypal_payment_methods", locals: { country_code: country_code }
+    -#- if payment_gateway == :paypal && process != :none
+    -#  .row
+    -#    .col-12
+    -#      = render :partial => "listing_conversations/paypal_payment_methods", locals: { country_code: country_code }
 
   - if is_authorized
     .listing-view-admin-links

@@ -11,11 +11,7 @@ class InboxesController < ApplicationController
 
     pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
 
-    inbox_rows = MarketplaceService::Inbox::Query.inbox_data(
-      @current_user.id,
-      @current_community.id,
-      pagination_opts[:limit],
-      pagination_opts[:offset])
+    inbox_rows = MarketplaceService::Inbox::Query.inbox_data(@current_user.id, @current_community.id, pagination_opts[:limit], pagination_opts[:offset])
 
     count = MarketplaceService::Inbox::Query.inbox_data_count(@current_user.id, @current_community.id)
 

@@ -217,6 +217,7 @@ class ListingsController < ApplicationController
         Result::Success.new([])
       end
 
+
     view_locals = {
       form_path: form_path,
       payment_gateway: payment_gateway,
@@ -232,6 +233,39 @@ class ListingsController < ApplicationController
       blocked_dates_result: blocked_dates_result,
       blocked_dates_end_on: DateUtils.to_midnight_utc(blocked_dates_end_on)
     }
+    if(!author_is_current_user?)
+      conversation = @listing.conversations.joins(:participations).where(participations: {person: @current_user})
+      view_locals.merge!(
+          count_inbox: conversation.size,
+          conversation: conversation
+      )
+    else
+      params[:page] = 1 unless request.xhr?
+      pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
+      inbox_rows = MarketplaceService::Inbox::Query.inbox_data(@current_user.id, @current_community.id, pagination_opts[:limit], pagination_opts[:offset], @listing.id)
+      inbox_rows = inbox_rows.map { |inbox_row|
+        extended_inbox = inbox_row.merge(
+            path: path_to_conversation_or_transaction(inbox_row),
+            other: person_entity_with_url(inbox_row[:other]),
+            last_activity_ago: time_ago(inbox_row[:last_activity_at]),
+            title: inbox_title(inbox_row, inbox_payment(inbox_row))
+        )
+
+        if inbox_row[:type] == :transaction
+          extended_inbox.merge(
+              listing_url: listing_path(id: inbox_row[:listing_id])
+          )
+        else
+          extended_inbox
+        end
+      }
+      conversations = @listing.conversations.joins(:participants).group('participations.person_id').uniq
+      view_locals.merge!(
+          count_inbox: inbox_rows.size,
+          conversations: inbox_rows,
+          payments_in_use: @current_community.payments_in_use?
+      )
+    end
 
     render(locals: onboarding_popup_locals.merge(view_locals))
   end
@@ -692,6 +726,12 @@ class ListingsController < ApplicationController
     })
   end
 
+  helper_method :author_is_current_user?
+
+  def author_is_current_user?
+    @current_user.id == @listing.author.id
+  end
+
   def unit_from_listing(listing)
     HashUtils.compact({
       type: Maybe(listing.unit_type).to_sym.or_else(nil),
@@ -760,6 +800,40 @@ class ListingsController < ApplicationController
 
   def payment_settings_api
     TransactionService::API::Api.settings
+  end
+
+  def inbox_payment(inbox_item)
+    Maybe(inbox_item)[:payment_total].or_else(nil)
+  end
+
+  def path_to_conversation_or_transaction(inbox_item)
+    if inbox_item[:type] == :transaction
+      person_transaction_path(:person_id => inbox_item[:current][:username], :id => inbox_item[:transaction_id])
+    else
+      single_conversation_path(:conversation_type => "received", :id => inbox_item[:conversation_id])
+    end
+  end
+
+  def person_entity_with_url(person_entity)
+    person_entity.merge({
+                            url: person_path(username: person_entity[:username]),
+                            display_name: PersonViewUtils.person_entity_display_name(person_entity, @current_community.name_display_type)
+                        })
+  end
+
+  def inbox_title(inbox_item, payment_sum)
+    title = if MarketplaceService::Inbox::Entity.last_activity_type(inbox_item) == :message
+              inbox_item[:last_message_content]
+            else
+              action_messages = TransactionViewUtils.create_messages_from_actions(
+                  inbox_item[:transitions],
+                  inbox_item[:other],
+                  inbox_item[:starter],
+                  payment_sum
+              )
+
+              action_messages.last[:content]
+            end
   end
 
   # Ensure that only users with appropriate visibility settings can view the listing

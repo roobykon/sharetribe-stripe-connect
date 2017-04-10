@@ -82,6 +82,7 @@
               .listing-description-youtube-wrapper
                 %iframe.listing-description-youtube-iframe{ title: t("listings.show.youtube_video_player"), width: 640, height:390, src: "//www.youtube.com/embed/#{ youtube_id }", frameborder: 0, allowfullscreen: true}
 
+
     - @listing.custom_field_values.each do |custom_field_value|
       .row
         .col-12
@@ -139,7 +140,7 @@
     .row-with-divider
       .col-12
         #listing-message-links
-          = render :partial => "listing_actions", locals: { form_path: form_path, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, blocked_dates_end_on: blocked_dates_end_on, blocked_dates_result: blocked_dates_result }
+          = render :partial => "listing_actions", locals: { form_path: form_path, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, blocked_dates_end_on: blocked_dates_end_on, blocked_dates_result: blocked_dates_result }
 
     .row-with-divider
       .col-12
@@ -149,11 +150,18 @@
           .listing-author-details
             .listing-author-name
               = link_to @listing.author.name(@current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{@listing.author.name(@current_community)}"
-            - if @listing.author != @current_user
-              .listing-author-contact
-                %a#listing-contact{href: contact_to_listing_path(:listing_id => @listing.id.to_s), :class => "listing-author-contact-button"}
-                  .content
-                    = t(".contact")
+            - if !author_is_current_user?
+              - if count_inbox.zero?
+                .listing-author-contact
+                  = link_to contact_to_listing_path(:listing_id => @listing.id.to_s), {class: 'listing-author-contact-button', id: 'listing-contact'} do
+                    .content
+                      = t(".contact")
+              - else author_is_current_user? && count_inbox.nonzero?
+                .listing-author-contact
+                  = link_to single_conversation_path(:conversation_type => "received", :id => conversation.first.id, person_id: @current_user.id), {class: 'listing-author-contact-button', id: 'listing-contact'} do
+                    .content
+                      = t(".contact")
+
 
     - if received_testimonials.size > 0
       .row-with-divider.listing-author-activity
@@ -176,3 +184,8 @@
           #googlemap
             = render :partial => "googlemap", :locals => { :listing => @listing}
             = render :partial => "origin", :locals => { :origin_loc => @listing.origin_loc }
+
+  - if author_is_current_user? && conversations.present?
+    .row
+      .col-12
+        = render :partial => "inboxes/inbox_row", :collection => conversations, :as => :conversation, locals: { payments_in_use: payments_in_use }
