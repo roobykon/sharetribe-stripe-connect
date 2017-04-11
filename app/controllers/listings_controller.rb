@@ -750,7 +750,7 @@ class ListingsController < ApplicationController
   helper_method :author_is_current_user?
 
   def author_is_current_user?
-    @current_user.id == @listing.author.id
+    @current_user.present? && @current_user.id == @listing.author.id
   end
 
   def unit_from_listing(listing)
