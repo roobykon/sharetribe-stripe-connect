@@ -846,6 +846,8 @@ CREATE TABLE `listings` (
   `shipping_price_cents` int(11) DEFAULT NULL,
   `shipping_price_additional_cents` int(11) DEFAULT NULL,
   `availability` varchar(32) DEFAULT 'none',
+  `person_id` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_listings_on_uuid` (`uuid`),
   KEY `index_listings_on_open` (`open`),
@@ -856,7 +858,8 @@ CREATE TABLE `listings` (
   KEY `person_listings` (`community_id`,`author_id`),
   KEY `updates_email_listings` (`community_id`,`open`,`updates_email_at`),
   KEY `homepage_query` (`community_id`,`open`,`sort_date`,`deleted`),
-  KEY `homepage_query_valid_until` (`community_id`,`open`,`valid_until`,`sort_date`,`deleted`)
+  KEY `homepage_query_valid_until` (`community_id`,`open`,`valid_until`,`sort_date`,`deleted`),
+  KEY `index_listings_on_person_id` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1651,7 +1654,7 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-07 14:18:57
+-- Dump completed on 2017-04-10 18:08:16
 INSERT INTO schema_migrations (version) VALUES ('20080806070738');
 
 INSERT INTO schema_migrations (version) VALUES ('20080807071903');
@@ -3293,4 +3296,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170313201104');
 INSERT INTO schema_migrations (version) VALUES ('20170314075755');
 
 INSERT INTO schema_migrations (version) VALUES ('20170407111750');
+
+INSERT INTO schema_migrations (version) VALUES ('20170410123242');
 

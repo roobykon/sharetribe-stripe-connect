@@ -11,3 +11,55 @@
 
 #messages
   = render :partial => "conversations/message", :collection => messages, as: :message_or_action
+.row
+  .col-12
+    - if listing.active? && listing.author == @current_user
+      .col-3{style: 'float:right;margin-right:0'}
+        = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
+          .conversation-status
+            = f.button t("conversations.show.send_accept"), class: 'status-link confirm', style: 'float:right;margin-right:0'
+            = f.hidden_field :provider_id, value: tx[:starter_id]
+            = hidden_field :listing, :conversation_id, value: message_form.conversation_id
+            = f.hidden_field :status, :value => Listing.statuses[:accepted]
+
+    - if !listing.active? && (current_user?(listing.author) || current_user?(listing.provider))
+      .col-3{style: 'float:right;margin-right:0'}
+        = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
+          .conversation-status
+            = f.button t("conversations.show.send_cancel"), class: 'status-link confirm', style: 'background: #e8e8e8; float:right;margin-right:20px'
+            = f.hidden_field :provider_id, value: tx[:starter_id]
+            = hidden_field :listing, :conversation_id, value: message_form.conversation_id
+            = f.hidden_field :status, :value => Listing.statuses[:active]
+
+    - if listing.accepted? && listing.provider == @current_user
+      - if @current_user.stripe_account_connected?
+        .col-3{style: 'float:right;margin-right:0'}
+          = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
+            .conversation-status
+              = f.button t("conversations.show.send_undertake"), class: 'status-link confirm'
+              = f.hidden_field :provider_id, value: tx[:starter_id]
+              = hidden_field :listing, :conversation_id, value: message_form.conversation_id
+              = f.hidden_field :status, :value => Listing.statuses[:undertaken]
+      - else
+        .col-5{style: 'float:right;margin-right:0'}
+          .conversation-status
+            = link_to 'Connect Stripe Account', stripe_oauth_path(state: message_form.conversation_id) , class: 'btn btn-lg btn-primary status-link confirm', style: 'padding-top: 7px'
+
+    - if listing.undertaken? && listing.provider == @current_user
+      .col-3{style: 'float:right;margin-right:0'}
+        = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
+          .conversation-status
+            = f.button t("conversations.show.send_complited"), class: 'status-link confirm'
+            = f.hidden_field :provider_id, value: tx[:starter_id]
+            = hidden_field :listing, :conversation_id, value: message_form.conversation_id
+            = f.hidden_field :status, :value => Listing.statuses[:completed]
+
+    - if listing.completed? && listing.author == @current_user
+      .col-3{style: 'float:right;margin-right:0'}
+        = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
+          .conversation-status
+            = f.button t("conversations.show.send_done"), class: 'status-link confirm'
+            = f.hidden_field :provider_id, value: tx[:starter_id]
+            = hidden_field :listing, :conversation_id, value: message_form.conversation_id
+            = f.hidden_field :status, :value => Listing.statuses[:done]
+

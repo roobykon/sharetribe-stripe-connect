@@ -31,6 +31,13 @@ module StripeHelper
     open_listings_with_payment_process?(community_id, user_id)
   end
 
+  # Check if the provider has open listings in the community but has not
+  # finished connecting his stripe account.
+  def has_accepted_listings_with_missing_payment_info?(user_id, community_id)
+    stripe_active?(community_id) &&
+        !user_and_community_ready_for_payments?(user_id, community_id)
+  end
+
   def open_listings_with_payment_process?(community_id, user_id)
     processes = TransactionService::API::Api.processes.get(community_id: community_id)[:data]
     payment_process_ids = processes.reject { |p| p[:process] == :none }.map { |p| p[:id] }

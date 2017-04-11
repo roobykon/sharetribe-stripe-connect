@@ -47,6 +47,8 @@
 #  shipping_price_cents            :integer
 #  shipping_price_additional_cents :integer
 #  availability                    :string(32)       default("none")
+#  person_id                       :string(255)
+#  status                          :integer          default(0)
 #
 # Indexes
 #
@@ -57,6 +59,7 @@
 #  index_listings_on_listing_shape_id  (listing_shape_id)
 #  index_listings_on_new_category_id   (category_id)
 #  index_listings_on_open              (open)
+#  index_listings_on_person_id         (person_id)
 #  index_listings_on_uuid              (uuid) UNIQUE
 #  person_listings                     (community_id,author_id)
 #  updates_email_listings              (community_id,open,updates_email_at)
@@ -87,9 +90,13 @@ class Listing < ActiveRecord::Base
 
   belongs_to :category
 
+  belongs_to :provider, class_name: 'Person', foreign_key: :person_id, autosave: true
+
   monetize :price_cents, :allow_nil => true, with_model_currency: :currency
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency
   monetize :shipping_price_additional_cents, allow_nil: true, with_model_currency: :currency
+
+  enum status: [:active, :accepted, :undertaken, :completed, :done]
 
   before_validation :set_valid_until_time
 

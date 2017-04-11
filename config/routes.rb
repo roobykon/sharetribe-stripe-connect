@@ -46,6 +46,7 @@ Kassi::Application.routes.draw do
 
   get "/people/:person_id/inbox/:id", :to => redirect("/fi/people/%{person_id}/messages/%{id}")
   get "/listings/new/:type" => "listings#new", :as => :new_request_without_locale # needed for some emails, where locale part is already set
+  put 'listings/__update_listing_status/:id' => 'listings#update_listing_status', as: :update_listing_status_listings
   get "/change_locale" => "i18n#change_locale", :as => :change_locale
 
 

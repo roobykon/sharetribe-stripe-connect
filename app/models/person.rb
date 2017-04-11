@@ -114,6 +114,8 @@ class Person < ActiveRecord::Base
   has_many :followed_people, :through => :inverse_follower_relationships, :source => "person"
   has_one :stripe_account, :dependent => :destroy
 
+  has_many :provide_listings, class_name: 'Listing', inverse_of: :provider, dependent: :destroy, foreign_key: :person_id, autosave: true
+
   has_and_belongs_to_many :followed_listings, :class_name => "Listing", :join_table => "listing_followers"
 
   deprecate communities: "Use accepted_community instead.",

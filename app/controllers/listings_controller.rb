@@ -564,6 +564,27 @@ class ListingsController < ApplicationController
     redirect_to @listing and return
   end
 
+  def update_listing_status
+    @listing ||= Listing.find(params[:id])
+    listing = params.require(:listing)
+    @provider = Person.find_by(id: listing[:provider_id])
+    return if !current_user?(@listing.author) && !current_user?(@provider)
+    @listing.status =  Listing.statuses.key(listing[:status].to_i)
+    @listing.provider = (Listing.statuses.key(listing[:status].to_i) != 'active') ? @provider : nil
+    @listing.save! if @listing.changed?
+    @message = Message.new(
+        {
+            conversation_id: listing[:conversation_id],
+            content: Listing.statuses.key(listing[:status].to_i) == 'active' ? 'canceled' : Listing.statuses.key(listing[:status].to_i),
+            sender_id: @current_user.id
+        }
+    )
+    if @message.save
+      Delayed::Job.enqueue(MessageSentJob.new(@message.id, @current_community.id))
+    end
+    redirect_to single_conversation_path(conversation_type: :received, id: listing[:conversation_id], person_id: @current_user.id) and return
+  end
+
   def follow
     change_follow_status("follow")
   end

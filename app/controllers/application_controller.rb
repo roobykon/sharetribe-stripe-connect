@@ -29,7 +29,8 @@ class ApplicationController < ActionController::Base
     :redirect_locale_param,
     :set_default_url_for_mailer,
     :fetch_community_admin_status,
-    :warn_about_missing_payment_info,
+    # :warn_about_missing_payment_info,
+    :warn_about_missing_payment_info_for_provider,
     :set_homepage_path,
     :report_queue_size,
     :maintenance_warning,
@@ -237,7 +238,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user?(person)
-    @current_user && @current_user.id.eql?(person.id)
+    person.present? ? @current_user && @current_user.id.eql?(person.id) : false
   end
 
   # Saves current path so that the user can be
@@ -355,6 +356,19 @@ class ApplicationController < ActionController::Base
       warning = t("stripe_accounts.missing", settings_link: settings_link)
       flash.now[:warning] = warning.html_safe
     end
+  end
+
+  def warn_about_missing_payment_info_for_provider
+    if check_user_missing_payment_info
+      settings_link = view_context.link_to(t("stripe_accounts.from_your_payment_settings_link_text"),
+                                           payment_settings_path(:stripe, @current_user), target: "_blank")
+      warning = t("stripe_accounts.missing", settings_link: settings_link)
+      flash.now[:warning] = warning.html_safe
+    end
+  end
+
+  def check_user_missing_payment_info
+    @current_user && @current_user.provide_listings.present? && StripeHelper.has_accepted_listings_with_missing_payment_info?(@current_user.id, @current_community.id)
   end
 
   def report_queue_size
