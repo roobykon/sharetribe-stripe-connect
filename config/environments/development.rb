@@ -61,6 +61,11 @@ Kassi::Application.configure do
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
 
+  config.action_mailer.default_url_options = { host: 'test.loc:3000' }
+
+  config.action_controller.default_url_options = { host: 'test.loc:3000' }
+
+
   if APP_CONFIG.mail_delivery_method == "sendmail"
     ActionMailer::Base.delivery_method = :sendmail
   elsif APP_CONFIG.mail_delivery_method == "smtp"
@@ -85,3 +90,5 @@ Kassi::Application.configure do
 
   # config.cache_store = :memory_store, { :namespace => "sharetribe-dev"}
 end
+
+Rails.application.routes.default_url_options = Rails.application.config.action_controller.default_url_options

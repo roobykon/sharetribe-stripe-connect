@@ -43,7 +43,7 @@
       - else
         .col-5{style: 'float:right;margin-right:0'}
           .conversation-status
-            = link_to 'Connect Stripe Account', stripe_oauth_path(state: message_form.conversation_id) , class: 'btn btn-lg btn-primary status-link confirm', style: 'padding-top: 7px'
+            = link_to 'Connect Stripe Account', stripe_oauth_path(redirect_uri: Rails.application.routes.url_helpers.stripe_confirm_url(conversation_id: message_form.conversation_id)) , class: 'btn btn-lg btn-primary status-link confirm', style: 'padding-top: 7px'
 
     - if listing.undertaken? && listing.provider == @current_user
       .col-3{style: 'float:right;margin-right:0'}

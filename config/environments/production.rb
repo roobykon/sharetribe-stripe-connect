@@ -90,6 +90,10 @@ Kassi::Application.configure do
 
   config.action_mailer.delivery_method = mail_delivery_method
 
+  config.action_mailer.default_url_options = { host: 'ec2-52-59-139-158.eu-central-1.compute.amazonaws.com' }
+
+  config.action_controller.default_url_options = { host: 'ec2-52-59-139-158.eu-central-1.compute.amazonaws.com' }
+
   if mail_delivery_method == :smtp
     ActionMailer::Base.smtp_settings = {
       :address              => APP_CONFIG.smtp_email_address,
@@ -113,3 +117,5 @@ Kassi::Application.configure do
   # We don't need schema dumps in this environment
   config.active_record.dump_schema_after_migration = false
 end
+
+Rails.application.routes.default_url_options = Rails.application.config.action_controller.default_url_options
