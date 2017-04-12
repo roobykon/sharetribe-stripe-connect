@@ -34,6 +34,7 @@ class StripeAccountsController < ApplicationController
   def oauth
     connector = StripeOauth.new( @current_user, @current_community )
     url, error = connector.oauth_url( redirect_uri: stripe_confirm_url(locale: nil) )
+    session[:redirect_back_id] = params[:redirect_back] if params[:redirect_back].present?
     if url.nil?
       flash[:error] = error
       redirect_to stripe_account_settings_payment_path( @current_user )

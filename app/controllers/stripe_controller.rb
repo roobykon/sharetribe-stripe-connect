@@ -24,7 +24,13 @@ class StripeController < ApplicationController
       # are handled at #oauth_url generation time.
       flash[:error] = "Authorization request denied."
     end
-    redirect_to stripe_account_settings_payment_path( @current_user )
+    redirect_link = if session[:redirect_back_id].present?
+                      conversation_id = session.delete(:redirect_back_id)
+                      single_conversation_path(conversation_type: :received, id: conversation_id, person_id: @current_user.id)
+                    else
+                      stripe_account_settings_payment_path( @current_user )
+                    end
+    redirect_to redirect_link
   end
 
   # Deauthorize the application from accessing
