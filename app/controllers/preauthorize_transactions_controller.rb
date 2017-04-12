@@ -525,12 +525,12 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def ensure_can_receive_payment
-    payment_type = MarketplaceService::Community::Query.payment_type(@current_community.id) || :none
+    payment_type = MarketplaceService::Community::Query.payment_type(listing.provider.community.id) || :none
 
     ready = TransactionService::Transaction.can_start_transaction(transaction: {
         payment_gateway: payment_type,
-        community_id: @current_community.id,
-        listing_author_id: listing.author.id
+        community_id: listing.provider.community.id,
+        listing_author_id: listing.provider.id
       })
 
     unless ready[:data][:result]

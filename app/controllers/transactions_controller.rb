@@ -440,13 +440,13 @@ class TransactionsController < ApplicationController
       },
       ->(_, listing_model) {
         # TODO Do not use Models directly. The data should come from the APIs
-        Result::Success.new(listing_model.author)
+        Result::Success.new(listing_model.provider)
       },
       ->(_, listing_model, *rest) {
-        TransactionService::API::Api.processes.get(community_id: @current_community.id, process_id: listing_model.transaction_process_id)
+        TransactionService::API::Api.processes.get(community_id: listing_model.provider.community.id, process_id: listing_model.transaction_process_id)
       },
-      ->(*) {
-        Result::Success.new(MarketplaceService::Community::Query.payment_type(@current_community.id))
+      ->(_, listing_model, *) {
+        Result::Success.new(MarketplaceService::Community::Query.payment_type(listing_model.provider.community.id))
       }
     )
   end
