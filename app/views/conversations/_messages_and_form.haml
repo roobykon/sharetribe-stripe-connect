@@ -63,3 +63,5 @@
             = hidden_field :listing, :conversation_id, value: message_form.conversation_id
             = f.hidden_field :status, :value => Listing.statuses[:done]
 
+= render 'transactions/payment_form', locals: {payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, blocked_dates_end_on: blocked_dates_end_on, blocked_dates_result: blocked_dates_result}
+

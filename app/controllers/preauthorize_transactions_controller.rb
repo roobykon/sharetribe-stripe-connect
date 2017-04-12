@@ -6,7 +6,7 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   before_filter :ensure_listing_is_open
-  before_filter :ensure_listing_author_is_not_current_user
+  before_filter :ensure_listing_provider_is_not_current_user
   before_filter :ensure_authorized_to_reply
   before_filter :ensure_can_receive_payment
 
@@ -495,6 +495,14 @@ class PreauthorizeTransactionsController < ApplicationController
       redirect_to(session[:return_to_content] || search_path)
     end
   end
+
+  def ensure_listing_provider_is_not_current_user
+    if listing.provider == @current_user
+      flash[:error] = t("layouts.notifications.you_cannot_send_message_to_yourself")
+      redirect_to(session[:return_to_content] || search_path)
+    end
+  end
+
 
   # Ensure that only users with appropriate visibility settings can reply to the listing
   def ensure_authorized_to_reply

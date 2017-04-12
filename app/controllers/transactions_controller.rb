@@ -1,5 +1,7 @@
 class TransactionsController < ApplicationController
 
+  include PaymentHelper
+
   before_filter only: [:show] do |controller|
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_view_your_inbox")
   end
@@ -24,7 +26,7 @@ class TransactionsController < ApplicationController
         fetch_data(params[:listing_id])
       },
       ->((listing_id, listing_model)) {
-        ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
+        ensure_can_start_transactions_for_provider(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
       }
     ).on_success { |((listing_id, listing_model, author_model, process, gateway))|
       # booking = listing_model.unit_type == :day
@@ -62,7 +64,7 @@ class TransactionsController < ApplicationController
         validate_form(form, process)
       },
       ->(_, (listing_id, listing_model), _) {
-        ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
+        ensure_can_start_transactions_for_provider(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
       },
       ->(form, (listing_id, listing_model, author_model, process, gateway), _, _) {
         booking_fields = Maybe(form).slice(:start_on, :end_on).select { |booking| booking.values.all? }.or_else({})
@@ -157,6 +159,41 @@ class TransactionsController < ApplicationController
         listing.author_id == @current_user.id
       end
 
+    @listing = conversation[:listing]
+    payment_gateway = :stripe
+    process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
+    form_path = new_transaction_path(listing_id: @listing.id)
+    community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
+
+    delivery_opts = delivery_config(@listing.require_shipping_address, @listing.pickup_enabled, @listing.shipping_price, @listing.shipping_price_additional, @listing.currency)
+
+    received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@listing.author, @current_community)
+    received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@listing.author, @current_community)
+    feedback_positive_percentage = @listing.author.feedback_positive_percentage_in_community(@current_community)
+
+    youtube_link_ids = ListingViewUtils.youtube_video_ids(@listing.description)
+
+    onboarding_popup_locals = OnboardingViewUtils.popup_locals(
+        flash[:show_onboarding_popup],
+        admin_getting_started_guide_path,
+        Admin::OnboardingWizard.new(@current_community.id).setup_status)
+
+    blocked_dates_start_on = 1.day.ago.to_date
+    blocked_dates_end_on = 12.months.from_now.to_date
+
+    blocked_dates_result =
+        if FeatureFlagHelper.feature_enabled?(:availability) &&
+            @listing.availability.to_sym == :booking
+
+          get_blocked_dates(
+              start_on: blocked_dates_start_on,
+              end_on: blocked_dates_end_on,
+              community: @current_community,
+              user: @current_user,
+              listing: @listing)
+        else
+          Result::Success.new([])
+        end
     render "transactions/show", locals: {
       messages: messages_and_actions.reverse,
       transaction: tx,
@@ -167,7 +204,20 @@ class TransactionsController < ApplicationController
       role: role,
       message_form: MessageForm.new({sender_id: @current_user.id, conversation_id: conversation[:id]}),
       message_form_action: person_message_messages_path(@current_user, :message_id => conversation[:id]),
-      price_break_down_locals: price_break_down_locals(tx)
+      price_break_down_locals: price_break_down_locals(tx),
+
+      payment_gateway: payment_gateway,
+      # TODO I guess we should not need to know the process in order to show the listing
+      process: process,
+      delivery_opts: delivery_opts,
+      listing_unit_type: @listing.unit_type,
+      country_code: community_country_code,
+      received_testimonials: received_testimonials,
+      received_positive_testimonials: received_positive_testimonials,
+      feedback_positive_percentage: feedback_positive_percentage,
+      youtube_link_ids: youtube_link_ids,
+      blocked_dates_end_on: DateUtils.to_midnight_utc(blocked_dates_end_on),
+      blocked_dates_result: blocked_dates_result
     }
   end
 
@@ -310,6 +360,23 @@ class TransactionsController < ApplicationController
       elsif !listing_model.visible_to?(current_user, current_community)
         "layouts.notifications.you_are_not_authorized_to_view_this_content"
       end
+
+    if error
+      Result::Error.new(error, {error_tr_key: error})
+    else
+      Result::Success.new
+    end
+  end
+
+  def ensure_can_start_transactions_for_provider(listing_model:, current_user:, current_community:)
+    error =
+        if listing_model.closed?
+          "layouts.notifications.you_cannot_reply_to_a_closed_offer"
+        elsif listing_model.provider == current_user
+          "layouts.notifications.you_cannot_send_message_to_yourself"
+        elsif !listing_model.visible_to?(current_user, current_community)
+          "layouts.notifications.you_are_not_authorized_to_view_this_content"
+        end
 
     if error
       Result::Error.new(error, {error_tr_key: error})

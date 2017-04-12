@@ -6,7 +6,7 @@ class FreeTransactionsController < ApplicationController
 
   before_filter :fetch_listing_from_params
   before_filter :ensure_listing_is_open
-  before_filter :ensure_listing_author_is_not_current_user
+  before_filter :ensure_listing_provider_is_not_current_user
   before_filter :ensure_authorized_to_reply
 
   ContactForm = FormUtils.define_form("ListingConversation", :content, :sender_id, :listing_id, :community_id)
@@ -78,6 +78,13 @@ class FreeTransactionsController < ApplicationController
 
   def ensure_listing_author_is_not_current_user
     if @listing.author == @current_user
+      flash[:error] = t("layouts.notifications.you_cannot_send_message_to_yourself")
+      redirect_to (session[:return_to_content] || search_path)
+    end
+  end
+
+  def ensure_listing_provider_is_not_current_user
+    if @listing.provider == @current_user
       flash[:error] = t("layouts.notifications.you_cannot_send_message_to_yourself")
       redirect_to (session[:return_to_content] || search_path)
     end
