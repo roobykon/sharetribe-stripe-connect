@@ -269,16 +269,11 @@ module MarketplaceService
 
         with_person = Maybe(person_id)
           .map { |p_id|
-            [rel.where("starter_id = ? OR listings.author_id = ?", p_id, p_id)]
+            [rel.where("starter_id = ? OR listings.author_id = ? OR listings.person_id = ?", p_id, p_id, p_id)]
           }
           .or_else { [rel] }
           .first
-
-        Maybe(with_person.first)
-          .map { |tx_model|
-            Entity.transaction_with_conversation(tx_model, community_id)
-          }
-          .or_else(nil)
+        Maybe(with_person.first).map { |tx_model| Entity.transaction_with_conversation(tx_model, community_id) }.or_else(nil)
       end
 
       def transactions_for_community_sorted_by_column(community_id, sort_column, sort_direction, limit, offset)

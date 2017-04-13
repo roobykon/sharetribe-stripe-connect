@@ -307,7 +307,8 @@ module TransactionHelper
   private
 
   def paid_status(conversation)
-    if conversation.seller == @current_user
+    # if conversation.seller == @current_user
+    if conversation.buyer == @current_user
       waiting_for_buyer_to_confirm(conversation)
     else
       waiting_for_current_user_to_confirm(conversation)
@@ -334,7 +335,8 @@ module TransactionHelper
   end
 
   def preauthorized_status(transaction)
-    if current_user?(transaction.listing.author)
+    # if current_user?(transaction.listing.author)
+    if current_user?(transaction.listing.provider)
       waiting_for_current_user_to_accept_preauthorized(transaction)
     else
       waiting_for_author_to_accept_preauthorized(transaction)
@@ -431,8 +433,8 @@ module TransactionHelper
   def waiting_for_author_to_accept_preauthorized(transaction)
     text = t("conversations.status.waiting_for_listing_author_to_accept_request",
       :listing_author_name => link_to(
-        transaction.author.given_name_or_username,
-        transaction.author
+        transaction.listing.provider.given_name_or_username,
+        transaction.listing.provider
       )
     ).html_safe
 

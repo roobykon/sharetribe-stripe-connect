@@ -119,7 +119,6 @@ class TransactionsController < ApplicationController
         person_id: @current_user.id,
         community_id: @current_community.id))
       .map { |tx_with_conv| [tx_with_conv, :participant] }
-
     m_admin =
       Maybe(@current_user.has_admin_rights?)
       .select { |can_show| can_show }
@@ -155,9 +154,8 @@ class TransactionsController < ApplicationController
       if role == :admin
         true
       else
-        listing.author_id == @current_user.id
+        listing.person_id == @current_user.id
       end
-
     @listing = conversation[:listing]
     payment_gateway = :stripe
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)

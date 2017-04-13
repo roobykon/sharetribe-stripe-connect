@@ -102,7 +102,8 @@ class ConfirmConversationsController < ApplicationController
   end
 
   def ensure_is_starter
-    unless @listing_transaction.starter == @current_user
+    # unless @listing_transaction.starter == @current_user
+    unless @listing_transaction.author == @current_user
       flash[:error] = "Only listing starter can perform the requested action"
       redirect_to (session[:return_to_content] || root)
     end

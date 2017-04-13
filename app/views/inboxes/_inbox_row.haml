@@ -25,7 +25,6 @@
 
   - if payments_in_use
     .col-3
-
       -# Only for transactions
       - status = conversation[:last_transition_to_state]
       - if status.present? && status != "free"

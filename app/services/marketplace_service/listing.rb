@@ -7,6 +7,7 @@ module MarketplaceService
         [:id, :mandatory, :fixnum],
         [:title, :mandatory, :string],
         [:author_id, :mandatory, :string],
+        [:person_id, :optional, :string],
         [:price, :optional, :money],
         [:require_shipping_address, :optional, :to_bool],
         [:pickup_enabled, :optional, :to_bool],

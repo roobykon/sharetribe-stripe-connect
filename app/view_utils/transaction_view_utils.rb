@@ -80,7 +80,7 @@ module TransactionViewUtils
       transitions = transaction[:transitions]
       payment_sum = transaction[:payment_total]
 
-      create_messages_from_actions(transitions, starter, author, payment_sum)
+      create_messages_from_actions(transitions, starter,  author, payment_sum)
     else
       []
     end
@@ -129,7 +129,7 @@ module TransactionViewUtils
       }
     when "confirmed"
       {
-        sender: author,
+        sender: starter,
         mood: :positive
       }
     else
