@@ -350,7 +350,6 @@ class PreauthorizeTransactionsController < ApplicationController
         else
           NoShippingFee.new
         end
-      
       tx_response = create_preauth_transaction(
         payment_type: :stripe,
         community: @current_community,
@@ -525,7 +524,7 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def ensure_can_receive_payment
-    payment_type = MarketplaceService::Community::Query.payment_type(listing.provider.community.id) || :none
+    payment_type = MarketplaceService::Community::Query.payment_type(@current_community.id) || :none
 
     ready = TransactionService::Transaction.can_start_transaction(transaction: {
         payment_gateway: payment_type,
@@ -541,17 +540,16 @@ class PreauthorizeTransactionsController < ApplicationController
 
   def create_preauth_transaction(opts)
     gateway_fields = { stripeToken: opts[:stripeToken] }
-
     transaction = {
           community_id: opts[:community].id,
           community_uuid: opts[:community].uuid_object,
           listing_id: opts[:listing].id,
           listing_uuid: opts[:listing].uuid_object,
           listing_title: opts[:listing].title,
-          starter_id: opts[:user].id,
-          starter_uuid: opts[:user].uuid_object,
-          listing_author_id: opts[:listing].author.id,
-          listing_author_uuid: opts[:listing].author.uuid_object,
+          starter_id: opts[:listing].provider.id,
+          starter_uuid: opts[:listing].provider.uuid_object,
+          listing_author_id: opts[:user].id,
+          listing_author_uuid: opts[:user].uuid_object,
           listing_quantity: opts[:listing_quantity],
           unit_type: opts[:listing].unit_type,
           unit_price: opts[:listing].price,

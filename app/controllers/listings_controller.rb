@@ -260,7 +260,7 @@ class ListingsController < ApplicationController
           extended_inbox
         end
       }
-      conversations = @listing.conversations.joins(:participants).group('participations.person_id').uniq
+
       view_locals.merge!(
           count_inbox: inbox_rows.size,
           conversations: inbox_rows,

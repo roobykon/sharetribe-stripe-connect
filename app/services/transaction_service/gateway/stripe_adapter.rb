@@ -5,13 +5,12 @@ module TransactionService::Gateway
 
     def create_payment(tx:, gateway_fields:, force_sync: nil)
       payment_gateway_id = StripePaymentGateway.where(community_id: tx[:community_id]).pluck(:id).first
-      
       payment = StripePayment.create({
         transaction_id: tx[:id],
         community_id: tx[:community_id],
         status: :pending,
-        payer_id: tx[:starter_id],
-        recipient_id: tx[:listing_author_id],
+        payer_id: tx[:listing_author_id],
+        recipient_id: tx[:starter_id],
         currency: tx[:unit_price_currency],
         sum_cents: tx[:unit_price] * tx[:listing_quantity]
       })

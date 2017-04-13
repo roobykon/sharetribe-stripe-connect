@@ -84,7 +84,7 @@ class FreeTransactionsController < ApplicationController
   end
 
   def ensure_listing_provider_is_not_current_user
-    if @listing.provider == @current_user
+    if @listing.author == @current_user
       flash[:error] = t("layouts.notifications.you_cannot_send_message_to_yourself")
       redirect_to (session[:return_to_content] || search_path)
     end

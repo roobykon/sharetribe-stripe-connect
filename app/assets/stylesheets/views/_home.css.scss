@@ -293,6 +293,11 @@ $home-list-avatar-padding: lines(0.25);
   @include small-type;
 }
 
+.home-list-author-reviews{
+  display: block;
+  float: right;
+}
+
 .home-list-price-mobile,
 .browsing-list-item-price-mobile {
   margin-bottom: lines(0.25, 24);

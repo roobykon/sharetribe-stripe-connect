@@ -1,5 +1,4 @@
 class TransactionsController < ApplicationController
-
   include PaymentHelper
 
   before_filter only: [:show] do |controller|
@@ -26,13 +25,13 @@ class TransactionsController < ApplicationController
         fetch_data(params[:listing_id])
       },
       ->((listing_id, listing_model)) {
-        ensure_can_start_transactions_for_provider(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
+        ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
       }
     ).on_success { |((listing_id, listing_model, author_model, process, gateway))|
       # booking = listing_model.unit_type == :day
 
       transaction_params = HashUtils.symbolize_keys({listing_id: listing_model.id}.merge(params.slice(:start_on, :end_on, :quantity, :delivery)))
-      
+
       case [process[:process], gateway]
       when matches([:none])
         render_free(listing_model: listing_model, author_model: author_model, community: @current_community, params: transaction_params)
@@ -64,7 +63,7 @@ class TransactionsController < ApplicationController
         validate_form(form, process)
       },
       ->(_, (listing_id, listing_model), _) {
-        ensure_can_start_transactions_for_provider(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
+        ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
       },
       ->(form, (listing_id, listing_model, author_model, process, gateway), _, _) {
         booking_fields = Maybe(form).slice(:start_on, :end_on).select { |booking| booking.values.all? }.or_else({})
@@ -194,6 +193,7 @@ class TransactionsController < ApplicationController
         else
           Result::Success.new([])
         end
+
     render "transactions/show", locals: {
       messages: messages_and_actions.reverse,
       transaction: tx,
@@ -355,28 +355,11 @@ class TransactionsController < ApplicationController
     error =
       if listing_model.closed?
         "layouts.notifications.you_cannot_reply_to_a_closed_offer"
-      elsif listing_model.author == current_user
+      elsif listing_model.provider == current_user
        "layouts.notifications.you_cannot_send_message_to_yourself"
       elsif !listing_model.visible_to?(current_user, current_community)
         "layouts.notifications.you_are_not_authorized_to_view_this_content"
       end
-
-    if error
-      Result::Error.new(error, {error_tr_key: error})
-    else
-      Result::Success.new
-    end
-  end
-
-  def ensure_can_start_transactions_for_provider(listing_model:, current_user:, current_community:)
-    error =
-        if listing_model.closed?
-          "layouts.notifications.you_cannot_reply_to_a_closed_offer"
-        elsif listing_model.provider == current_user
-          "layouts.notifications.you_cannot_send_message_to_yourself"
-        elsif !listing_model.visible_to?(current_user, current_community)
-          "layouts.notifications.you_are_not_authorized_to_view_this_content"
-        end
 
     if error
       Result::Error.new(error, {error_tr_key: error})
@@ -440,13 +423,13 @@ class TransactionsController < ApplicationController
       },
       ->(_, listing_model) {
         # TODO Do not use Models directly. The data should come from the APIs
-        Result::Success.new(listing_model.provider)
+        Result::Success.new(listing_model.author)
       },
       ->(_, listing_model, *rest) {
-        TransactionService::API::Api.processes.get(community_id: listing_model.provider.community.id, process_id: listing_model.transaction_process_id)
+        TransactionService::API::Api.processes.get(community_id: @current_community.id, process_id: listing_model.transaction_process_id)
       },
-      ->(_, listing_model, *) {
-        Result::Success.new(MarketplaceService::Community::Query.payment_type(listing_model.provider.community.id))
+      ->(*) {
+        Result::Success.new(MarketplaceService::Community::Query.payment_type(@current_community.id))
       }
     )
   end
