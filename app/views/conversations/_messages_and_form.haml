@@ -19,7 +19,7 @@
                 = hidden_field :listing, :conversation_id, value: message_form.conversation_id
                 = f.hidden_field :status, :value => Listing.statuses[:accepted]
 
-        - if !listing.active? && (current_user?(listing.author) || current_user?(listing.provider))
+        - if !listing.active? && (current_user?(listing.author) || current_user?(listing.provider)) && listing.provider.try(:id).to_s == tx[:starter_id]
           .col-4{style: 'float:right;margin-right:0'}
             = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
               .conversation-status
@@ -50,8 +50,7 @@
                 = f.hidden_field :provider_id, value: tx[:starter_id]
                 = hidden_field :listing, :conversation_id, value: message_form.conversation_id
                 = f.hidden_field :status, :value => Listing.statuses[:completed]
-
-        - if listing.completed? && listing.author == @current_user
+        - if listing.completed? && listing.author == @current_user && listing.provider.try(:id).to_s == tx[:starter_id]
           -#.col-4{style: 'float:right;margin-right:0'}
           -#  = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
           -#    .conversation-status

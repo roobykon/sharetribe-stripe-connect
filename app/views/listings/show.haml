@@ -150,7 +150,7 @@
           .listing-author-details
             .listing-author-name
               = link_to @listing.author.name(@current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{@listing.author.name(@current_community)}"
-            - if !author_is_current_user?
+            - if !author_is_current_user? && @listing.active?
               - if count_inbox.zero?
                 .listing-author-contact
                   = link_to contact_to_listing_path(:listing_id => @listing.id.to_s), {class: 'listing-author-contact-button', id: 'listing-contact'} do

@@ -45,9 +45,10 @@ class PersonMailer < ActionMailer::Base
   end
 
   def transaction_confirmed(conversation, community)
+    # binding.pry
     @email_type =  "email_about_completed_transactions"
     @conversation = conversation
-    recipient = conversation.seller
+    recipient = conversation.starter
     set_up_layout_variables(conversation.seller, community, @email_type)
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
@@ -57,6 +58,7 @@ class PersonMailer < ActionMailer::Base
   end
 
   def transaction_automatically_confirmed(conversation, community)
+    # binding.pry
     @email_type =  "email_about_completed_transactions"
     @conversation = conversation
     recipient = conversation.buyer
@@ -70,6 +72,7 @@ class PersonMailer < ActionMailer::Base
   end
 
   def booking_transaction_automatically_confirmed(transaction, community)
+    # binding.pry
     @email_type = "email_about_completed_transactions"
     @transaction = transaction
     recipient = @transaction.buyer
