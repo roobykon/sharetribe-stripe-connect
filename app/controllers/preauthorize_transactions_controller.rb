@@ -538,7 +538,6 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def create_preauth_transaction(opts)
-    binding.pry
     gateway_fields = { stripeToken: opts[:stripeToken] }
     transaction = {
           community_id: opts[:community].id,
@@ -548,8 +547,8 @@ class PreauthorizeTransactionsController < ApplicationController
           listing_title: opts[:listing].title,
           starter_id: opts[:listing].provider.id,
           starter_uuid: opts[:listing].provider.uuid_object,
-          listing_author_id: opts[:user].id,
-          listing_author_uuid: opts[:user].uuid_object,
+          listing_author_id: opts[:listing].author.id,
+          listing_author_uuid: opts[:listing].author.uuid_object,
           listing_quantity: opts[:listing_quantity],
           unit_type: opts[:listing].unit_type,
           unit_price: opts[:listing].price,
@@ -566,7 +565,6 @@ class PreauthorizeTransactionsController < ApplicationController
     if(opts[:delivery_method] == :shipping)
       transaction[:shipping_price] = opts[:shipping_price]
     end
-
     TransactionService::Transaction.create({
         transaction: transaction,
         gateway_fields: gateway_fields

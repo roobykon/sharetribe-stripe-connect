@@ -32,7 +32,6 @@
         - is_author = !conversation[:current_is_starter]
         - waiting_feedback = conversation[:waiting_feedback]
         - other_name = conversation[:other][:display_name]
-
         - icon, status_description = conversation_icon_and_status(status, is_author, other_name, waiting_feedback, status_meta)
 
         .conversation-list-status-container

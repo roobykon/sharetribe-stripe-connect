@@ -21,7 +21,7 @@ class TransactionProcessStateMachine
   transition from: :paid,                      to: [:confirmed, :canceled]
 
   after_transition(to: :paid) do |transaction|
-    payer = transaction.starter
+    payer = transaction.buyer
     current_community = transaction.community
 
     if transaction.booking.present?
@@ -42,7 +42,7 @@ class TransactionProcessStateMachine
   end
 
   after_transition(to: :confirmed) do |conversation|
-    confirmation = ConfirmConversation.new(conversation, conversation.starter, conversation.community)
+    confirmation = ConfirmConversation.new(conversation, conversation.buyer, conversation.community)
     confirmation.confirm!
   end
 

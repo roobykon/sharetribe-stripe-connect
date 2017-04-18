@@ -127,11 +127,11 @@
   = hidden_field_tag(:listing_id, @listing.id)
 
   - locals[:blocked_dates_result].on_success do
-    %button.enabled-book-button
+    %button.enabled-book-button.status-link{style: 'background: rgb(238, 96, 89)'}
       .content
         = action_button_label(@listing)
 
   - locals[:blocked_dates_result].on_error do
-    %button.disabled-book-button{disabled: true}
+    %button.disabled-book-button.status-link{disabled: true}
       .content
         = action_button_label(@listing)

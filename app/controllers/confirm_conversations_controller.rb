@@ -65,7 +65,6 @@ class ConfirmConversationsController < ApplicationController
     transaction = complete_or_cancel_tx(@current_community.id, @listing_transaction.id, status, msg, @current_user.id)
 
     give_feedback = Maybe(params)[:give_feedback].select { |v| v == "true" }.or_else { false }
-
     confirmation = ConfirmConversation.new(@listing_transaction, @current_user, @current_community)
     confirmation.update_participation(give_feedback)
 

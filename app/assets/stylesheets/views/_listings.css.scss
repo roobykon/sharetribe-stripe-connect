@@ -215,6 +215,7 @@ $listing-author-avatar-height: 108;
 .enabled-book-button {
   @include big-button($link);
   @extend .book-button;
+  border-radius: 0.5em;
 }
 
 .disabled-book-button {
