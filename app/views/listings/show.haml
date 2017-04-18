@@ -150,17 +150,21 @@
           .listing-author-details
             .listing-author-name
               = link_to @listing.author.name(@current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{@listing.author.name(@current_community)}"
-            - if !author_is_current_user? && @listing.active?
-              - if count_inbox.zero?
-                .listing-author-contact
-                  = link_to contact_to_listing_path(:listing_id => @listing.id.to_s), {class: 'listing-author-contact-button', id: 'listing-contact'} do
-                    .content
-                      = t(".contact")
-              - else author_is_current_user? && count_inbox.nonzero?
-                .listing-author-contact
+            - if !author_is_current_user?
+              .listing-author-contact
+                - if !@listing.active? && provider_is_current_user?
                   = link_to single_conversation_path(:conversation_type => "received", :id => conversation.first.id, person_id: @current_user.id), {class: 'listing-author-contact-button', id: 'listing-contact'} do
                     .content
                       = t(".contact")
+                - elsif @listing.active? && count_inbox.nonzero?
+                  = link_to single_conversation_path(:conversation_type => "received", :id => conversation.first.id, person_id: @current_user.id), {class: 'listing-author-contact-button', id: 'listing-contact'} do
+                    .content
+                      = t(".contact")
+                - elsif @listing.active? && count_inbox.zero?
+                  = link_to contact_to_listing_path(:listing_id => @listing.id.to_s), {class: 'listing-author-contact-button', id: 'listing-contact'} do
+                    .content
+                      = t(".contact")
+
 
 
     - if received_testimonials.size > 0

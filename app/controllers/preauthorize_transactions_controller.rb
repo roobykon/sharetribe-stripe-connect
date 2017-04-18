@@ -365,7 +365,6 @@ class PreauthorizeTransactionsController < ApplicationController
           start_on: tx_params[:start_on],
           end_on: tx_params[:end_on]
         })
-
       handle_tx_response(tx_response)
     }
 
@@ -539,6 +538,7 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def create_preauth_transaction(opts)
+    binding.pry
     gateway_fields = { stripeToken: opts[:stripeToken] }
     transaction = {
           community_id: opts[:community].id,

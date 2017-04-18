@@ -754,6 +754,12 @@ class ListingsController < ApplicationController
     @current_user.present? && @current_user.id == @listing.author.id
   end
 
+  helper_method :provider_is_current_user?
+
+  def provider_is_current_user?
+    @current_user.present? && @current_user.id == @listing.provider.id
+  end
+
   def unit_from_listing(listing)
     HashUtils.compact({
       type: Maybe(listing.unit_type).to_sym.or_else(nil),

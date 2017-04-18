@@ -145,13 +145,13 @@ class Transaction < ActiveRecord::Base
   # TODO This assumes that author is seller (which is true for all offers, sell, give, rent, etc.)
   # Change it so that it looks for TransactionProcess.author_is_seller
   def seller
-    author
+    starter
   end
 
   # TODO This assumes that author is seller (which is true for all offers, sell, give, rent, etc.)
   # Change it so that it looks for TransactionProcess.author_is_seller
   def buyer
-    starter
+    author
   end
 
   def participations
@@ -159,11 +159,11 @@ class Transaction < ActiveRecord::Base
   end
 
   def payer
-    starter
+    author
   end
 
   def payment_receiver
-    author
+    starter
   end
 
   # Return true if the transaction is in a state that it can be confirmed

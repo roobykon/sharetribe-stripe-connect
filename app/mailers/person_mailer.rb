@@ -45,7 +45,7 @@ class PersonMailer < ActionMailer::Base
   end
 
   def transaction_confirmed(conversation, community)
-    # binding.pry
+    binding.pry
     @email_type =  "email_about_completed_transactions"
     @conversation = conversation
     recipient = conversation.starter
@@ -58,7 +58,7 @@ class PersonMailer < ActionMailer::Base
   end
 
   def transaction_automatically_confirmed(conversation, community)
-    # binding.pry
+    binding.pry
     @email_type =  "email_about_completed_transactions"
     @conversation = conversation
     recipient = conversation.buyer
