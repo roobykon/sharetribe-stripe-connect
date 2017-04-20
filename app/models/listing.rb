@@ -197,7 +197,7 @@ class Listing < ActiveRecord::Base
   end
 
   def ready_to_pay?(current_user, tx_provider_id)
-    completed? && !has_pending_transaction? && listing.author == current_user && listing.provider.try(:id).to_s == tx_provider_id
+    completed? && !has_pending_transaction? && author == current_user && provider.try(:id).to_s == tx_provider_id
   end
 
   def can_be_accepted?(current_user)
