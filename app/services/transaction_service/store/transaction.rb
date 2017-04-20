@@ -87,6 +87,7 @@ module TransactionService::Store::Transaction
   module_function
 
   def create(opts)
+
     tx_data = HashUtils.compact(NewTransaction.call(opts))
     tx_model = TransactionModel.new(tx_data.except(:content, :booking_fields))
 
@@ -211,12 +212,12 @@ module TransactionService::Store::Transaction
     conversation.participations.build(
       person_id: tx_data[:listing_author_id],
       is_starter: false,
-      is_read: false)
+      is_read: true)
 
     conversation.participations.build(
       person_id: tx_data[:starter_id],
       is_starter: true,
-      is_read: true)
+      is_read: false)
 
     if tx_data[:content].present?
       conversation.messages.build({

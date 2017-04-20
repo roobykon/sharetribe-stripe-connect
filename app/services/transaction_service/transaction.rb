@@ -88,7 +88,6 @@ module TransactionService::Transaction
 
     set_adapter = settings_adapter(opts_tx[:payment_gateway])
     tx_process_settings = set_adapter.tx_process_settings(opts_tx)
-
     tx = TxStore.create(opts_tx.merge(tx_process_settings))
 
     tx_process = tx_process(tx[:payment_process])
@@ -98,7 +97,6 @@ module TransactionService::Transaction
                             gateway_fields: opts[:gateway_fields],
                             gateway_adapter: gateway_adapter,
                             force_sync: force_sync)
-
     res.maybe()
       .map { |gw_fields| Result::Success.new(DataTypes.create_transaction_response(query(tx[:id]), gw_fields)) }
       .or_else(res)

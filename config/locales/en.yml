@@ -389,6 +389,11 @@ en:
       support: Support
       subscription: Subscription
       preview: "Preview site"
+    listing_statuses:
+      accepted: "%{user_name} för att bekräfta ditt deltagande"
+      undertaken: "%{user_name} tog upp"
+      completed: "%{user_name} har slutfört exekvering"
+      canceled: "%{user_name} avböjde att förhandla"
     listing_shapes:
       availability_title: Availability
       read_more: "Read more about automatic availability management."

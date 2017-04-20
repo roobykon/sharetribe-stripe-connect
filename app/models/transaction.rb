@@ -63,6 +63,7 @@ class Transaction < ActiveRecord::Base
   has_one :payment, foreign_key: :transaction_id, class_name: "StripePayment", dependent: :destroy
 
   delegate :author, to: :listing
+  delegate :provider, to: :listing
   delegate :title, to: :listing, prefix: true
 
   accepts_nested_attributes_for :booking
@@ -139,13 +140,13 @@ class Transaction < ActiveRecord::Base
   end
 
   def testimonial_from_starter
-    testimonials.find { |testimonial| testimonial.author_id == starter.id }
+    testimonials.find { |testimonial| testimonial.author_id == provider.id }
   end
 
   # TODO This assumes that author is seller (which is true for all offers, sell, give, rent, etc.)
   # Change it so that it looks for TransactionProcess.author_is_seller
   def seller
-    starter
+    provider
   end
 
   # TODO This assumes that author is seller (which is true for all offers, sell, give, rent, etc.)
@@ -155,7 +156,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def participations
-    [author, starter]
+    [author, provider]
   end
 
   def payer
@@ -163,7 +164,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def payment_receiver
-    starter
+    provider
   end
 
   # Return true if the transaction is in a state that it can be confirmed
@@ -192,7 +193,7 @@ class Transaction < ActiveRecord::Base
   #
   # Note: I'm not sure whether we want to have this method or not but at least it makes refactoring easier.
   def other_party(person)
-    person == starter ? listing.author : starter
+    person == starter ? listing.provider : starter
   end
 
   def unit_type

@@ -192,6 +192,30 @@ class Listing < ActiveRecord::Base
     !open? || (valid_until && valid_until < DateTime.now)
   end
 
+  def has_pending_transaction?
+    Transaction.where(listing_id: self.id, current_state: %w(confirmed paid preauthorized)).present?
+  end
+
+  def ready_to_pay?(current_user, tx_provider_id)
+    completed? && !has_pending_transaction? && listing.author == current_user && listing.provider.try(:id).to_s == tx_provider_id
+  end
+
+  def can_be_accepted?(current_user)
+    active? && author == current_user
+  end
+
+  def can_be_undertaken?(current_user)
+    accepted? && provider == current_user
+  end
+
+  def can_be_completed?(current_user)
+    undertaken? && provider == current_user
+  end
+
+  def can_be_canceled?(current_user, tx_provider_id)
+    !active? && (author == current_user || provider == current_user) && provider.try(:id).to_s == tx_provider_id
+  end
+
   # Send notifications to the users following this listing
   # when the listing is updated (update=true) or a
   # new comment to the listing is created.

@@ -52,11 +52,11 @@ module TransactionHelper
           }
         } },
       preauthorized: ->() { {
-        starter: {
+          author: {
           icon: icon_waiting_you,
           text: t("conversations.status.waiting_for_you_to_accept_request")
         },
-        author: {
+        starter: {
           icon: icon_waiting_other,
           text: t("conversations.status.waiting_for_listing_author_to_accept_request", listing_author_name: other_party_name)
         }
@@ -307,8 +307,9 @@ module TransactionHelper
   private
 
   def paid_status(conversation)
+
     # if conversation.seller == @current_user
-    if conversation.seller == @current_user
+    unless conversation.payer == @current_user
       waiting_for_buyer_to_confirm(conversation)
     else
       waiting_for_current_user_to_confirm(conversation)

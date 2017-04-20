@@ -42,6 +42,8 @@ class TransactionProcessStateMachine
   end
 
   after_transition(to: :confirmed) do |conversation|
+    listing = conversation.listing
+    listing.update_fields(open: false)
     confirmation = ConfirmConversation.new(conversation, conversation.buyer, conversation.community)
     confirmation.confirm!
   end

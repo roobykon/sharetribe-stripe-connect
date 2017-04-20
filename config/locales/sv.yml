@@ -382,6 +382,11 @@ sv:
       support: Support
       subscription: ~
       preview: ~
+    listing_statuses:
+      accepted: "%{user_name} för att bekräfta ditt deltagande"
+      undertaken: "%{user_name} tog upp"
+      completed: "%{user_name} har slutfört exekvering"
+      canceled: "%{user_name} avböjde att förhandla"
     listing_shapes:
       availability_title: ~
       read_more: ~

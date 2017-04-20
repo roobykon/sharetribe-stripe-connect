@@ -186,7 +186,6 @@ module MarketplaceService
               content: opts[:content],
               sender_id: opts[:starter_id]})
         end
-
         transaction.save!
 
         # TODO

@@ -9,8 +9,8 @@ module TransactionService::Gateway
         transaction_id: tx[:id],
         community_id: tx[:community_id],
         status: :pending,
-        payer_id: tx[:listing_author_id],
-        recipient_id: tx[:starter_id],
+        payer_id: tx[:starter_id],
+        recipient_id: tx[:listing_author_id],
         currency: tx[:unit_price_currency],
         sum_cents: tx[:unit_price] * tx[:listing_quantity]
       })

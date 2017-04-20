@@ -97,23 +97,23 @@ module TransactionViewUtils
     message = case transition[:to_state]
     when "preauthorized"
       {
-        sender: starter,
+        sender: author,
         mood: :positive
       }
     when "accepted"
       ActiveSupport::Deprecation.warn("Transaction state 'accepted' is deprecated and will be removed in the future.")
       {
-        sender: author,
+        sender: starter,
         mood: :positive
       }
     when "rejected"
       {
-        sender: author,
+        sender: starter,
         mood: :negative
       }
-      when preauthorize_accepted
+    when preauthorize_accepted
       {
-        sender: author,
+        sender: starter,
         mood: :positive
       }
     when post_pay_accepted
@@ -129,7 +129,7 @@ module TransactionViewUtils
       }
     when "confirmed"
       {
-        sender: starter,
+        sender: author,
         mood: :positive
       }
     else

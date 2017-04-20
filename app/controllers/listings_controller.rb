@@ -569,14 +569,21 @@ class ListingsController < ApplicationController
     @listing ||= Listing.find(params[:id])
     listing = params.require(:listing)
     @provider = Person.find_by(id: listing[:provider_id])
-    return if !current_user?(@listing.author) && !current_user?(@provider)
+    return if (!current_user?(@listing.author) && !current_user?(@provider)) || Listing.statuses.key(listing[:status].to_i).blank?
     @listing.status =  Listing.statuses.key(listing[:status].to_i)
     @listing.provider = (Listing.statuses.key(listing[:status].to_i) != 'active') ? @provider : nil
     @listing.save! if @listing.changed?
+    @recipient_participation = @listing.conversations.first.participations.where.not(person_id: @current_user.id).first
+    if @recipient_participation.present?
+      @recipient_participation.is_read = false
+      @recipient_participation.save! if @recipient_participation.changed?
+    end
     @message = Message.new(
         {
             conversation_id: listing[:conversation_id],
-            content: Listing.statuses.key(listing[:status].to_i) == 'active' ? 'canceled' : Listing.statuses.key(listing[:status].to_i),
+            content: Listing.statuses.key(listing[:status].to_i) == 'active' ?
+                I18n.t('admin.listing_statuses.canceled', user_name: @current_user.full_name) :
+                I18n.t("admin.listing_statuses.#{Listing.statuses.key(listing[:status].to_i).to_s}", user_name: @current_user.full_name),
             sender_id: @current_user.id
         }
     )
