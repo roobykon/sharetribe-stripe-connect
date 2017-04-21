@@ -90,9 +90,9 @@ Kassi::Application.configure do
 
   config.action_mailer.delivery_method = mail_delivery_method
 
-  config.action_mailer.default_url_options = { host: 'ec2-52-59-139-158.eu-central-1.compute.amazonaws.com' }
+  config.action_mailer.default_url_options = { host: 'instagig.se' }
 
-  config.action_controller.default_url_options = { host: 'ec2-52-59-139-158.eu-central-1.compute.amazonaws.com' }
+  config.action_controller.default_url_options = { host: 'instagig.se' }
 
   if mail_delivery_method == :smtp
     ActionMailer::Base.smtp_settings = {
