@@ -54,9 +54,9 @@ module MarketplaceService
       module_function
 
       def waiting_testimonial_from?(transaction, person_id)
-        if transaction[:starter_id] == person_id && transaction[:starter_skipped_feedback]
+        if transaction[:starter_id] == person_id && transaction[:author_skipped_feedback]
           false
-        elsif transaction[:author_id] == person_id && transaction[:author_skipped_feedback]
+        elsif transaction[:author_id] == person_id && transaction[:starter_skipped_feedback]
           false
         else
           testimonial_from(transaction, person_id).nil?

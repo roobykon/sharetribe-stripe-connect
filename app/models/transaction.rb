@@ -128,7 +128,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def feedback_skipped_by?(person)
-    if author == person
+    if provider == person
       author_skipped_feedback?
     else
       starter_skipped_feedback?
