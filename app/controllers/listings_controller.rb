@@ -578,12 +578,15 @@ class ListingsController < ApplicationController
       @recipient_participation.is_read = false
       @recipient_participation.save! if @recipient_participation.changed?
     end
+    @content = listing[:content].to_s
+    @content = "« #{@content} » " if @content.present?
+    @content += Listing.statuses.key(listing[:status].to_i) == 'active' ?
+        I18n.t('admin.listing_statuses.canceled', user_name: @current_user.full_name) :
+        I18n.t("admin.listing_statuses.#{Listing.statuses.key(listing[:status].to_i).to_s}", user_name: @current_user.full_name)
     @message = Message.new(
         {
             conversation_id: listing[:conversation_id],
-            content: Listing.statuses.key(listing[:status].to_i) == 'active' ?
-                I18n.t('admin.listing_statuses.canceled', user_name: @current_user.full_name) :
-                I18n.t("admin.listing_statuses.#{Listing.statuses.key(listing[:status].to_i).to_s}", user_name: @current_user.full_name),
+            content: @content.html_safe,
             sender_id: @current_user.id
         }
     )

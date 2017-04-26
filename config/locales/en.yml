@@ -1589,6 +1589,7 @@ en:
       month: "Number of months:"
       custom: "Quantity:"
     quantity_placeholder: Quantity
+    payout: Payout
     please_comment: Comment
     reply_link:
       listing_closed: "Listing is closed"

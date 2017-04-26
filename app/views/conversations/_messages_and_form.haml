@@ -1,6 +1,20 @@
 - if role == :participant
   - content_for :javascript do
     initialize_reply_form('#{I18n.locale}');
+  :javascript
+    var actionForm = function(event){
+      event.preventDefault()
+      $textarea = $('#new_message').find('textarea#message_content')
+      message = $textarea.val()
+      $current_form = $(event.target).parents('form:first')
+      if(message.length){
+        $new_textarea = $textarea.clone()
+        $new_textarea.attr('name', 'listing[content]')
+        $new_textarea.hide()
+        $current_form.append($new_textarea)
+      }
+      $current_form.submit()
+    }
 
   #reply_form.message-avatar-padding.message-reply-form
     = form_for message_form, :url => message_form_action do |f|
@@ -14,7 +28,7 @@
           .col-4{style: 'float:right;margin-right:0'}
             = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
               .conversation-status
-                = f.button t("conversations.show.send_accept"), class: 'status-link confirm', style: 'float:right;margin-right:0'
+                = f.button t("conversations.show.send_accept"), onclick: 'actionForm(event)', class: 'status-link confirm', style: 'float:right;margin-right:0'
                 = f.hidden_field :provider_id, value: tx[:starter_id]
                 = hidden_field :listing, :conversation_id, value: message_form.conversation_id
                 = f.hidden_field :status, :value => Listing.statuses[:accepted]
@@ -23,7 +37,7 @@
           .col-5{style: 'float:right;margin-right:0'}
             = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
               .conversation-status
-                = f.button t("conversations.show.send_cancel"), class: 'status-link confirm', style: 'background: #e8e8e8; float:right;margin-right:0px'
+                = f.button t("conversations.show.send_cancel"), onclick: 'actionForm(event)', class: 'status-link confirm', style: 'background: #e8e8e8; float:right;margin-right:0px'
                 = f.hidden_field :provider_id, value: tx[:starter_id]
                 = hidden_field :listing, :conversation_id, value: message_form.conversation_id
                 = f.hidden_field :status, :value => Listing.statuses[:active]
@@ -33,7 +47,7 @@
             .col-4{style: 'float:right;margin-right:0'}
               = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
                 .conversation-status
-                  = f.button t("conversations.show.send_undertake"), class: 'status-link confirm'
+                  = f.button t("conversations.show.send_undertake"), onclick: 'actionForm(event)', class: 'status-link confirm'
                   = f.hidden_field :provider_id, value: tx[:starter_id]
                   = hidden_field :listing, :conversation_id, value: message_form.conversation_id
                   = f.hidden_field :status, :value => Listing.statuses[:undertaken]
@@ -46,7 +60,7 @@
           .col-4{style: 'float:right;margin-right:0'}
             = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
               .conversation-status
-                = f.button t("conversations.show.send_complited"), class: 'status-link confirm'
+                = f.button t("conversations.show.send_complited"), onclick: 'actionForm(event)', class: 'status-link confirm'
                 = f.hidden_field :provider_id, value: tx[:starter_id]
                 = hidden_field :listing, :conversation_id, value: message_form.conversation_id
                 = f.hidden_field :status, :value => Listing.statuses[:completed]

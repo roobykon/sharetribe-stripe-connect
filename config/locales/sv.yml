@@ -1537,6 +1537,7 @@ sv:
       month: "Antal månader:"
       custom: "Antal:"
     quantity_placeholder: Antal
+    payout: Utbetalning
     please_comment: Kommentar
     reply_link:
       listing_closed: "Annonsen är stängd"

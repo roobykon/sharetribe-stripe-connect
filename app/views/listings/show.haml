@@ -155,15 +155,15 @@
                 - if !@listing.active? && provider_is_current_user? && count_inbox.nonzero?
                   = link_to single_conversation_path(:conversation_type => "received", :id => conversation.first.id, person_id: @current_user.id), {class: 'listing-author-contact-button', id: 'listing-contact'} do
                     .content
-                      = t(".contact")
+                      = action_button_label(@listing)
                 - elsif @listing.active? && count_inbox.nonzero?
                   = link_to single_conversation_path(:conversation_type => "received", :id => conversation.first.id, person_id: @current_user.id), {class: 'listing-author-contact-button', id: 'listing-contact'} do
                     .content
-                      = t(".contact")
+                      = action_button_label(@listing)
                 - elsif @listing.active? && count_inbox.zero?
                   = link_to contact_to_listing_path(:listing_id => @listing.id.to_s), {class: 'listing-author-contact-button', id: 'listing-contact'} do
                     .content
-                      = t(".contact")
+                      = action_button_label(@listing)
 
 
 
