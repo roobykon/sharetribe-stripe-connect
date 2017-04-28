@@ -103,18 +103,17 @@ window.ST.imageUploadElementManager = function($container) {
 
   function addPreview(element) {
     var last = _.last(previews);
-
     if (last) {
       element.insertAfter(last);
     } else {
       $container.prepend(element);
     }
-
-    previews.push(element);
+    previews = [element];
 
   }
 
   function removePreview(element) {
+    $($($container.children()).get(1)).hide()
     element.remove();
     previews = _.without(previews, element);
   }
@@ -122,7 +121,7 @@ window.ST.imageUploadElementManager = function($container) {
   function addUploading(element) {
     var lastUploadings = _.last(uploadings);
     var lastPreviews = _.last(previews);
-
+    $($($container.children()).get(1)).hide()
     if (lastUploadings) {
       element.insertAfter(lastUploadings);
     } else if (lastPreviews) {
@@ -131,7 +130,7 @@ window.ST.imageUploadElementManager = function($container) {
       $container.prepend(element);
     }
 
-    uploadings.push(element);
+    uploadings = [element];
   }
 
   function changeStateToProcessing(uploadingElement, processingElement) {
@@ -153,12 +152,14 @@ window.ST.imageUploadElementManager = function($container) {
   // whole element, not only the DOM element (container)
   function addEmpty(element) {
     var last = _.last(empties);
-    if(last) {
-      last.showMessage(ST.t("listings.form.images.select_file"));
-    }
-    element.showMessage(ST.t("listings.form.images.add_more"));
+    // if(last) {
+      element.showMessage(ST.t("listings.form.images.select_file"));
+    // }
+    // element.showMessage(ST.t("listings.form.images.add_more"));
     $container.append(element.container);
-    empties.push(element);
+    if(empties.length < 1){
+      empties.push(element);
+    }
   }
 
   function removeEmpty() {
@@ -182,7 +183,7 @@ window.ST.imageUploader = function(listings, opts) {
   var elementManager = ST.imageUploadElementManager($("#image-uploader-container"));
   var directUploadToS3 = !!opts.s3Fields && !!opts.s3UploadPath;
 
-  var extraPlaceholders = 2;
+  var extraPlaceholders = 0;
 
   var renderS3Uploader = (function() {
     var i = 0;
@@ -219,7 +220,12 @@ window.ST.imageUploader = function(listings, opts) {
   var imageSelected = _().range(extraPlaceholdersNeeded + 1).map(function() {
     return directUploadToS3 ? renderS3Uploader() : renderLocalUploader();
   }).each(function(rendered) {
-    elementManager.addEmpty(rendered.element);
+    if(extraPlaceholdersNeeded < 2){
+      if(listings.length > 0){
+        rendered.element.container.hide()
+      }
+      elementManager.addEmpty(rendered.element);
+    }
   }).map(function(rendered) {
     return rendered.stream;
   }).reduce(function(a, b) {
@@ -264,6 +270,7 @@ window.ST.imageUploader = function(listings, opts) {
   var previewRemoved = _(readyListings).map(function(listing) {
     return renderPreview(listing);
   }).each(function(rendered) {
+    console.log('tut')
     elementManager.addPreview(rendered.element.container);
   }).map(function(rendered) {
     return rendered.stream;
@@ -379,8 +386,8 @@ window.ST.imageUploader = function(listings, opts) {
 
   function renderUploading(data) {
     var $element = window.ST.renderImagePlaceholder();
-    $element.fileupload.remove();
 
+    $element.fileupload.remove();
     $element.container.addClass("fileupload-uploading");
 
     var filePreprocessed = Bacon.fromPromise(data.process());
@@ -532,6 +539,7 @@ window.ST.imageUploader = function(listings, opts) {
     var ajaxResponse = ajaxRequest.ajax();
 
     ajaxResponse.onValue(function() {
+      $($($element.container).siblings()[1]).show()
       elementManager.removePreview($element.container);
     });
 

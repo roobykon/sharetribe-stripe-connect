@@ -41,6 +41,9 @@
             %a.home-share-type-link{:href => search_path(:transaction_type => shape_name_map[listing.listing_shape_id], :view => :list)}
               = icon_tag(listing.icon_name, ["icon-fix"])
               = shape_name(listing)
+        - if %w(accepted completed undertaken).include?(listing[:status])
+          %p{class: get_text_color_by_status}
+            = "Project started. Compensation is reserved (#{listing[:price].format})"
         - if listing.description.present?
           %p{class: get_text_color_by_status(listing[:status])}
             = truncate(listing.description, length: 120, separator: ' ')

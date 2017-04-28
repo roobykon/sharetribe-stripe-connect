@@ -388,7 +388,7 @@ window.ST = window.ST || {};
     listingImages,
     listingImageOpts,
     imageLoadingInProgressConfirm) {
-
+    console.log(listingImages, listingImageOpts)
     $('#help_valid_until_link').click(function() { $('#help_valid_until').lightbox_me({centered: true, zIndex: 1000000}); });
     $('input.title_text_field:first').focus();
 

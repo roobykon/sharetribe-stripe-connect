@@ -13,6 +13,7 @@ class ListingImageS3OptionsJSAdapter < JSAdapter
     @max_image_filesize = APP_CONFIG.max_image_filesize
     @original_image_width = APP_CONFIG.original_image_width
     @original_image_height = APP_CONFIG.original_image_height
+    @max_number_of_files = 1
   end
 
   def to_hash

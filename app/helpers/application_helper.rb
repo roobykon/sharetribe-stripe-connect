@@ -685,11 +685,13 @@ module ApplicationHelper
     end
   end
 
-  def get_text_color_by_status(listing_status)
+  def get_text_color_by_status(listing_status = nil)
     if %w(confirmed paid).include?(listing_status)
       :status_green
     elsif %w(rejected canceled).include?(listing_status)
       :status_red
+    elsif listing_status.blank?
+      :status_blue
     else
       nil.to_s
     end

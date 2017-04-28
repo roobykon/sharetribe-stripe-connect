@@ -190,7 +190,7 @@ $home-list-avatar-padding: lines(0.25);
 
   // Add bottom margin so that the avatar fits there nicely
   @include media(desktop) {
-    padding-bottom: (ems-to($home-list-avatar-size, $big-type) + (2 * ems-to($home-list-avatar-padding, $big-type)) - em(3));
+    padding-bottom: (ems-to($home-list-avatar-size, $big-type) + (2 * ems-to($home-list-avatar-padding, $big-type)) - em(20));
   }
 
 }

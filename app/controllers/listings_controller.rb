@@ -576,7 +576,7 @@ class ListingsController < ApplicationController
         else
           @listing.listing_transactions.where(starter_id: @current_user.id).first
         end
-    @content = listing[:content].to_s
+    @content = ''
     if params[:new_price].present?
       shape =  get_shape(@listing.listing_shape_id.to_i)
       with_currency = params[:listing].merge({currency: @current_community.currency}).merge!(price: params[:new_price])
@@ -587,7 +587,7 @@ class ListingsController < ApplicationController
       @conversations.unit_price_cents = price_cents
       if @conversations.changed? && price_cents != @listing.price_cents
         @conversations.save!
-        @content = "« #{@content} » " if @content.present?
+        @content = "« #{@content} » " if listing[:content].to_s.present?
         @content += I18n.t('admin.listing_statuses.price_changed', user_name: @current_user.full_name, price: str_price.format)
       end
     end
