@@ -587,7 +587,7 @@ class ListingsController < ApplicationController
       @conversations.unit_price_cents = price_cents
       if @conversations.changed? && price_cents != @listing.price_cents
         @conversations.save!
-        @content = "« #{@content} » " if listing[:content].to_s.present?
+        @content = "« #{listing[:content]} » " if listing[:content].to_s.present?
         @content += I18n.t('admin.listing_statuses.price_changed', user_name: @current_user.full_name, price: str_price.format)
       end
     end
