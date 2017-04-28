@@ -387,6 +387,7 @@ sv:
       undertaken: "%{user_name} tog upp"
       completed: "%{user_name} har slutfört exekvering"
       canceled: "%{user_name} avböjde att förhandla"
+      price_changed: "%{user_name} rekommenderat pris: %{price}"
     listing_shapes:
       availability_title: ~
       read_more: ~

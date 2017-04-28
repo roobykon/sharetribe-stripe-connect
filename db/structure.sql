@@ -155,6 +155,25 @@ CREATE TABLE `category_translations` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `checkout_accounts`
+--
+
+DROP TABLE IF EXISTS `checkout_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `checkout_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `company_id_or_personal_id` varchar(255) DEFAULT NULL,
+  `merchant_id` varchar(255) NOT NULL,
+  `merchant_key` varchar(255) NOT NULL,
+  `person_id` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `comments`
 --
 
@@ -1654,7 +1673,7 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-10 18:08:16
+-- Dump completed on 2017-04-28 10:20:08
 INSERT INTO schema_migrations (version) VALUES ('20080806070738');
 
 INSERT INTO schema_migrations (version) VALUES ('20080807071903');

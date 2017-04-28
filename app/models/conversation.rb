@@ -9,6 +9,7 @@
 #  updated_at      :datetime
 #  last_message_at :datetime
 #  community_id    :integer
+#  new_price       :integer
 #
 # Indexes
 #

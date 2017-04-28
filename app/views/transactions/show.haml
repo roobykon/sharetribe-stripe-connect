@@ -3,4 +3,4 @@
 .centered-section-wide
   = render :partial => "transactions/details", locals: {role: role, tx: transaction, transaction_model: transaction_model, listing: listing, is_author: is_author, price_break_down_locals: price_break_down_locals}
 
-  = render :partial => "conversations/messages_and_form", locals: {role: role, message_form: message_form, message_form_action: message_form_action, messages: messages, listing: listing, tx: transaction, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, blocked_dates_end_on: blocked_dates_end_on, blocked_dates_result: blocked_dates_result}
+  = render :partial => "conversations/messages_and_form", locals: {role: role, message_form: message_form, message_form_action: message_form_action, messages: messages, listing: listing, tx: transaction, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, blocked_dates_end_on: blocked_dates_end_on, blocked_dates_result: blocked_dates_result, price_break_down_locals: price_break_down_locals}

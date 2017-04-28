@@ -2,6 +2,10 @@
   - content_for :javascript do
     initialize_reply_form('#{I18n.locale}');
   :javascript
+    var changeForm = function(event){
+      event.preventDefault();
+      $('#change_price_form').toggle();
+    }
     var actionForm = function(event){
       event.preventDefault()
       $textarea = $('#new_message').find('textarea#message_content')
@@ -25,16 +29,29 @@
     .row
       .col-9{style: 'float:right; margin-top: -90px'}
         - if listing.can_be_accepted? @current_user
-          .col-4{style: 'float:right;margin-right:0'}
+          .col-3{style: 'float:right;margin-right:0'}
             = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
               .conversation-status
-                = f.button t("conversations.show.send_accept"), onclick: 'actionForm(event)', class: 'status-link confirm', style: 'float:right;margin-right:0'
+                = f.button t("conversations.show.send_accept"), onclick: 'actionForm(event)', class: 'status-link confirm', style: 'float:right;margin-right:0;'
                 = f.hidden_field :provider_id, value: tx[:starter_id]
                 = hidden_field :listing, :conversation_id, value: message_form.conversation_id
                 = f.hidden_field :status, :value => Listing.statuses[:accepted]
-
+        - if (listing.active?) && @current_user.id == tx[:starter_id]
+          %div{style: 'float:right;margin-right:0;padding:20px 5px'}
+            = link_to '#', title: 'Change price', id: :change_price_link, onclick: 'changeForm(event)' do
+              = icon_tag('edit')
+              %b
+                = "Price: #{price_break_down_locals[:listing_price].format}"
+          .col-8{style: 'float:right;margin-right:0;', id: :change_price_form}
+            = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
+              .conversation-status
+                = f.button 'Change price', onclick: 'actionForm(event)', class: 'status-link confirm', style: 'float:right;margin-right:0;background: #e8e8e8;;margin-right:1rem'
+                = text_field_tag :new_price, nil, style: 'max-width:20%;float:right;margin-right:1rem; margin-top: 0.75rem;', placeholder: 'New price...'
+                = f.hidden_field :provider_id, value: tx[:starter_id]
+                = hidden_field :listing, :conversation_id, value: message_form.conversation_id
+                = f.hidden_field :status, :value => listing.status
         - if listing.can_be_canceled?(@current_user, tx[:starter_id]) && !listing.has_pending_transaction?
-          .col-5{style: 'float:right;margin-right:0'}
+          .col-3{style: 'float:right;margin-right:0'}
             = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
               .conversation-status
                 = f.button t("conversations.show.send_cancel"), onclick: 'actionForm(event)', class: 'status-link confirm', style: 'background: #e8e8e8; float:right;margin-right:0px'
@@ -44,7 +61,7 @@
 
         - if listing.can_be_undertaken? @current_user
           - if @current_user.stripe_account_connected?
-            .col-4{style: 'float:right;margin-right:0'}
+            .col-3{style: 'float:right;margin-right:0'}
               = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
                 .conversation-status
                   = f.button t("conversations.show.send_undertake"), onclick: 'actionForm(event)', class: 'status-link confirm'
@@ -52,12 +69,12 @@
                   = hidden_field :listing, :conversation_id, value: message_form.conversation_id
                   = f.hidden_field :status, :value => Listing.statuses[:undertaken]
           - else
-            .col-4{style: 'float:right;margin-right:0'}
+            .col-3{style: 'float:right;margin-right:0'}
               .conversation-status
                 = link_to t("conversations.show.send_undertake"), stripe_oauth_path(redirect_back: message_form.conversation_id) , class: 'btn btn-lg btn-primary status-link confirm', style: 'padding-top: 7px'
 
         - if listing.can_be_completed? @current_user
-          .col-4{style: 'float:right;margin-right:0'}
+          .col-3{style: 'float:right;margin-right:0'}
             = form_for listing, {url: update_listing_status_listings_path(id: listing.id), method: :put} do |f|
               .conversation-status
                 = f.button t("conversations.show.send_complited"), onclick: 'actionForm(event)', class: 'status-link confirm'
@@ -66,7 +83,7 @@
                 = f.hidden_field :status, :value => Listing.statuses[:completed]
 
         - if listing.ready_to_pay? @current_user, tx[:starter_id]
-          .col-6{style: 'float:right;margin-right:0'}
+          .col-4{style: 'float:right;margin-right:0'}
             .conversation-status
               = render 'transactions/payment_form', locals: {payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, blocked_dates_end_on: blocked_dates_end_on, blocked_dates_result: blocked_dates_result}
 #messages

@@ -74,6 +74,7 @@ class Listing < ActiveRecord::Base
   belongs_to :author, :class_name => "Person", :foreign_key => "author_id"
 
   has_many :listing_images, -> { where("error IS NULL") }, :dependent => :destroy
+  validates_length_of :listing_images, maximum: 1
 
   has_many :conversations
   has_many :comments, :dependent => :destroy
@@ -82,6 +83,7 @@ class Listing < ActiveRecord::Base
   has_many :custom_checkbox_field_values, :class_name => "CheckboxFieldValue"
 
   has_one :location, :dependent => :destroy
+  has_many :listing_transactions, class_name: 'Transaction', dependent: :destroy
   has_one :origin_loc, -> { where('location_type = ?', 'origin_loc') }, :class_name => "Location", :dependent => :destroy
   has_one :destination_loc, -> { where('location_type = ?', 'destination_loc') }, :class_name => "Location", :dependent => :destroy
   accepts_nested_attributes_for :origin_loc, :destination_loc

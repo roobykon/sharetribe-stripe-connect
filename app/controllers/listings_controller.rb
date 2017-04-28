@@ -570,19 +570,46 @@ class ListingsController < ApplicationController
     listing = params.require(:listing)
     @provider = Person.find_by(id: listing[:provider_id])
     return if (!current_user?(@listing.author) && !current_user?(@provider)) || Listing.statuses.key(listing[:status].to_i).blank?
-    @listing.status =  Listing.statuses.key(listing[:status].to_i)
-    @listing.provider = (Listing.statuses.key(listing[:status].to_i) != 'active') ? @provider : nil
+    @conversations =
+        if author_is_current_user?
+          @listing.listing_transactions.where(listing_author_id: @current_user.id).first
+        else
+          @listing.listing_transactions.where(starter_id: @current_user.id).first
+        end
+    @content = listing[:content].to_s
+    if params[:new_price].present?
+      shape =  get_shape(@listing.listing_shape_id.to_i)
+      with_currency = params[:listing].merge({currency: @current_community.currency}).merge!(price: params[:new_price])
+      listing_params = ListingFormViewUtils.filter(with_currency, shape)
+      listing_params = normalize_price_params(listing_params)
+      price_cents = listing_params[:price_cents]
+      str_price = Money.new(price_cents, @current_community.currency)
+      @conversations.unit_price_cents = price_cents
+      if @conversations.changed? && price_cents != @listing.price_cents
+        @conversations.save!
+        @content = "« #{@content} » " if @content.present?
+        @content += I18n.t('admin.listing_statuses.price_changed', user_name: @current_user.full_name, price: str_price.format)
+      end
+    end
+    status = Listing.statuses.key(listing[:status].to_i)
+    @listing.status =  status
+    @listing.provider = (status != 'active') ? @provider : nil
+    if(status == 'accepted' && @conversations.unit_price_cents.present? && @current_user == @listing.author)
+      @listing.price_cents = @conversations.unit_price_cents
+      @conversations.save!
+    end
     @listing.save! if @listing.changed?
     @recipient_participation = @listing.conversations.first.participations.where.not(person_id: @current_user.id).first
     if @recipient_participation.present?
       @recipient_participation.is_read = false
       @recipient_participation.save! if @recipient_participation.changed?
     end
-    @content = listing[:content].to_s
-    @content = "« #{@content} » " if @content.present?
-    @content += Listing.statuses.key(listing[:status].to_i) == 'active' ?
-        I18n.t('admin.listing_statuses.canceled', user_name: @current_user.full_name) :
-        I18n.t("admin.listing_statuses.#{Listing.statuses.key(listing[:status].to_i).to_s}", user_name: @current_user.full_name)
+    unless @content.present?
+      @content = "« #{@content} » " if @content.present?
+      @content += Listing.statuses.key(listing[:status].to_i) == 'active' ?
+          I18n.t('admin.listing_statuses.canceled', user_name: @current_user.full_name) :
+          I18n.t("admin.listing_statuses.#{Listing.statuses.key(listing[:status].to_i).to_s}", user_name: @current_user.full_name)
+    end
     @message = Message.new(
         {
             conversation_id: listing[:conversation_id],
