@@ -98,7 +98,7 @@ class Listing < ActiveRecord::Base
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency
   monetize :shipping_price_additional_cents, allow_nil: true, with_model_currency: :currency
 
-  enum status: [:active, :accepted, :undertaken, :completed, :done]
+  enum status: [:active, :accepted, :undertaken, :completed, :done, :rejected, :confirmed, :canceled, :paid]
 
   before_validation :set_valid_until_time
 

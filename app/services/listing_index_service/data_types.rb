@@ -67,6 +67,7 @@ module ListingIndexService::DataTypes
     [:created_at, :time, :mandatory, str_to_time: "%Y-%m-%dT%H:%M:%S.%L%z"],
     [:latitude],
     [:longitude],
+    [:status, :string, :mandatory],
     [:distance, :optional],
     [:distance_unit, :optional],
     [:address, :string],

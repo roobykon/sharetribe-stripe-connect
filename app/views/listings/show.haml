@@ -20,7 +20,8 @@
 
 - content_for :title_header do
   %h1
-    %span#listing-title.listing-title= @listing.title
+    %span#listing-title.listing-title{class: get_text_color_by_status(@listing.status)}
+      = @listing.title
 
 %script{type: "text/template", class: "template", id: "image-frame-template"}
   .listing-image-frame
@@ -44,23 +45,11 @@
           - if reason == :images_ok
             .listing-image-carousel
               #listing-image-frame
-
-              - if @prev_image_id && @next_image_id
-                = link_to params.merge(image: @prev_image_id), class: "listing-image-navi listing-image-navi-left", id: "listing-image-navi-left" do
-                  .listing-image-navi-arrow-container
-                    .listing-image-arrow-icon-container.left
-                      = icon_tag("directleft", ["navigate-icon-fix", "listing-image-navi-arrow"])
-                = link_to params.merge(image: @next_image_id), class: "listing-image-navi listing-image-navi-right", id: "listing-image-navi-right" do
-                  .listing-image-navi-arrow-container
-                    .listing-image-arrow-icon-container.right
-                      = icon_tag("directright", ["navigate-icon-fix", "listing-image-navi-arrow"])
-            #thumbnail-stripe.listing-image-thumbnail-stripe
-
-            - content_for :extra_javascript do
-              :javascript
-                var listingImages = #{listing_images.map { |image| ListingImageJSAdapter.new(image) }.to_json }
-                var currentImage = #{params[:image].present? ? params[:image].to_i : listing_images.first.id};
-                ST.listingImages(listingImages, currentImage);
+                .listing-image-frame{:style => ""}
+                  .listing-image-frame-content
+                    .correct-ratio.listing-image-vertical-centering
+                      = image_tag listing_images.first.image.url(:big), title: @listing.title, class: %i(listing-image correct-ratio)
+                    = get_overlay @listing.status
           - else
             .listing-image-text-container
               .listing-image-frame
@@ -71,9 +60,10 @@
                         = t("listings.show.processing_uploaded_image")
                       - else
                         = t(".no_description")
+                  = get_overlay @listing.status
 
     .row
-      .col-12
+      .col-12{class: get_text_color_by_status(@listing.status)}
         - if @listing.description && !@listing.description.blank?
           - text_with_line_breaks do
             = @listing.description
@@ -150,7 +140,7 @@
           .listing-author-details
             .listing-author-name
               = link_to @listing.author.name(@current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{@listing.author.name(@current_community)}"
-            - if !author_is_current_user?
+            - if !author_is_current_user? && !@listing.confirmed? && !@listing.closed?
               .listing-author-contact
                 - if !@listing.active? && provider_is_current_user? && count_inbox.nonzero?
                   = link_to single_conversation_path(:conversation_type => "received", :id => conversation.first.id, person_id: @current_user.id), {class: 'listing-author-contact-button', id: 'listing-contact'} do

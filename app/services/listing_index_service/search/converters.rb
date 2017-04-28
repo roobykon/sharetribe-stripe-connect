@@ -9,6 +9,7 @@ module ListingIndexService::Search::Converters
       updated_at: l.updated_at,
       created_at: l.created_at,
       category_id: l.category_id,
+      status: l.status,
       comment_count: l.comments_count,
       price: l.price,
       unit_tr_key: l.unit_tr_key,

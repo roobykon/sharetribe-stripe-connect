@@ -3,9 +3,14 @@
     - if listing.listing_images.size > 0
       = link_to listing_path(listing.url), :class => "home-list-image-container-desktop" do
         = image_tag listing.listing_images.first[:small_3x2], {:alt => listed_listing_title(listing), :class => "home-list-image"}
+        = get_overlay listing[:status]
+    - else
+      %a.home-list-image-container-desktop
+        = get_overlay listing[:status]
     - if listing.listing_images.size > 0
       = link_to listing_path(listing.url), :class => "home-list-image-container-mobile" do
         = image_tag listing.listing_images.first[:thumb], {:alt => listed_listing_title(listing), :class => "home-list-image"}
+        = get_overlay listing[:status]
     .home-list-details-right
       .home-list-price
         - if listing.price
@@ -27,18 +32,20 @@
         .home-list-author-reviews
           = icon_tag("testimonial")
           = pluralize(listing.author.num_of_reviews, t(".review"), t(".reviews"))
-    %div{:class => (listing.listing_images.size > 0 ? "home-list-details-with-image" : "")}
+    -#%div{:class => (listing.listing_images.size > 0 ? "home-list-details-with-image" : "")}
+    %div{:class => "home-list-details-with-image"}
       = link_to listing_path(listing.url) do
-        %h2.home-list-title
+        %h2.home-list-title{class: get_text_color_by_status(listing[:status])}
           = listing.title
           - if @current_community.show_category_in_listing_list
             %a.home-share-type-link{:href => search_path(:transaction_type => shape_name_map[listing.listing_shape_id], :view => :list)}
               = icon_tag(listing.icon_name, ["icon-fix"])
               = shape_name(listing)
         - if listing.description.present?
-          %p
+          %p{class: get_text_color_by_status(listing[:status])}
             = truncate(listing.description, length: 120, separator: ' ')
-      .home-list-price-mobile{:class => (listing.listing_images.size > 0 ? "home-list-price-mobile-with-listing-image" : "home-list-price-mobile-without-listing-image")}
+      -#.home-list-price-mobile{:class => (listing.listing_images.size > 0 ? "home-list-price-mobile-with-listing-image" : "home-list-price-mobile-without-listing-image")}
+      .home-list-price-mobile{:class => "home-list-price-mobile-with-listing-image"}
         - if listing.price
           .home-list-price-value-mobile
             = humanized_money_with_symbol(listing.price).upcase
@@ -55,7 +62,8 @@
             = shape_name(listing)
 
 
-    .home-list-author{:class => (listing.listing_images.size > 0 ? "home-list-author-with-listing-image" : "home-list-author-without-listing-image")}
+    -#.home-list-author{:class => (listing.listing_images.size > 0 ? "home-list-author-with-listing-image" : "home-list-author-without-listing-image")}
+    .home-list-author{:class =>  "home-list-author-with-listing-image"}
       .home-list-avatar
         = link_to(person_path(username: listing.author.username), :class => "home-fluid-thumbnail-grid-author-avatar-image") do
           = image_tag(listing.author.avatar.thumb || missing_avatar(:thumb))

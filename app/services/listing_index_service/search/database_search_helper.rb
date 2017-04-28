@@ -19,14 +19,14 @@ module ListingIndexService::Search::DatabaseSearchHelper
     query = Listing
             .where(where_opts)
             .includes(included_models)
+            .order('listings.open DESC')
             .order("listings.sort_date DESC")
             .paginate(per_page: search[:per_page], page: search[:page])
-
     listings =
       if search[:include_closed]
         query
       else
-        query.currently_open
+        query.currently_open('all')
       end
 
     success_result(listings.total_entries, listings, includes)

@@ -2186,3 +2186,49 @@ figure.fluidratio {
     }
   }
 }
+.overlay.accepted,
+.overlay.undertaken,
+.overlay.completed,
+.overlay.confirmed,
+.overlay.paid,
+.overlay.canceled,
+.overlay.rejected,
+.overlay.started{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: #000;
+  opacity: .5;
+  top: 0;
+  display: table;
+  div.text-holder{
+    color: #fff;
+    font-size: 2rem;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-grid;
+    width: 100%;
+    height: 100%;
+    display: table-cell;
+    line-height: 100%;
+    b{
+      margin: 0 auto;
+      padding: 0;
+      vertical-align: middle;
+      display: block;
+    }
+  }
+}
+
+.status_green{
+  color: green;
+  p{
+    color: green;
+  }
+}
+.status_red{
+  color: red;
+  p{
+    color: red;
+  }
+}
