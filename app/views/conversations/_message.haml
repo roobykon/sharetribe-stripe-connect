@@ -11,5 +11,4 @@
 
       %div{class: "message-bubble-arrow-to-#{avatar_side} message-type-#{message_or_action[:type]} message-mood-#{message_or_action[:mood]}"}
         %div
-          - text_with_line_breaks do
-            = message_or_action[:content]
+          != message_or_action[:content]

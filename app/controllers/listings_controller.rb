@@ -15,7 +15,8 @@ class ListingsController < ApplicationController
   end
 
   before_filter :save_current_path, :only => :show
-  before_filter :ensure_authorized_to_view, :only => [ :show, :follow, :unfollow ]
+  before_filter :ensure_authorized_to_view, :only => [ :follow, :unfollow ]
+  before_filter :ensure_can_to_view, :only => [ :show ]
 
   before_filter :only => [ :close ] do |controller|
     controller.ensure_current_user_is_listing_author t("layouts.notifications.only_listing_author_can_close_a_listing")
@@ -168,6 +169,7 @@ class ListingsController < ApplicationController
   end
 
   def show
+
     @selected_tribe_navi_tab = "home"
 
     @current_image = if params[:image]
@@ -594,9 +596,19 @@ class ListingsController < ApplicationController
     status = Listing.statuses.key(listing[:status].to_i)
     @listing.status =  status
     @listing.provider = (status != 'active') ? @provider : nil
-    if(status == 'accepted' && @conversations.unit_price_cents.present? && @current_user == @listing.author)
-      @listing.price_cents = @conversations.unit_price_cents
-      @conversations.save!
+    if(status == 'accepted')
+      if(@conversations.unit_price_cents.present? && @current_user == @listing.author)
+        @listing.price_cents = @conversations.unit_price_cents
+        @conversations.save!
+      end
+      system_message = Message.new(
+          {
+              conversation_id: listing[:conversation_id],
+              content: "<p class='#{get_text_color_by_status}'>Project started. Compensation is reserved (#{@listing.price.format})</p>",
+              sender_id: @current_user.id
+          }
+      )
+      system_message.save!
     end
     @listing.save! if @listing.changed?
     @recipient_participation = @listing.conversations.first.participations.where.not(person_id: @current_user.id).first
@@ -605,7 +617,7 @@ class ListingsController < ApplicationController
       @recipient_participation.save! if @recipient_participation.changed?
     end
     unless @content.present?
-      @content = "« #{@content} » " if @content.present?
+      @content = "« #{listing[:content]} » " if listing[:content].present?
       @content += Listing.statuses.key(listing[:status].to_i) == 'active' ?
           I18n.t('admin.listing_statuses.canceled', user_name: @current_user.full_name) :
           I18n.t("admin.listing_statuses.#{Listing.statuses.key(listing[:status].to_i).to_s}", user_name: @current_user.full_name)
@@ -899,6 +911,12 @@ class ListingsController < ApplicationController
 
               action_messages.last[:content]
             end
+  end
+
+  def ensure_can_to_view
+    @listing = @current_community.listings.find(params[:id])
+
+    raise ListingDeleted if @listing.deleted?
   end
 
   # Ensure that only users with appropriate visibility settings can view the listing

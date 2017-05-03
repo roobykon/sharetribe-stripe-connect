@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
       sender_id: @current_user.id
     )
 
-    @message = Message.new(message_params)
+    @message = Message.new(message_params.merge!(content: ActionController::Base.helpers.strip_tags(message_params[:content])))
     if @message.save
       Delayed::Job.enqueue(MessageSentJob.new(@message.id, @current_community.id))
     else

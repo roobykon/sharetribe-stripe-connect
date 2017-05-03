@@ -144,19 +144,19 @@ class TransactionsController < ApplicationController
     conversation = transaction_conversation[:conversation]
     listing = Listing.where(id: tx[:listing_id]).first
 
+    @listing = conversation[:listing]
+
     messages_and_actions = TransactionViewUtils.merge_messages_and_transitions(
       TransactionViewUtils.conversation_messages(conversation[:messages], @current_community.name_display_type),
       TransactionViewUtils.transition_messages(transaction_conversation, conversation, @current_community.name_display_type))
 
     MarketplaceService::Transaction::Command.mark_as_seen_by_current(params[:id], @current_user.id)
-
     is_author =
       if role == :admin
         true
       else
         listing.person_id == @current_user.id
       end
-    @listing = conversation[:listing]
     payment_gateway = :stripe
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
     form_path = new_transaction_path(listing_id: @listing.id)
