@@ -349,7 +349,6 @@ module MarketplaceService
       # privates
 
       def preauthorized(transaction, payment_type)
-        binding.pry
         expiration_period = Entity.authorization_expiration_period(payment_type)
         gateway_expires_at = case payment_type
                              when :paypal
