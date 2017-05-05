@@ -1127,6 +1127,10 @@ sv:
       all_categories: "Alla kategorier"
     errors:
       search_engine_not_responding: ~
+    statuses:
+      cancelled: 'avbokad'
+      finished: 'slutfört'
+      started: 'startat'
   infos:
     about:
       default_about_text_title: "Vad är Sharetribe?"

@@ -675,11 +675,11 @@ module ApplicationHelper
 
   def get_overlay(listing_status)
     if(%w(accepted completed undertaken).include? listing_status)
-      render('homepage/image_overlay', status: listing_status, message: 'STARTED').html_safe
+      render('homepage/image_overlay', status: listing_status, message: I18n.t('homepage.statuses.started')).html_safe
     elsif %w(confirmed paid).include? listing_status
-      render('homepage/image_overlay', status: listing_status, message: 'FINISHED').html_safe
+      render('homepage/image_overlay', status: listing_status, message: I18n.t('homepage.statuses.finished')).html_safe
     elsif %w(canceled rejected).include? listing_status
-      render('homepage/image_overlay', status: listing_status, message: 'CANCELED').html_safe
+      render('homepage/image_overlay', status: listing_status, message: I18n.t('homepage.statuses.cancelled')).html_safe
     else
       nil.to_s
     end
@@ -707,9 +707,11 @@ module ApplicationHelper
 
   def get_hash_for_label(listing)
     if %w(accepted undertaken completed).include?(listing[:status])
-      {class: 'started', value: 'STARTAT'}
+      {class: 'started', value: I18n.t('homepage.statuses.started')}
     elsif %w(confirmed paid).include?(listing[:status])
-      {class: 'finished', value: 'slutfört'}
+      {class: 'finished', value: I18n.t('homepage.statuses.finished')}
+    elsif %w(confirmed paid).include?(listing[:status])
+      {class: 'cancelled', value: I18n.t('homepage.statuses.cancelled')}
     else
       {value: humanized_money_with_symbol(listing.price).upcase}
     end

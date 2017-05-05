@@ -384,6 +384,9 @@ $home-list-avatar-padding: lines(0.25);
     &.finished{
       color: #47c2a0;
     }
+    &.cancelled{
+      color: #ffc107;
+    }
   }
 }
 
