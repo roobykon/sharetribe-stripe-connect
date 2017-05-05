@@ -163,13 +163,49 @@ $home-list-image-padding-mobile: lines(0.5);
   width: 100%;
   // FIXME Tee parempi no image
 }
+.home-list-price-value{
+  .price_holder{
+    border: 3px solid;
+    padding: 2px 5px;
+    display: inline-block;
+    font-weight: 600;
+    min-width: 100px;
+    text-align: center;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    &.started{
+      color: #f27573;
+    }
+    &.finished{
+      color: #47c2a0;
+    }
+  }
+
+  @include media(mobile) {
+    display: none;
+  }
+
+  @include media(tablet) {
+    display: inline-block;
+  }
+}
+.home-list-image-container-mobile,
+.home-list-image-container-desktop{
+  &.no_active{
+    opacity: .3;
+  }
+}
 
 .home-list-details-with-image {
   margin-left: $home-list-image-size-mobile + $home-list-image-padding-mobile;
+  &.no_active{
+    opacity: .3;
+  }
 
   @include media(tablet) {
     margin-left: $image-width + $image-padding;
   }
+
 }
 
 $home-list-avatar-size: em(40);
@@ -196,6 +232,14 @@ $home-list-avatar-padding: lines(0.25);
 }
 .browsing-list-item-title {
   padding-bottom: 0;
+}
+
+.home-list-title{
+  line-height: lines(1);
+  max-width: 80%;
+  @include media(mobile) {
+    max-width: 50%;
+  }
 }
 
 .home-share-type-link,
@@ -312,6 +356,34 @@ $home-list-avatar-padding: lines(0.25);
   }
   @include media(desktop) {
     display: none;
+  }
+}
+
+.home-list-price-mobile{
+  position: absolute;
+  right: 0;
+  top: 0;
+  @include media(large-mobile) {
+    padding-top: 0px;
+  }
+}
+
+.home-list-price-value-mobile{
+  .price_holder{
+    border: 3px solid;
+    padding: 2px 5px;
+    display: inline-block;
+    font-weight: 600;
+    min-width: 30vw;
+    text-align: center;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    &.started{
+      color: #f27573;
+    }
+    &.finished{
+      color: #47c2a0;
+    }
   }
 }
 

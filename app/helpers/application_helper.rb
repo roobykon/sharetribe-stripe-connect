@@ -685,6 +685,14 @@ module ApplicationHelper
     end
   end
 
+  def get_overlay_class(listing_status)
+    if(%w(accepted completed undertaken confirmed paid canceled rejected).include? listing_status)
+      :no_active
+    else
+      nil.to_s
+    end
+  end
+
   def get_text_color_by_status(listing_status = nil)
     if %w(confirmed paid).include?(listing_status)
       :status_green
@@ -694,6 +702,16 @@ module ApplicationHelper
       :status_blue
     else
       nil.to_s
+    end
+  end
+
+  def get_hash_for_label(listing)
+    if %w(accepted undertaken completed).include?(listing[:status])
+      {class: 'started', value: 'STARTAT'}
+    elsif %w(confirmed paid).include?(listing[:status])
+      {class: 'finished', value: 'slutfört'}
+    else
+      {value: humanized_money_with_symbol(listing.price).upcase}
     end
   end
 

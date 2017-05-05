@@ -190,4 +190,5 @@ gem 'uuidtools', '~> 2.1'
 gem 'transit-ruby', '~> 0.8'
 gem 'stripe'
 
-gem "daemons"
+gem 'daemons'
+gem 'browser'

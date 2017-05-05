@@ -1,21 +1,29 @@
 - frontpage_fragment_cache("list_item", listing) do
   .home-list-item
     - if listing.listing_images.size > 0
-      = link_to listing_path(listing.url), :class => "home-list-image-container-desktop" do
+      = link_to listing_path(listing.url), :class => "home-list-image-container-desktop #{get_overlay_class(listing[:status])}" do
         = image_tag listing.listing_images.first[:small_3x2], {:alt => listed_listing_title(listing), :class => "home-list-image"}
-        = get_overlay listing[:status]
+        -#= get_overlay listing[:status]
     - else
-      %a.home-list-image-container-desktop
-        = get_overlay listing[:status]
+      = link_to listing_path(listing.url), :class => "home-list-image-container-desktop #{get_overlay_class(listing[:status])}" do
+        = image_tag image_path('default_listing/small_3x2/default.jpg'), {:alt => listed_listing_title(listing), :class => "home-list-image"}
+        -#= get_overlay listing[:status]
     - if listing.listing_images.size > 0
-      = link_to listing_path(listing.url), :class => "home-list-image-container-mobile" do
+      = link_to listing_path(listing.url), :class => "home-list-image-container-mobile #{get_overlay_class(listing[:status])}" do
         = image_tag listing.listing_images.first[:thumb], {:alt => listed_listing_title(listing), :class => "home-list-image"}
-        = get_overlay listing[:status]
+        -#= get_overlay listing[:status]
+    - else
+      = link_to listing_path(listing.url), :class => "home-list-image-container-mobile #{get_overlay_class(listing[:status])}" do
+        = image_tag image_path('default_listing/small_3x2/default.jpg'), {:alt => listed_listing_title(listing), :class => "home-list-image"}
+        -#= get_overlay listing[:status]
     .home-list-details-right
       .home-list-price
         - if listing.price
+          - label_info = get_hash_for_label(listing)
           .home-list-price-value
-            = humanized_money_with_symbol(listing.price).upcase
+            .price_holder{class: label_info[:class]}
+              = label_info[:value]
+              -#= humanized_money_with_symbol(listing.price).upcase
           - price_text = nil
           - if listing.quantity.present?
             - price_text = t("listings.form.price.per") + " " + listing.quantity
@@ -33,7 +41,7 @@
           = icon_tag("testimonial")
           = pluralize(listing.author.num_of_reviews, t(".review"), t(".reviews"))
     -#%div{:class => (listing.listing_images.size > 0 ? "home-list-details-with-image" : "")}
-    %div{:class => "home-list-details-with-image"}
+    .home-list-details-with-image{class: get_overlay_class(listing[:status])}
       = link_to listing_path(listing.url) do
         %h2.home-list-title{class: get_text_color_by_status(listing[:status])}
           = listing.title
@@ -41,14 +49,15 @@
             %a.home-share-type-link{:href => search_path(:transaction_type => shape_name_map[listing.listing_shape_id], :view => :list)}
               = icon_tag(listing.icon_name, ["icon-fix"])
               = shape_name(listing)
-        - if listing.description.present?
-          %p{class: get_text_color_by_status(listing[:status])}
-            = truncate(listing.description, length: 120, separator: ' ')
+        = display_short_description listing
       -#.home-list-price-mobile{:class => (listing.listing_images.size > 0 ? "home-list-price-mobile-with-listing-image" : "home-list-price-mobile-without-listing-image")}
       .home-list-price-mobile{:class => "home-list-price-mobile-with-listing-image"}
         - if listing.price
+          - label_info = get_hash_for_label(listing)
           .home-list-price-value-mobile
-            = humanized_money_with_symbol(listing.price).upcase
+            .price_holder{class: label_info[:class]}
+              = label_info[:value]
+            -#= humanized_money_with_symbol(listing.price).upcase
           - price_text = nil
           - if listing.quantity.present?
             - price_text = t("listings.form.price.per") + " " + listing.quantity
@@ -60,6 +69,8 @@
         - else
           %span.smaller
             = shape_name(listing)
+      -#- if get_overlay_class(listing[:status]).present?
+      -#  .w_overlay
 
 
     -#.home-list-author{:class => (listing.listing_images.size > 0 ? "home-list-author-with-listing-image" : "home-list-author-without-listing-image")}

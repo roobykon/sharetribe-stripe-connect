@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include IconHelper
   include DefaultURLOptions
+  include ActionView::Helpers::TextHelper
+
   protect_from_forgery
   layout 'application'
 
@@ -37,7 +39,8 @@ class ApplicationController < ActionController::Base
     :cannot_access_if_banned,
     :cannot_access_without_confirmation,
     :ensure_consent_given,
-    :ensure_user_belongs_to_community
+    :ensure_user_belongs_to_community,
+    :detect_browser_type
 
   # This updates translation files from WTI on every page load. Only useful in translation test servers.
   before_filter :fetch_translations if APP_CONFIG.update_translations_on_every_page_load == "true"
@@ -480,6 +483,11 @@ class ApplicationController < ActionController::Base
     @logger
   end
 
+  def detect_browser_type
+    $browser = Browser.new(request.user_agent, accept_language: request.accept_language)
+    $browser = browser.device
+  end
+
   def setup_logger!(metadata)
     logger.add_metadata(metadata)
   end
@@ -488,6 +496,22 @@ class ApplicationController < ActionController::Base
     !params[:controller].starts_with?("admin") && !@current_plan[:features][:whitelabel]
   end
   helper_method :display_branding_info?
+
+  def display_short_description(listing)
+    listing.description.present? ?
+      content_tag(:p, truncate(listing.description, length: get_content_length_for_device, separator: ' '), class: get_text_color_by_status(listing[:status])) :
+      ''
+  end
+  helper_method :display_short_description
+
+  def get_content_length_for_device
+    case
+      when $browser.mobile?
+        100
+      else
+        325
+    end
+  end
 
   def display_onboarding_topbar?
     # Don't show if user is not logged in
