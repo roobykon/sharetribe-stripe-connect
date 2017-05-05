@@ -169,7 +169,7 @@ $home-list-image-padding-mobile: lines(0.5);
     padding: 2px 5px;
     display: inline-block;
     font-weight: 600;
-    min-width: 100px;
+    min-width: 120px;
     text-align: center;
     font-size: 1.3rem;
     text-transform: uppercase;
@@ -178,6 +178,9 @@ $home-list-image-padding-mobile: lines(0.5);
     }
     &.finished{
       color: #47c2a0;
+    }
+    &.cancelled{
+      color: #ffc107;
     }
   }
 

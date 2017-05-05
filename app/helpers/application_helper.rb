@@ -710,7 +710,7 @@ module ApplicationHelper
       {class: 'started', value: I18n.t('homepage.statuses.started')}
     elsif %w(confirmed paid).include?(listing[:status])
       {class: 'finished', value: I18n.t('homepage.statuses.finished')}
-    elsif %w(canceled).include?(listing[:status])
+    elsif %w(rejected canceled).include?(listing[:status])
       {class: 'cancelled', value: I18n.t('homepage.statuses.cancelled')}
     else
       {value: humanized_money_with_symbol(listing.price).upcase}
