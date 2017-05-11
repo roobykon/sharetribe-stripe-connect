@@ -148,7 +148,7 @@ class Listing < ActiveRecord::Base
     status = "open" if status.blank?
     case status
     when "all"
-      where([])
+      where([]).where('status NOT IN (5, 7)')
     when "open"
       where(["open = '1' AND (valid_until IS NULL OR valid_until > ?)", DateTime.now])
     when "closed"
