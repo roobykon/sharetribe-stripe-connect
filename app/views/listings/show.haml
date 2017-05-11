@@ -20,9 +20,13 @@
 
 - content_for :title_header do
   %h1
-    %span#listing-title.listing-title{class: get_text_color_by_status(@listing.status)}
+    %span#listing-title.listing-title
       = @listing.title
-
+      = " (#{humanized_money_with_symbol(@listing.price).upcase}) "
+      - label_info = get_hash_for_label(@listing.status)
+      %span.home-list-price-value
+        %span.price_holder{class: label_info[:class]}
+          = label_info[:value]
 %script{type: "text/template", class: "template", id: "image-frame-template"}
   .listing-image-frame
     #listing-image-link.listing-image-frame-content
@@ -49,7 +53,7 @@
                   .listing-image-frame-content
                     .correct-ratio.listing-image-vertical-centering
                       = image_tag listing_images.first.image.url(:big), title: @listing.title, class: %i(listing-image correct-ratio)
-                    = get_overlay @listing.status
+                    -#= get_overlay @listing.status
           - else
             .listing-image-text-container
               .listing-image-frame
@@ -60,10 +64,10 @@
                         = t("listings.show.processing_uploaded_image")
                       - else
                         = t(".no_description")
-                  = get_overlay @listing.status
+                  -#= get_overlay @listing.status
 
     .row
-      .col-12{class: get_text_color_by_status(@listing.status)}
+      .col-12
         - if @listing.description && !@listing.description.blank?
           - text_with_line_breaks do
             = @listing.description

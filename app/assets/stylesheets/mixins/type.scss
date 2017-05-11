@@ -98,6 +98,11 @@ $giga-type:    110;
   line-height: lines(1); // 24px
 }
 
+@mixin small-type-listing {
+  font-size: em($font-size, 14); // 16 is the base font-size of all(?) browsers
+  line-height: lines(1); // 24px
+}
+
 @mixin big-type {
   font-size: em($big-type); // roughly 16*1.382 (shorter part of golden ratio)
   line-height: lines(1, $big-type); // 24px

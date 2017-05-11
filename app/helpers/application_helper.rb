@@ -706,14 +706,19 @@ module ApplicationHelper
   end
 
   def get_hash_for_label(listing)
-    if %w(accepted undertaken completed).include?(listing[:status])
+    status = if(listing.instance_of?(String))
+               listing
+             else
+               listing[:status]
+             end
+    if %w(accepted undertaken completed).include?(status)
       {class: 'started', value: I18n.t('homepage.statuses.started')}
-    elsif %w(confirmed paid).include?(listing[:status])
+    elsif %w(confirmed paid).include?(status)
       {class: 'finished', value: I18n.t('homepage.statuses.finished')}
-    elsif %w(rejected canceled).include?(listing[:status])
+    elsif %w(rejected canceled).include?(status)
       {class: 'cancelled', value: I18n.t('homepage.statuses.cancelled')}
     else
-      {value: humanized_money_with_symbol(listing.price).upcase}
+      {value: ''}
     end
   end
 

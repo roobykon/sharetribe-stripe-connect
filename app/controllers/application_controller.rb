@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     :set_default_url_for_mailer,
     :fetch_community_admin_status,
     # :warn_about_missing_payment_info,
-    :warn_about_missing_payment_info_for_provider,
+    # :warn_about_missing_payment_info_for_provider,
     :set_homepage_path,
     :report_queue_size,
     :maintenance_warning,
@@ -499,7 +499,7 @@ class ApplicationController < ActionController::Base
 
   def display_short_description(listing)
     listing.description.present? ?
-      content_tag(:p, truncate(listing.description, length: get_content_length_for_device, separator: ' '), class: get_text_color_by_status(listing[:status])) :
+      content_tag(:p, truncate(listing.description, length: get_content_length_for_device, separator: ' ')) :
       ''
   end
   helper_method :display_short_description
@@ -507,7 +507,7 @@ class ApplicationController < ActionController::Base
   def get_content_length_for_device
     case
       when $browser.mobile?
-        100
+        80
       else
         325
     end

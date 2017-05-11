@@ -165,11 +165,11 @@ $home-list-image-padding-mobile: lines(0.5);
 }
 .home-list-price-value{
   .price_holder{
-    border: 3px solid;
+    //border: 3px solid;
     padding: 2px 5px;
     display: inline-block;
     font-weight: 600;
-    min-width: 120px;
+    //min-width: 120px;
     text-align: center;
     font-size: 1.3rem;
     text-transform: uppercase;
@@ -195,14 +195,20 @@ $home-list-image-padding-mobile: lines(0.5);
 .home-list-image-container-mobile,
 .home-list-image-container-desktop{
   &.no_active{
-    opacity: .3;
+    opacity: 1;
+  }
+}
+
+.marketplace-title-header{
+  .home-list-price-value{
+    display: inherit;
   }
 }
 
 .home-list-details-with-image {
   margin-left: $home-list-image-size-mobile + $home-list-image-padding-mobile;
   &.no_active{
-    opacity: .3;
+    opacity: 1;
   }
 
   @include media(tablet) {
@@ -210,6 +216,13 @@ $home-list-image-padding-mobile: lines(0.5);
   }
 
 }
+
+
+.home-list-title{
+  line-height: lines(1);
+  max-width: 100%;
+}
+
 
 $home-list-avatar-size: em(40);
 $home-list-avatar-size-mobile: em(30);
@@ -222,6 +235,11 @@ $home-list-avatar-padding: lines(0.25);
   @include normal-type;
   line-height: lines(0.65);
   padding-bottom: lines(0.25);
+  max-width: 90%;
+  @include media(mobile) {
+    @include small-type-listing;
+    max-width: 70%;
+  }
 
   @include media(tablet) {
     @include big-type;
@@ -231,18 +249,9 @@ $home-list-avatar-padding: lines(0.25);
   @include media(desktop) {
     padding-bottom: (ems-to($home-list-avatar-size, $big-type) + (2 * ems-to($home-list-avatar-padding, $big-type)) - em(20));
   }
-
 }
 .browsing-list-item-title {
   padding-bottom: 0;
-}
-
-.home-list-title{
-  line-height: lines(1);
-  max-width: 80%;
-  @include media(mobile) {
-    max-width: 50%;
-  }
 }
 
 .home-share-type-link,
@@ -373,22 +382,25 @@ $home-list-avatar-padding: lines(0.25);
 
 .home-list-price-value-mobile{
   .price_holder{
-    border: 3px solid;
     padding: 2px 5px;
     display: inline-block;
     font-weight: 600;
-    min-width: 30vw;
+    //min-width: 30vw;
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1rem;
+    line-height: 100%;
     text-transform: uppercase;
     &.started{
       color: #f27573;
+      border: 3px solid;
     }
     &.finished{
       color: #47c2a0;
+      border: 3px solid;
     }
     &.cancelled{
       color: #ffc107;
+      border: 3px solid;
     }
   }
 }

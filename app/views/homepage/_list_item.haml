@@ -19,11 +19,6 @@
     .home-list-details-right
       .home-list-price
         - if listing.price
-          - label_info = get_hash_for_label(listing)
-          .home-list-price-value
-            .price_holder{class: label_info[:class]}
-              = label_info[:value]
-              -#= humanized_money_with_symbol(listing.price).upcase
           - price_text = nil
           - if listing.quantity.present?
             - price_text = t("listings.form.price.per") + " " + listing.quantity
@@ -41,10 +36,15 @@
           = icon_tag("testimonial")
           = pluralize(listing.author.num_of_reviews, t(".review"), t(".reviews"))
     -#%div{:class => (listing.listing_images.size > 0 ? "home-list-details-with-image" : "")}
-    .home-list-details-with-image{class: get_overlay_class(listing[:status])}
+    .home-list-details-with-image
       = link_to listing_path(listing.url) do
-        %h2.home-list-title{class: get_text_color_by_status(listing[:status])}
+        %h2.home-list-title
           = listing.title
+          = " (#{humanized_money_with_symbol(listing.price).upcase}) "
+          - label_info = get_hash_for_label(listing)
+          %span.home-list-price-value
+            %span.price_holder{class: label_info[:class]}
+              = label_info[:value]
           - if @current_community.show_category_in_listing_list
             %a.home-share-type-link{:href => search_path(:transaction_type => shape_name_map[listing.listing_shape_id], :view => :list)}
               = icon_tag(listing.icon_name, ["icon-fix"])
