@@ -392,15 +392,15 @@ $home-list-avatar-padding: lines(0.25);
     text-transform: uppercase;
     &.started{
       color: #f27573;
-      border: 3px solid;
+      //border: 3px solid;
     }
     &.finished{
       color: #47c2a0;
-      border: 3px solid;
+      //border: 3px solid;
     }
     &.cancelled{
       color: #ffc107;
-      border: 3px solid;
+      //border: 3px solid;
     }
   }
 }
